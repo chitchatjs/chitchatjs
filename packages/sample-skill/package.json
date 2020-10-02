@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/sample-skill",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A sample Alexa skill using ChitchatJS.",
   "author": "Kevindra <ksinghness@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/sample-skill#readme",
