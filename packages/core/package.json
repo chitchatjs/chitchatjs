@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Core ChitchatJS engine. ChitchatJS provides an easy way to add a dialog manager to your Alexa Skills.",
   "author": "Kevindra <ksinghness@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/core#readme",
