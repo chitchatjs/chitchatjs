@@ -1,7 +1,7 @@
 {
   "name": "@chitchatjs/core",
   "version": "0.0.1",
-  "description": "Core package for ChitchatJS",
+  "description": "Core ChitchatJS engine.",
   "author": "Kevindra <ksinghness@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/core#readme",
   "license": "ISC",
