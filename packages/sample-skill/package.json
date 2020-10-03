@@ -2,7 +2,7 @@
   "name": "@chitchatjs/sample-skill",
   "version": "0.0.3",
   "description": "A sample Alexa skill using ChitchatJS. This is a hello world example!",
-  "author": "Kevindra <ksinghness@gmail.com>",
+  "author": "Kevindra Singh <kevindra.singh@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/sample-skill#readme",
   "license": "ISC",
   "main": "lib/index.js",
@@ -21,10 +21,15 @@
     "url": "git+https://github.com/kevindra/chitchatjs.git"
   },
   "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf ./lib",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/kevindra/chitchatjs/issues"
   },
-  "gitHead": "75d0924fe48fccd7e675ebbef4b72717852d49eb"
+  "gitHead": "75d0924fe48fccd7e675ebbef4b72717852d49eb",
+  "dependencies": {
+    "@chitchatjs/core": "0.0.3"
+  }
 }

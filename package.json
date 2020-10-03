@@ -4,6 +4,10 @@
   "description": "Monorepo for ChitchatJS.",
   "main": "index.js",
   "scripts": {
+    "build": "npx lerna run build",
+    "build:watch": "npx lerna run build:watch",
+    "publish": "npm run build && npx lerna publish",
+    "clean": "npx lerna run clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +22,7 @@
   },
   "homepage": "https://github.com/kevindra/chitchatjs#readme",
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "typescript": "^4.0.3"
   }
 }
