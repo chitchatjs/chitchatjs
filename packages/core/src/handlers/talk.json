@@ -1,0 +1,23 @@
+{
+    "name": "chit chat",
+    "turns": [
+        {
+            "id": "user-1",
+            "name": "HelloIntent",
+            "IntentAction": true,
+            "samples": [
+                "hello",
+                "hi there"
+            ]
+        },
+        {
+            "id": "invoke-1",
+            "InvokeAction": true
+        },
+        {
+            "id": "agent-1",
+            "TextSpeechAction": true,
+            "text": "Hi there, {name}"
+        }
+    ]
+}
