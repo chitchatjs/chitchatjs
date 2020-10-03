@@ -9,7 +9,11 @@
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/cli#readme",
   "license": "ISC",
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
+  "bin": {
+    "cjs": "lib/index.js",
+    "chitchat": "lib/index.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -31,5 +35,11 @@
   },
   "bugs": {
     "url": "https://github.com/kevindra/chitchatjs/issues"
+  },
+  "devDependencies": {
+    "@types/yargs": "^15.0.7"
+  },
+  "dependencies": {
+    "yargs": "^16.0.3"
   }
 }
