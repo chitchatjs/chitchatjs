@@ -8,7 +8,7 @@ export interface UserTurn extends Turn {
 export interface Trigger {
 }
 export interface UtteranceTrigger extends Trigger {
-    text: String;
+    texts: String[];
 }
 export interface IntentTrigger extends Trigger {
 }
