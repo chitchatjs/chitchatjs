@@ -1,3 +1,26 @@
+
+/**
+ * DialogSet is simply a list of all the dialogs.
+ */
+export interface DialogSet {
+    dialogs: Dialog[]
+}
+
+/**
+ * A dialog is a series of user and system interactions.
+ */
+export interface Dialog {
+    interactions: Interaction[]
+}
+
+/**
+ * An interaction is a combination of what user did and what actions system performed.
+ */
+export interface Interaction {
+    user: UserTurn,
+    system: SystemTurn
+}
+
 /**
  * Interfaces that define the trigger in a dialogue
  */
@@ -17,6 +40,7 @@ export interface UserTurn extends Turn {
  * Triggers
  */
 export interface Trigger { }
+export interface LaunchTrigger extends Trigger { }
 export interface UtteranceTrigger extends Trigger {
     texts: String[]
 }
@@ -36,8 +60,14 @@ export interface SystemTurn extends Turn {
 export interface Action {
 }
 
-export interface SpeechAction extends Action {
+export interface SpeechAction extends Action { }
+
+export interface TellSpeechAction extends SpeechAction {
     text: String
+}
+export interface AskSpeechAction extends SpeechAction {
+    question: String,
+    reprompt: String
 }
 export interface MultiModalAction extends Action { }
 export interface InvokeAction extends Action { }

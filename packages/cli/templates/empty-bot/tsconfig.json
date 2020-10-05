@@ -1,19 +1,18 @@
 {
     "compilerOptions": {
+        "target": "es6",
         "module": "commonjs",
+        "allowJs": true,
         "declaration": true,
-        "noImplicitAny": false,
+        "strict": true,
+        "noImplicitAny": true,
         "removeComments": true,
         "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "target": "es6",
         "sourceMap": true,
-        "allowJs": true,
-        "lib": [
-            "es6"
-        ],
-        "outDir": "./lib"
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
     },
     "exclude": [
         "node_modules",

@@ -1,7 +1,6 @@
 {
   "packages": [
-    "packages/cli",
-    "package/sample-skill"
+    "packages/*"
   ],
   "version": "independent"
 }
