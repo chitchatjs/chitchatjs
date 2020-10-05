@@ -1,42 +1,49 @@
-import * as Alexa from 'ask-sdk-core'
-import { HandlerInput } from 'ask-sdk-core'
-import { IntentHandler } from './handlers/IntentHandler';
+/**
+ * Interfaces that define the trigger in a dialogue
+ */
+export interface Turn {
+    id?: String
+}
 
-const LaunchRequestHandler = {
-    canHandle(handlerInput: HandlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
-    },
-    handle(handlerInput: HandlerInput) {
-        const speakOutput = 'Welcome, you can say Hello or Help. Which would you like to try?';
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
-    }
-};
+/**
+ * User Primitives
+ */
+export interface UserTurn extends Turn {
+    trigger: Trigger,
+    act?: UserAct
+}
 
-const SessionEndedRequestHandler = {
-    canHandle(handlerInput: HandlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
-    },
-    handle(handlerInput: HandlerInput) {
-        // Any cleanup logic goes here.
-        return handlerInput.responseBuilder.getResponse();
-    }
-};
+/**
+ * Triggers
+ */
+export interface Trigger { }
+export interface UtteranceTrigger extends Trigger {
+    text: String
+}
+export interface IntentTrigger extends Trigger { }
 
-// defined are included below. The order matters - they're processed top to bottom.
-export const handler = Alexa.SkillBuilders.custom()
-    .addRequestHandlers(
-        LaunchRequestHandler,
-        IntentHandler,
-        // HelloWorldIntentHandler,
-        // HelpIntentHandler,
-        // CancelAndStopIntentHandler,
-        SessionEndedRequestHandler,
-        // IntentReflectorHandler, // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
-    )
-    .addErrorHandlers(
-        // ErrorHandler,
-    )
-    .lambda();
+/**
+ * System Primitives
+ */
+export interface SystemTurn extends Turn {
+    actions: Action[]
+    act?: SystemAct
+}
+
+/**
+ * Interfaces that define the actions taken after a trigger is triggered
+ */
+export interface Action {
+}
+
+export interface SpeechAction extends Action {
+    text: String
+}
+export interface MultiModalAction extends Action { }
+export interface InvokeAction extends Action { }
+
+/**
+ * Dialog Acts - both system and user side
+ */
+export interface SystemAct { }
+export interface UserAct { }

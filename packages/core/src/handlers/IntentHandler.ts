@@ -2,7 +2,7 @@ import { HandlerInput } from "ask-sdk-core";
 import * as Alexa from 'ask-sdk-core'
 import { Context } from '../Context'
 import { IntentRequest, Slot } from "ask-sdk-model";
-import gallanOptions from "../../gallanconfig.json"
+import gallanOptions from "../cjs.json"
 import { Talk } from "../Talk";
 import { Action, IntentAction, InvokeAction, TextSpeechAction } from "../Actions";
 

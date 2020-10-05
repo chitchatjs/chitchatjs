@@ -1,0 +1,1 @@
+{"version":3,"file":"bot.js","sourceRoot":"","sources":["../src/bot.ts"],"names":[],"mappings":";;AAKA,IAAI,YAAY,GAAW;IACvB;QACI,OAAO,EAAE;YACL,IAAI,EAAE,oBAAoB;SACT;KACZ;IACb;QACI,OAAO,EAAE;YACL;gBACI,IAAI,EAAE,uBAAuB;aAChB;SACpB;KACU;CAClB,CAAA;AAEQ,oCAAY"}

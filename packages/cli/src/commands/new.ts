@@ -45,7 +45,7 @@ export class NewCommand implements BaseCommand {
                 let newProjectPath = `${CURR_DIR}/${dir}`
                 fs.mkdirSync(newProjectPath)
 
-                ui.log.write('🚧 Creating your project ..')
+                ui.log.write('🚧  Creating your project ..')
                 createDirectoryContents(templatePath, newProjectPath)
                 ui.updateBottomBar(`✔️  Project created successfully at location "${dir}".`)
             })
@@ -75,6 +75,9 @@ let questions: inquirer.Question[] = [
 ]
 
 /**
+ * Copies conent from `templates` folder to the `destination` provided by the user.
+ * 
+ * A nice tutorial:
  * https://medium.com/northcoders/creating-a-project-generator-with-node-29e13b3cd309
  * 
  * @param templatePath 

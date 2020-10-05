@@ -8,15 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const GallanBuilder_1 = require("./GallanBuilder");
-const gallanconfig_json_1 = require("../gallanconfig.json");
-console.log(`Building chatbot package using options: ${JSON.stringify(gallanconfig_json_1.default, null, 2)}`);
+const cjs_json_1 = __importDefault(require("./cjs.json"));
+console.log(`Building chatbot package using options: ${JSON.stringify(cjs_json_1.default, null, 2)}`);
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(__dirname);
-    const chatbot = yield Promise.resolve().then(() => require(gallanconfig_json_1.default.src));
+    const chatbot = yield Promise.resolve().then(() => __importStar(require(cjs_json_1.default.src)));
     let gallanBuilder = new GallanBuilder_1.GallanBuilder();
-    gallanBuilder.build(chatbot.talk, gallanconfig_json_1.default);
+    gallanBuilder.build(chatbot.talk, cjs_json_1.default);
 });
 run();
 //# sourceMappingURL=builder.js.map

@@ -8,10 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IntentHandler = void 0;
-const Alexa = require("ask-sdk-core");
-const gallanconfig_json_1 = require("../../gallanconfig.json");
+const Alexa = __importStar(require("ask-sdk-core"));
+const cjs_json_1 = __importDefault(require("../cjs.json"));
 exports.IntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
@@ -27,7 +36,7 @@ exports.IntentHandler = {
                     stateHistory: []
                 };
             let context = sessionAttributes.context;
-            const chatbot = yield Promise.resolve().then(() => require(gallanconfig_json_1.default.src));
+            const chatbot = yield Promise.resolve().then(() => __importStar(require(cjs_json_1.default.src)));
             const talk = chatbot.talk;
             let speech = execute(talk, handlerInput, context);
             const speakOutput = 'Hello World!';

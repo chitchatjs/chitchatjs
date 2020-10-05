@@ -1,6 +1,6 @@
 import { GallanBuilder } from "./GallanBuilder";
 import { Talk } from "./Talk";
-import gallanOptions from "../gallanconfig.json"
+import gallanOptions from "./cjs.json"
 console.log(`Building chatbot package using options: ${JSON.stringify(gallanOptions, null, 2)}`)
 
 const run = async () => {

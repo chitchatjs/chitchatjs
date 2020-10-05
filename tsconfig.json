@@ -1,19 +1,17 @@
 // https://blog.logrocket.com/setting-up-a-monorepo-with-lerna-for-a-typescript-project-b6a81fe8e4f8/
 {
     "compilerOptions": {
+        "target": "es6",
         "module": "commonjs",
+        "allowJs": true,
         "declaration": true,
-        "noImplicitAny": false,
+        "strict": true,
+        "noImplicitAny": true,
         "removeComments": true,
         "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "target": "es6",
         "sourceMap": true,
-        "allowJs": true,
-        "lib": [
-            "es6"
-        ]
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
     },
     "exclude": [
         "node_modules",

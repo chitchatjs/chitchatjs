@@ -5,13 +5,13 @@
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/core#readme",
   "license": "ISC",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -21,8 +21,9 @@
     "url": "git+https://github.com/kevindra/chitchatjs.git"
   },
   "scripts": {
+    "watch": "tsc -w",
     "build": "tsc",
-    "clean": "rm -rf ./lib",
+    "clean": "rm -rf ./dist",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
@@ -33,10 +34,13 @@
     "ask-sdk-core": "^2.9.0",
     "ask-sdk-model": "^1.33.0",
     "fs": "0.0.1-security",
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.0.1",
+    "shelljs": "^0.8.4"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
     "@types/mocha": "^8.0.3",
+    "@types/shelljs": "^0.8.8",
     "mocha": "^8.1.3"
   }
 }
