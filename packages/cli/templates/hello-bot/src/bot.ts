@@ -1,4 +1,5 @@
 import * as cjs from "@chitchatjs/core"
+import { AlexaSkill } from "@chitchatjs/alexa"
 
 /**
  * User opens the bot
@@ -44,4 +45,4 @@ let dialogSet: cjs.DialogSet = {
 }
 
 // export, that's it!
-export { dialogSet }
+export default new AlexaSkill(dialogSet).build()

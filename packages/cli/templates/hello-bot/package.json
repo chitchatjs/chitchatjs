@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@chitchatjs/core": "0.0.3"
+    "@chitchatjs/core": "0.0.3",
+    "@chitchatjs/alexa": "0.0.1"
   }
 }

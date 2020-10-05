@@ -1,9 +1,21 @@
-import {} from '@chitchatjs/core'
+import { DialogSet } from '@chitchatjs/core'
 
 import * as Alexa from 'ask-sdk-core'
 import { HandlerInput } from 'ask-sdk-core'
 
+class AlexaSkill {
+    dialogSet: DialogSet
 
+    constructor(dialogSet: DialogSet) {
+        this.dialogSet = dialogSet
+    }
+
+    build(): Alexa.LambdaHandler {
+        return Alexa.SkillBuilders.custom().lambda()
+    }
+}
+
+export { AlexaSkill }
 
 // import { IntentHandler } from './handlers/IntentHandler';
 
