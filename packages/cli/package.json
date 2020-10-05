@@ -9,17 +9,17 @@
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
   "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/cli#readme",
   "license": "ISC",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "bin": {
-    "cjs": "lib/index.js",
-    "chitchat": "lib/index.js"
+    "cjs": "dist/index.js",
+    "chitchat": "dist/index.js"
   },
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -29,8 +29,8 @@
     "url": "git+https://github.com/kevindra/chitchatjs.git"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf ./lib",
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./dist",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

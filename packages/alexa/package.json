@@ -23,6 +23,8 @@
     "url": "git+https://github.com/kevindra/chitchatjs.git"
   },
   "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./dist",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

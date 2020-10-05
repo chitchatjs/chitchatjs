@@ -25,7 +25,7 @@ export interface Interaction {
  * Interfaces that define the trigger in a dialogue
  */
 export interface Turn {
-    id?: String
+    id?: string
 }
 
 /**
@@ -42,7 +42,7 @@ export interface UserTurn extends Turn {
 export interface Trigger { }
 export interface LaunchTrigger extends Trigger { }
 export interface UtteranceTrigger extends Trigger {
-    texts: String[]
+    texts: string[]
 }
 export interface IntentTrigger extends Trigger { }
 
@@ -63,11 +63,11 @@ export interface Action {
 export interface SpeechAction extends Action { }
 
 export interface TellSpeechAction extends SpeechAction {
-    text: String
+    text: string
 }
 export interface AskSpeechAction extends SpeechAction {
-    question: String,
-    reprompt: String
+    question: string,
+    reprompt: string
 }
 export interface MultiModalAction extends Action { }
 export interface InvokeAction extends Action { }

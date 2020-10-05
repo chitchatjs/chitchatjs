@@ -1,7 +1,2 @@
-'use strict';
-
-const alexa = require('..');
-
-describe('alexa', () => {
-    it('needs tests');
-});
+"use strict";
+//# sourceMappingURL=alexa.test.js.map

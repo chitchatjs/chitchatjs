@@ -21,7 +21,6 @@
     "url": "git+https://github.com/kevindra/chitchatjs.git"
   },
   "scripts": {
-    "watch": "tsc -w",
     "build": "tsc",
     "clean": "rm -rf ./dist",
     "test": "echo \"Error: run tests from root\" && exit 1"
