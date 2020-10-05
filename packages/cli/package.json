@@ -44,5 +44,6 @@
     "inquirer": "^7.3.3",
     "inquirer-chalk-pipe": "^1.3.0",
     "yargs": "^16.0.3"
-  }
+  },
+  "gitHead": "574d4d2a659e811926d7f0881376a85a68c41f79"
 }
