@@ -2,7 +2,7 @@
 
 ![](./images/logo/128x128.png)
 
-ChitchatJS (`cjs`) is used to create, manage, and deploy machine learning based voice interfaces easily to Alexa.
+ChitchatJS framework is used to create, manage, and deploy machine learning or rule based voice interfaces easily.
 
 > WORK IN PROGRESS, STAY TUNED.
 
