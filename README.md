@@ -48,28 +48,44 @@ $ cjs test
 #### A basic hello world dialog script.
 
 ```typescript
-// What user might say
-let userSaysHello: UserTurn = {
-    trigger: {
-        texts: ["Hello, how are you"]
-    } as UtteranceTrigger
+let sampleInteraction: cjs.Interaction = {
+    user: {
+        trigger: <cjs.UtteranceTrigger>{
+            texts: ["Hello, how are you"]
+        }
+    },
+    system: {
+        actions: [
+            <cjs.TellSpeechAction>{
+                text: "I'm good, thank you!"
+            }
+        ]
+    }
 }
 
-// What system answers
-let systemsGreetsBack: SystemTurn = {
-    actions: [
-        {
-            text: "I'm good, thank you!"
-        } as SpeechAction
-    ]
-}
+export let dialog: cjs.Dialog = { interactions: [sampleInteraction] }
+```
 
-// Plug turns into a dialog script
-let dialogScript: Turn[] = [
-    userSaysHello,
-    systemsGreetsBack
-]
+----
+## Future Ideas
+Even more abstractions!
 
-// export, that's it!
-export { dialogScript }
+```typescript
+when()
+    .userSays(["Hello, how are you"])
+.then()
+    .actions()
+        .say("I'm good, thank you")
+.build()
+```
+
+```typescript
+when()
+    .launch()
+.then()
+    .actions()
+        .ask()
+            .question("Welcome, ask me something!")
+            .reprompt("you can ask how am I")
+.build()
 ```

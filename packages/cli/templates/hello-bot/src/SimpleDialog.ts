@@ -37,5 +37,4 @@ let interaction2: cjs.Interaction = {
     }
 }
 
-let dialog: cjs.Dialog = { interactions: [interaction1, interaction2] }
-export { dialog }
+export let dialog: cjs.Dialog = { interactions: [interaction1, interaction2] }
