@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/kevindra/chitchatjs/issues"
   },
-  "gitHead": "574d4d2a659e811926d7f0881376a85a68c41f79",
+  "gitHead": "aa29ad45de731606062e7c8db65248674b120f09",
   "dependencies": {
     "ask-sdk-core": "^2.9.0",
     "ask-sdk-model": "^1.33.0",
