@@ -4,6 +4,7 @@ import { logger, startSpinner } from '../util/util'
 import { DEV_WORKING_DIRECTORY } from '../util/util'
 import path = require('path')
 import { AlexaSkill } from '@chitchatjs/alexa'
+import { SkillBuilder } from '../alexa/SkillBuilder'
 
 /**
  * Alexa Project Builder
@@ -11,17 +12,14 @@ import { AlexaSkill } from '@chitchatjs/alexa'
 export class AlexaProjectBuilder implements ProjectBuilder {
     build(buildConfig: BuildConfig): void {
         let spinner = startSpinner("🔨 Building project..")
-        this.loadProject(buildConfig)
+        // let skill: AlexaSkill = this.loadProject(buildConfig)
+
+        // let im = new SkillBuilder().buildInteractionModel(skill)
         spinner.stop()
     }
 
-    loadProject(buildConfig: BuildConfig) {
-        logger.info("Loading your project from: " + DEV_WORKING_DIRECTORY)
-        try {
-            let p: AlexaSkill = require(DEV_WORKING_DIRECTORY).default
-            // console.log("Loaded: " + JSON.stringify(p.dialogSet, null, 2))
-        } catch (e) {
-            logger.error("error: ", e)
-        }
-    }
+    // loadProject(buildConfig: BuildConfig) {
+    //     logger.info("Loading your project from: " + DEV_WORKING_DIRECTORY)
+    //     return require(DEV_WORKING_DIRECTORY).default as AlexaSkill
+    // }
 }
