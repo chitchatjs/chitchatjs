@@ -1,6 +1,11 @@
 import { AlexaSkill } from "@chitchatjs/alexa";
 import { v1 } from "ask-smapi-model";
-import { Trigger, UtteranceTrigger } from "@chitchatjs/core";
+import {
+    IntentTrigger,
+    isIntentTrigger,
+    Trigger,
+    UtteranceTrigger,
+} from "@chitchatjs/core";
 import { Interaction } from "@chitchatjs/core";
 import { Dialog } from "@chitchatjs/core";
 import { DialogSet } from "@chitchatjs/core";
@@ -10,6 +15,7 @@ import randomstring = require("randomstring");
 import { ProjectBootstrapper } from "./ProjectBootstrapper";
 import { BuildCommand } from "../commands/build";
 import { BuildConfig } from "../builder/ProjectBuilder";
+import { Intent } from "ask-sdk-model";
 
 export class ResourceBuilder {
     /**
@@ -56,6 +62,12 @@ export class ResourceBuilder {
 
                     im.interactionModel?.languageModel?.intents?.push(
                         this.buildIntentFromUtteranceTrigger(uTrigger)
+                    );
+                } else if (isIntentTrigger(intr.user.trigger)) {
+                    let uTrigger = intr.user.trigger;
+
+                    im.interactionModel?.languageModel?.intents?.push(
+                        this.buildIntentFromIntentTrigger(uTrigger)
                     );
                 }
             });
@@ -115,6 +127,18 @@ export class ResourceBuilder {
             name: randomIntentName,
             slots: [],
             samples: trigger.texts,
+        };
+
+        return intent;
+    }
+
+    private buildIntentFromIntentTrigger(
+        trigger: IntentTrigger
+    ): v1.skill.interactionModel.Intent {
+        let intent: v1.skill.interactionModel.Intent = {
+            name: trigger.name,
+            slots: [],
+            samples: trigger.samples || [],
         };
 
         return intent;

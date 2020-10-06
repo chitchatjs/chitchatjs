@@ -7,18 +7,18 @@ interface GallanOptions {
 declare class GallanBuilder {
     build(talk: Talk, options: GallanOptions): void;
     _buildInteractionModel(talk: Talk): {
-        languageModel: {
-            invocationName: string;
-            modelConfiguration: {
-                fallbackIntentSensitivity: {
-                    level: string;
+        "languageModel": {
+            "invocationName": string;
+            "modelConfiguration": {
+                "fallbackIntentSensitivity": {
+                    "level": string;
                 };
             };
-            intents: {
-                name: string;
-                samples: string[];
+            "intents": {
+                "name": string;
+                "samples": string[];
             }[];
-            types: never[];
+            "types": never[];
         };
     };
     _setupProject(): void;
