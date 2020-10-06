@@ -42,6 +42,7 @@
     "@types/yargs": "^15.0.7"
   },
   "dependencies": {
+    "@chitchatjs/alexa": "0.0.4",
     "chalk": "^4.1.0",
     "cli-spinners": "^2.4.0",
     "figlet": "^1.5.0",

@@ -1,3 +1,11 @@
 import ora = require('ora');
+export declare let DEV_WORKING_DIRECTORY: string;
 export declare let startSpinner: (text: string) => ora.Ora;
 export declare let buildBanner: (text: string) => string;
+export interface Logger {
+    info(text: string): void;
+    warn(text: string): void;
+    error(text: string, error?: Error): void;
+    logObject(obj: any): void;
+}
+export declare let logger: Logger;

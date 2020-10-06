@@ -11,7 +11,8 @@ const BUILD_CONFIG_LOCATION = path.join(process.cwd(), CJS_CONFIG)
  */
 export interface BuildConfig {
     src: string,
-    outDir: string
+    outDir: string,
+    target: "AlexaSkill" | "DialogFlowAgent"
 }
 
 /**

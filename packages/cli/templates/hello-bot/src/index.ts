@@ -7,4 +7,4 @@ let dialogSet: cjs.DialogSet = {
     dialogs: [dialog],
 }
 
-export default new AlexaSkill(new DefaultAlexaDialogManager(dialogSet)).handler()
+export default new AlexaSkill(new DefaultAlexaDialogManager(dialogSet), dialogSet)
