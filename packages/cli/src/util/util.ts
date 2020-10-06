@@ -44,6 +44,7 @@ export interface Logger {
     warn(text: string): void
     error(text: string, error?: Error): void
     logObject(obj: any): void
+    errorAndExit(text: string): void
 }
 
 export let logger: Logger = {
@@ -59,6 +60,13 @@ export let logger: Logger = {
     },
     logObject: (obj: any) => {
         ui.log.write(JSON.stringify(obj, null, 2))
+    },
+    errorAndExit: (text: string) => {
+        ui.log.write(chalk.red(text))
+        process.exit(1)
     }
 }
 
+export enum ErrorMessage {
+    EMPTY_DIALOG_SET = "DialogSet seems to be empty."
+}

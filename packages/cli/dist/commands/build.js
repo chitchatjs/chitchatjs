@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BuildCommand = void 0;
 const AlexaProjectBuilder_1 = require("../builder/AlexaProjectBuilder");
 const util_1 = require("../util/util");
 class BuildCommand {

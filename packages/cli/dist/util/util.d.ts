@@ -7,5 +7,9 @@ export interface Logger {
     warn(text: string): void;
     error(text: string, error?: Error): void;
     logObject(obj: any): void;
+    errorAndExit(text: string): void;
 }
 export declare let logger: Logger;
+export declare enum ErrorMessage {
+    EMPTY_DIALOG_SET = "DialogSet seems to be empty."
+}

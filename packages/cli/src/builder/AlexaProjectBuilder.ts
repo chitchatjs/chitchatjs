@@ -12,14 +12,15 @@ import { SkillBuilder } from '../alexa/SkillBuilder'
 export class AlexaProjectBuilder implements ProjectBuilder {
     build(buildConfig: BuildConfig): void {
         let spinner = startSpinner("🔨 Building project..")
-        // let skill: AlexaSkill = this.loadProject(buildConfig)
+        let skill: AlexaSkill = loadProject(buildConfig)
 
-        // let im = new SkillBuilder().buildInteractionModel(skill)
+        let im = new SkillBuilder().buildInteractionModel(skill)
+
         spinner.stop()
     }
+}
 
-    // loadProject(buildConfig: BuildConfig) {
-    //     logger.info("Loading your project from: " + DEV_WORKING_DIRECTORY)
-    //     return require(DEV_WORKING_DIRECTORY).default as AlexaSkill
-    // }
+function loadProject(buildConfig: BuildConfig) {
+    logger.info("Loading your project from: " + DEV_WORKING_DIRECTORY)
+    return require(DEV_WORKING_DIRECTORY).default as AlexaSkill
 }
