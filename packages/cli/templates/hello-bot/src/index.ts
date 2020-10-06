@@ -1,10 +1,14 @@
-import { AlexaSkill, DefaultAlexaDialogManager } from '@chitchatjs/alexa';
-import * as cjs from '@chitchatjs/core';
+import { AlexaSkill, DefaultAlexaDialogManager } from "@chitchatjs/alexa";
+import {} from "ask-sdk-core";
+import * as cjs from "@chitchatjs/core";
 
-import { dialog } from './SimpleDialog';
+import { dialog } from "./SimpleDialog";
 
 let dialogSet: cjs.DialogSet = {
     dialogs: [dialog],
-}
+};
 
-export default new AlexaSkill(new DefaultAlexaDialogManager(dialogSet), dialogSet)
+let skill = new AlexaSkill(new DefaultAlexaDialogManager(dialogSet), dialogSet);
+
+export default skill;
+export const handler = skill.handler;

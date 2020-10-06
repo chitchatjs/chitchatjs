@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chitchatjs/alexa": "0.0.1",
     "@chitchatjs/core": "0.0.3",
-    "@chitchatjs/alexa": "0.0.1"
+    "ask-sdk-core": "^2.9.0"
   }
 }

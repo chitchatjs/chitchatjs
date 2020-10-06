@@ -1,4 +1,4 @@
-import ora = require('ora');
+import ora = require("ora");
 export declare let DEV_WORKING_DIRECTORY: string;
 export declare let startSpinner: (text: string) => ora.Ora;
 export declare let buildBanner: (text: string) => string;
@@ -8,6 +8,7 @@ export interface Logger {
     error(text: string, error?: Error): void;
     logObject(obj: any): void;
     errorAndExit(text: string): void;
+    success(text: string): void;
 }
 export declare let logger: Logger;
 export declare enum ErrorMessage {

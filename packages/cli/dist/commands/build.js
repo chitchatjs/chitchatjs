@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BuildCommand = void 0;
 const AlexaProjectBuilder_1 = require("../builder/AlexaProjectBuilder");
 const util_1 = require("../util/util");
 class BuildCommand {
@@ -8,9 +7,9 @@ class BuildCommand {
     }
     execute(argv) {
         const buildConfig = {
-            src: './dist/index.js',
-            outDir: './alexa',
-            target: "AlexaSkill"
+            src: "./dist/index.js",
+            outDir: "./pkg",
+            target: "AlexaSkill",
         };
         if (buildConfig.target === "AlexaSkill") {
             let builder = new AlexaProjectBuilder_1.AlexaProjectBuilder();

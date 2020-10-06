@@ -3,8 +3,8 @@ import path = require('path')
 /**
  * Builder Configurations
  */
-const CJS_CONFIG = 'cjs.json'
-const BUILD_CONFIG_LOCATION = path.join(process.cwd(), CJS_CONFIG)
+export const CJS_CONFIG = 'cjs.json'
+export const BUILD_CONFIG_LOCATION = path.join(process.cwd(), CJS_CONFIG)
 
 /**
  * User defined build configurations

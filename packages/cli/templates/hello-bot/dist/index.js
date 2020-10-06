@@ -5,5 +5,7 @@ const SimpleDialog_1 = require("./SimpleDialog");
 let dialogSet = {
     dialogs: [SimpleDialog_1.dialog],
 };
-exports.default = new alexa_1.AlexaSkill(new alexa_1.DefaultAlexaDialogManager(dialogSet), dialogSet);
+let skill = new alexa_1.AlexaSkill(new alexa_1.DefaultAlexaDialogManager(dialogSet), dialogSet);
+exports.default = skill;
+exports.handler = skill.handler;
 //# sourceMappingURL=index.js.map
