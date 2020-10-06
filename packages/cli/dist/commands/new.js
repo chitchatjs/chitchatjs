@@ -10,6 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer = __importStar(require("inquirer"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const util_1 = require("../util/util");
 const CURR_DIR = process.cwd();
 const TEMPLATES_ROOT = path.join(__dirname, `../../templates/`);
 const TEMPLATE_CHOICES = fs.readdirSync(TEMPLATES_ROOT);
@@ -29,9 +30,12 @@ class NewCommand {
             let templatePath = `${TEMPLATES_ROOT}${template}`;
             let newProjectPath = `${CURR_DIR}/${dir}`;
             fs.mkdirSync(newProjectPath);
-            ui.log.write('🚧  Creating your project ..');
+            const spinner = util_1.startSpinner('🚧 Creating your project..');
             createDirectoryContents(templatePath, newProjectPath);
-            ui.updateBottomBar(`✔️  Project created successfully at location "${dir}".`);
+            setTimeout(() => {
+                spinner.stop();
+                ui.updateBottomBar(`✔️  Project created successfully at location ./"${dir}".`);
+            }, 2000);
         })
             .catch(error => {
             ui.updateBottomBar(`❌  An error occurred "${error}}".`);
@@ -67,7 +71,6 @@ function createDirectoryContents(templatePath, newProjectPath) {
             const contents = fs.readFileSync(origFilePath, 'utf8');
             const writePath = `${newProjectPath}/${file}`;
             fs.writeFileSync(writePath, contents, 'utf8');
-            ui.updateBottomBar(`Created file at ${writePath}`);
         }
         else if (stats.isDirectory()) {
             fs.mkdirSync(`${newProjectPath}/${file}`);

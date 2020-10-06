@@ -5,6 +5,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import Choice = require('inquirer/lib/objects/choice')
 import BottomBar = require('inquirer/lib/ui/bottom-bar')
+import { startSpinner } from '../util/util'
 
 /**
  * Constants
@@ -45,9 +46,12 @@ export class NewCommand implements BaseCommand {
                 let newProjectPath = `${CURR_DIR}/${dir}`
                 fs.mkdirSync(newProjectPath)
 
-                ui.log.write('🚧  Creating your project ..')
+                const spinner = startSpinner('🚧 Creating your project..')
                 createDirectoryContents(templatePath, newProjectPath)
-                ui.updateBottomBar(`✔️  Project created successfully at location "${dir}".`)
+                setTimeout(() => {
+                    spinner.stop()
+                    ui.updateBottomBar(`✔️  Project created successfully at location ./"${dir}".`)
+                }, 2000)
             })
             .catch(error => {
                 ui.updateBottomBar(`❌  An error occurred "${error}}".`)
@@ -81,7 +85,7 @@ let questions: inquirer.Question[] = [
  * https://medium.com/northcoders/creating-a-project-generator-with-node-29e13b3cd309
  * 
  * @param templatePath 
- * @param newProjectPath 
+ * @param newProjectPath
  */
 function createDirectoryContents(templatePath: string, newProjectPath: string) {
     let filesToCreate = fs.readdirSync(templatePath)
@@ -96,8 +100,6 @@ function createDirectoryContents(templatePath: string, newProjectPath: string) {
             const contents = fs.readFileSync(origFilePath, 'utf8')
             const writePath = `${newProjectPath}/${file}`
             fs.writeFileSync(writePath, contents, 'utf8')
-
-            ui.updateBottomBar(`Created file at ${writePath}`)
         } else if (stats.isDirectory()) {
             fs.mkdirSync(`${newProjectPath}/${file}`);
 

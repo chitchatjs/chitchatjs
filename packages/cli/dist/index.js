@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const new_1 = require("./commands/new");
 const chalk = require("chalk");
 const figlet = require("figlet");
-let newCommand = new new_1.NewCommand();
 const yargs = require("yargs");
+let newCommand = new new_1.NewCommand();
 console.log(chalk.yellowBright(figlet.textSync("Chit chat JS")));
 function setupCommands() {
     let args = yargs
@@ -26,15 +26,15 @@ function setupCommands() {
     })
         .alias('h', 'help')
         .help('help')
-        .usage('Usage: $0 -x [num]')
         .describe('help', "See what's available!")
-        .showHelpOnFail(true, "Specify --help for available options")
+        .showHelpOnFail(true, "Specify --help or -h for available commands and options.")
         .alias('v', 'version')
         .describe('version', 'Show current version of CJS.')
-        .strict()
         .argv;
-    yargs.showHelp();
-    process.exit(0);
+    if (args['_'] && args['_'].length == 0) {
+        yargs.showHelp();
+        process.exit(0);
+    }
 }
 setupCommands();
 //# sourceMappingURL=index.js.map
