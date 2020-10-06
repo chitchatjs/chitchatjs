@@ -1,17 +1,12 @@
 #!/usr/bin/env node
+import chalk = require('chalk')
+import yargs = require('yargs');
+import { BuildCommand } from './commands/build';
+import { buildBanner } from './util/util'
 import { NewCommand } from './commands/new';
 
-import chalk = require('chalk')
-import figlet = require('figlet')
-import yargs = require('yargs');
-
 let newCommand = new NewCommand()
-
-/**
- * Figlets are fun,
- * and so is Chalk!
- */
-console.log(chalk.yellowBright(figlet.textSync("Chit chat JS")))
+let buildCommand = new BuildCommand()
 
 // Yargs cheatsheet
 // https://devhints.io/yargs
@@ -25,9 +20,7 @@ function setupCommands() {
         .command('add', '➕ Create a new talk.', (yargs) => { }, (argv) => {
             console.log('Command executed.')
         })
-        .command('build', '🔨 Build the project.', (yargs) => { }, (argv) => {
-            console.log('Not implemented yet.')
-        })
+        .command('build', '🔨 Build the project.', buildCommand.setOptions, buildCommand.execute)
         .command('deploy', '🚀 Deploy the project (requires ask-cli).', (yargs) => { }, (argv) => {
             console.log('Not implemented yet.')
         })
@@ -46,10 +39,16 @@ function setupCommands() {
         // .strict()
         .argv
 
-        if(args['_'] && args['_'].length == 0) {
-            yargs.showHelp()
-            process.exit(0)
-        }
+    if (args['_'] && args['_'].length == 0) {
+        /**
+         * Figlets are fun,
+         * and so is Chalk!
+         */
+        console.log(buildBanner("Chit chat JS"))
+
+        yargs.showHelp()
+        process.exit(0)
+    }
 }
 
 setupCommands()

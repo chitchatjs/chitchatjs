@@ -21,6 +21,7 @@ class NewCommand {
     setOptions(yargs) {
     }
     execute(argv) {
+        console.log(util_1.buildBanner("Chit chat JS"));
         inquirer
             .prompt(questions)
             .then(answers => {

@@ -5,7 +5,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import Choice = require('inquirer/lib/objects/choice')
 import BottomBar = require('inquirer/lib/ui/bottom-bar')
-import { startSpinner } from '../util/util'
+import { buildBanner, startSpinner } from '../util/util'
 
 /**
  * Constants
@@ -34,6 +34,8 @@ export class NewCommand implements BaseCommand {
         // No options for now. Interactive command.
     }
     execute(argv: any) {
+        console.log(buildBanner("Chit chat JS"))
+
         inquirer
             .prompt(questions)
             .then(answers => {

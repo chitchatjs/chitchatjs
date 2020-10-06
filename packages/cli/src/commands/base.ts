@@ -9,7 +9,7 @@ export interface BaseCommand {
      * 
      * @param yargs yargs
      */
-    setOptions(yargs: yargs.Argv): any
+    setOptions(yargs: yargs.Argv): void
 
     /**
      * Executes the arguments object parsed by the Yargs.
