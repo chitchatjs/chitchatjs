@@ -43,16 +43,14 @@ Build configurations are defined in the `cjs.json` in your project root.
 }
 ```
 
-| Config   | Description                                                                                           | Required |
-| -------- | ----------------------------------------------------------------------------------------------------- | -------- |
-| `outDir` | Location of the output directory.                                                                     | Yes      |
-| `target` | Platform you want to deploy to. Can be `Alexa` or `Google`. <br/> Only `Alexa` is supported right now | Yes      |
+| Config   | Description                                                                                            | Required |
+| -------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| `outDir` | Location of the output directory.                                                                      | Yes      |
+| `target` | Platform you want to deploy to. Can be `Alexa` or `Google`. <br/> Only `Alexa` is supported right now. | Yes      |
 
 ### Deploy
 
 Deploys the project to the target platform.
-
-> Note: only Alexa platform is supported at the moment.
 
 ```
 $ cjs deploy
@@ -82,7 +80,11 @@ Go to your `~/.cjs/config.json`
             }
         },
         {
-            .. More template(s) here
+            "name": "<my-template>",
+            "url": {
+                "type": "GIT",
+                "value": "<git-url>"
+            }
         }
     ]
 }

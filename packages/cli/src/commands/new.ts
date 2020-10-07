@@ -14,13 +14,6 @@ import { TemplatesManager } from "../components/TemplatesManager";
  * Constants
  */
 const CURR_DIR: string = process.cwd();
-const TEMPLATES_ROOT: string = path.join(__dirname, `../../templates/`);
-const TEMPLATE_CHOICES: Array<string> = fs.readdirSync(TEMPLATES_ROOT);
-
-// const DEFAULT_TEMPLATES: { [name: string]: string } = {
-//     "hello-bot": "https://github.com/chitchatjs/hello-bot-template.git",
-//     "empty-bot": "https://github.com/chitchatjs/hello-bot-template.git",
-// };
 
 /**
  * Global variables
