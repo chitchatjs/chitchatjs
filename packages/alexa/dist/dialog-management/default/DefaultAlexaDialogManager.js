@@ -36,7 +36,8 @@ class DefaultAlexaDialogManager {
     handler() {
         return Alexa.SkillBuilders.custom()
             .addRequestHandlers(this.executor)
-            .addErrorHandlers().lambda;
+            .addErrorHandlers()
+            .lambda();
     }
 }
 exports.DefaultAlexaDialogManager = DefaultAlexaDialogManager;

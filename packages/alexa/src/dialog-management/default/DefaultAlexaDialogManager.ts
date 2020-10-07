@@ -23,7 +23,8 @@ export class DefaultAlexaDialogManager implements AlexaDialogManager {
     handler(): Alexa.LambdaHandler {
         return Alexa.SkillBuilders.custom()
             .addRequestHandlers(this.executor)
-            .addErrorHandlers().lambda;
+            .addErrorHandlers()
+            .lambda();
     }
 
     /**
