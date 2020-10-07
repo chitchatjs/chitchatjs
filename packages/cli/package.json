@@ -1,65 +1,65 @@
 {
-  "name": "@chitchatjs/cli",
-  "version": "0.0.7",
-  "description": "Chitchat JS CLI",
-  "keywords": [
-    "ChitchatJS",
-    "CLI"
-  ],
-  "author": "Kevindra Singh <kevindra.singh@gmail.com>",
-  "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/cli#readme",
-  "license": "ISC",
-  "main": "dist/index.js",
-  "bin": {
-    "cjs": "dist/index.js",
-    "chitchat": "dist/index.js"
-  },
-  "directories": {
-    "dist": "dist",
-    "test": "__tests__"
-  },
-  "files": [
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kevindra/chitchatjs.git"
-  },
-  "scripts": {
-    "build": "npm run clean && tsc",
-    "clean": "rm -rf ./dist",
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
-  "bugs": {
-    "url": "https://github.com/kevindra/chitchatjs/issues"
-  },
-  "devDependencies": {
-    "@types/figlet": "^1.2.0",
-    "@types/fs-extra": "^9.0.1",
-    "@types/inquirer": "^7.3.1",
-    "@types/node": "^14.11.5",
-    "@types/randomstring": "^1.1.6",
-    "@types/shelljs": "^0.8.8",
-    "@types/yargs": "^15.0.7"
-  },
-  "dependencies": {
-    "@chitchatjs/alexa": "^0.0.7",
-    "@chitchatjs/core": "^0.0.8",
-    "ask-sdk-model": "^1.33.0",
-    "ask-smapi-model": "^1.12.2",
-    "chalk": "^4.1.0",
-    "cli-spinners": "^2.4.0",
-    "figlet": "^1.5.0",
-    "fs-extra": "^9.0.1",
-    "inquirer": "^7.3.3",
-    "inquirer-chalk-pipe": "^1.3.0",
-    "ora": "^5.1.0",
-    "randomstring": "^1.1.5",
-    "shelljs": "^0.8.4",
-    "yargs": "^16.0.3"
-  },
-  "gitHead": "aa29ad45de731606062e7c8db65248674b120f09"
+    "name": "@chitchatjs/cli",
+    "version": "0.0.7",
+    "description": "Chitchat JS CLI",
+    "keywords": [
+        "ChitchatJS",
+        "CLI"
+    ],
+    "author": "Kevindra Singh <kevindra.singh@gmail.com>",
+    "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/cli#readme",
+    "license": "ISC",
+    "main": "dist/index.js",
+    "bin": {
+        "cjs": "dist/index.js",
+        "chitchat": "dist/index.js"
+    },
+    "directories": {
+        "dist": "dist",
+        "test": "__tests__"
+    },
+    "files": [
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kevindra/chitchatjs.git"
+    },
+    "scripts": {
+        "build": "npm run clean && npm i && tsc",
+        "clean": "rm -rf ./dist ./node_modules",
+        "test": "echo \"Error: run tests from root\" && exit 1"
+    },
+    "bugs": {
+        "url": "https://github.com/kevindra/chitchatjs/issues"
+    },
+    "devDependencies": {
+        "@types/figlet": "^1.2.0",
+        "@types/fs-extra": "^9.0.1",
+        "@types/inquirer": "^7.3.1",
+        "@types/node": "^14.11.5",
+        "@types/randomstring": "^1.1.6",
+        "@types/shelljs": "^0.8.8",
+        "@types/yargs": "^15.0.7"
+    },
+    "dependencies": {
+        "@chitchatjs/alexa": "^0.0.7",
+        "@chitchatjs/core": "^0.0.8",
+        "ask-sdk-model": "^1.33.0",
+        "ask-smapi-model": "^1.12.2",
+        "chalk": "^4.1.0",
+        "cli-spinners": "^2.4.0",
+        "figlet": "^1.5.0",
+        "fs-extra": "^9.0.1",
+        "inquirer": "^7.3.3",
+        "inquirer-chalk-pipe": "^1.3.0",
+        "ora": "^5.1.0",
+        "randomstring": "^1.1.5",
+        "shelljs": "^0.8.4",
+        "yargs": "^16.0.3"
+    },
+    "gitHead": "aa29ad45de731606062e7c8db65248674b120f09"
 }

@@ -1,42 +1,42 @@
 {
-  "name": "@chitchatjs/alexa",
-  "version": "0.0.7",
-  "description": "Alexa dialog manager using ChitchatJS.",
-  "keywords": [
-    "voice",
-    "alexa",
-    "skill"
-  ],
-  "author": "Kevindra Singh <kevindra.singh@gmail.com>",
-  "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/alexa#readme",
-  "license": "ISC",
-  "main": "dist/index.js",
-  "directories": {
-    "dist": "dist",
-    "test": "__tests__"
-  },
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kevindra/chitchatjs.git"
-  },
-  "scripts": {
-    "build": "npm run clean && tsc",
-    "clean": "rm -rf ./dist",
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
-  "bugs": {
-    "url": "https://github.com/kevindra/chitchatjs/issues"
-  },
-  "dependencies": {
-    "@chitchatjs/core": "^0.0.8",
-    "ask-sdk-core": "^2.9.0",
-    "ask-sdk-model": "^1.33.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "aa29ad45de731606062e7c8db65248674b120f09"
+    "name": "@chitchatjs/alexa",
+    "version": "0.0.7",
+    "description": "Alexa dialog manager using ChitchatJS.",
+    "keywords": [
+        "voice",
+        "alexa",
+        "skill"
+    ],
+    "author": "Kevindra Singh <kevindra.singh@gmail.com>",
+    "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/alexa#readme",
+    "license": "ISC",
+    "main": "dist/index.js",
+    "directories": {
+        "dist": "dist",
+        "test": "__tests__"
+    },
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kevindra/chitchatjs.git"
+    },
+    "scripts": {
+        "build": "npm run clean && npm i && tsc",
+        "clean": "rm -rf ./dist ./node_modules",
+        "test": "echo \"Error: run tests from root\" && exit 1"
+    },
+    "bugs": {
+        "url": "https://github.com/kevindra/chitchatjs/issues"
+    },
+    "dependencies": {
+        "@chitchatjs/core": "^0.0.8",
+        "ask-sdk-core": "^2.9.0",
+        "ask-sdk-model": "^1.33.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "aa29ad45de731606062e7c8db65248674b120f09"
 }
