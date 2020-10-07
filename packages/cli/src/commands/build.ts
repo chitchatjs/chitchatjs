@@ -23,15 +23,9 @@ export class BuildCommand implements BaseCommand {
 
     executor(): any {
         return (argv: any) => {
-            const buildConfig: BuildConfig = this.buildConfigReader.read() as BuildConfig;
+            const buildConfig = this.buildConfigReader.read();
 
-            // const buildConfig: BuildConfig = {
-            //     src: "./dist/index.js",
-            //     outDir: "./pkg",
-            //     target: "AlexaSkill",
-            // };
-
-            if (buildConfig.target === "AlexaSkill") {
+            if (buildConfig?.target === "Alexa") {
                 let builder = new AlexaProjectBuilder();
                 builder.build(buildConfig);
             } else {

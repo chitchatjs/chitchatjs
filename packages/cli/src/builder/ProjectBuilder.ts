@@ -11,7 +11,7 @@ export const BUILD_CONFIG_LOCATION = path.join(process.cwd(), CJS_CONFIG);
  */
 export interface BuildConfig {
     outDir: string;
-    target: "AlexaSkill" | "DialogFlowAgent";
+    target: "Alexa" | "Google";
 }
 
 /**

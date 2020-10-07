@@ -28,6 +28,7 @@ export class DeployCommand implements BaseCommand {
             shell.cd(buildConfig?.outDir);
             shell.exec("ask deploy");
             shell.cd("..");
+            process.exit(0);
         };
     }
 }
