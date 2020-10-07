@@ -3,6 +3,8 @@ import cliSpinners = require("cli-spinners");
 import figlet = require("figlet");
 import chalk = require("chalk");
 import * as inquirer from "inquirer";
+import * as path from "path";
+import * as os from "os";
 
 import BottomBar = require("inquirer/lib/ui/bottom-bar");
 
@@ -12,6 +14,9 @@ let ui: BottomBar = new inquirer.ui.BottomBar();
  * Constants
  */
 export let DEV_WORKING_DIRECTORY: string = process.cwd();
+export let CLI_CONFIG_DIRECTORY: string = path.join(os.homedir(), ".cjs/");
+export let CLI_CONFIG_FILE_NAME: string = "config.json";
+export let BUILD_CONFIG_FILE_NAME: string = "cjs.json";
 
 /**
  * Utility methods

@@ -1,4 +1,4 @@
-import * as yargs from 'yargs'
+import * as yargs from "yargs";
 
 /**
  * Base Command interface
@@ -6,15 +6,13 @@ import * as yargs from 'yargs'
 export interface BaseCommand {
     /**
      * Defines the options of the command.
-     * 
-     * @param yargs yargs
+     *
      */
-    setOptions(yargs: yargs.Argv): void
+    initializer(): any;
 
     /**
      * Executes the arguments object parsed by the Yargs.
-     * 
-     * @param argv arguments
+     *
      */
-    execute(argv: any): void
+    executor(): any;
 }
