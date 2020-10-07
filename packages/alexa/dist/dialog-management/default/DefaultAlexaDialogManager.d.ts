@@ -1,6 +1,6 @@
-import * as Alexa from 'ask-sdk-core';
-import * as cjs from '@chitchatjs/core';
-import { AlexaDialogManager } from '../AlexaDialogManager';
+import * as Alexa from "ask-sdk-core";
+import * as cjs from "@chitchatjs/core";
+import { AlexaDialogManager } from "../AlexaDialogManager";
 export declare class DefaultAlexaDialogManager implements AlexaDialogManager {
     dialogSet: cjs.DialogSet;
     constructor(dialogSet: cjs.DialogSet);

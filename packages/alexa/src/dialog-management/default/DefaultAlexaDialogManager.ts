@@ -1,27 +1,29 @@
-import * as Alexa from 'ask-sdk-core';
+import * as Alexa from "ask-sdk-core";
 
-import * as cjs from '@chitchatjs/core';
+import * as cjs from "@chitchatjs/core";
 
-import { AlexaDialogManager } from '../AlexaDialogManager';
-import { DefaultInteractionExecutor } from './InteractionExecutor';
-import { DefaultInteractionMatcher } from './InteractionMatcher';
+import { AlexaDialogManager } from "../AlexaDialogManager";
+import { DefaultInteractionExecutor } from "./InteractionExecutor";
+import { DefaultInteractionMatcher } from "./InteractionMatcher";
 
 /**
  * An Alexa Dialog Manager, that takes an input request and the dialogSet
- * and returns the 
+ * and returns the
  */
 export class DefaultAlexaDialogManager implements AlexaDialogManager {
-    dialogSet: cjs.DialogSet
+    dialogSet: cjs.DialogSet;
 
     constructor(dialogSet: cjs.DialogSet) {
-        this.dialogSet = dialogSet
+        this.dialogSet = dialogSet;
     }
 
     /**
      * Returns an Alexa Handler
      */
     handler(): Alexa.LambdaHandler {
-        return Alexa.SkillBuilders.custom().addRequestHandlers(this.executor).addErrorHandlers().lambda()
+        return Alexa.SkillBuilders.custom()
+            .addRequestHandlers(this.executor)
+            .addErrorHandlers().lambda;
     }
 
     /**
@@ -29,13 +31,19 @@ export class DefaultAlexaDialogManager implements AlexaDialogManager {
      */
     executor: Alexa.RequestHandler = {
         canHandle: (handlerInput: Alexa.HandlerInput) => {
-            return true
+            return true;
         },
         handle: async (handlerInput: Alexa.HandlerInput) => {
-            console.log(this.dialogSet)
+            console.log(this.dialogSet);
 
-            let interaction: cjs.Interaction = new DefaultInteractionMatcher().match(handlerInput, this.dialogSet)
-            return new DefaultInteractionExecutor().execute(handlerInput, interaction)
-        }
-    }
+            let interaction: cjs.Interaction = new DefaultInteractionMatcher().match(
+                handlerInput,
+                this.dialogSet
+            );
+            return new DefaultInteractionExecutor().execute(
+                handlerInput,
+                interaction
+            );
+        },
+    };
 }

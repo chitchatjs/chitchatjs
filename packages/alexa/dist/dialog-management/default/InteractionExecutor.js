@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefaultInteractionExecutor = void 0;
 class DefaultInteractionExecutor {
     execute(handlerInput, interaction) {
         var action = interaction.system.actions[0];

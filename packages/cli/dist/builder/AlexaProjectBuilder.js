@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AlexaProjectBuilder = void 0;
 const util_1 = require("../util/util");
 const util_2 = require("../util/util");
 const SkillBuilder_1 = require("../alexa/SkillBuilder");
