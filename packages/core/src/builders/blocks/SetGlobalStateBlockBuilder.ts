@@ -1,4 +1,4 @@
-import { Context, Event, SetGlobalStateBlock } from "../../models";
+import { BuilderContext, Context, Event, SetGlobalStateBlock } from "../../models";
 
 export class SetGlobalStateBlockBuilder {
     private _evaluate: (context: Context, event: Event) => { [name: string]: any };
@@ -20,6 +20,7 @@ export class SetGlobalStateBlockBuilder {
             type: "SetGlobalStateBlock",
             evaluate: this._evaluate,
             execute: this._executor,
+            build: (context: BuilderContext) => {},
         };
     }
 

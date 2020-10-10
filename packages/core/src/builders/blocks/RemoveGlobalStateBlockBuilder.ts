@@ -1,4 +1,4 @@
-import { Context, Event, RemoveGlobalStateBlock } from "../../models";
+import { BuilderContext, Context, Event, RemoveGlobalStateBlock } from "../../models";
 
 export class RemoveGlobalStateBlockBuilder {
     private _evaluate: (context: Context, event: Event) => string[];
@@ -20,6 +20,7 @@ export class RemoveGlobalStateBlockBuilder {
             type: "RemoveGlobalStateBlock",
             evaluate: this._evaluate,
             execute: this._executor,
+            build: (context: BuilderContext) => {},
         };
     }
 

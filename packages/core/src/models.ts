@@ -1,13 +1,17 @@
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
-import { AskSpeechBlockBuilder } from "./builders/blocks/AskSpeechActionBuilder";
+import { AskSpeechBlockBuilder } from "./builders/blocks/AskSpeechBlockBuilder";
 import { CompoundBlockBuilder } from "./builders/blocks/CompoundBlockBuilder";
-import { GotoStateBlockBuilder } from "./builders/blocks/GotoStateActionBuilder";
-import { RemoveGlobalStateBlockBuilder } from "./builders/blocks/RemoveGlobalStateActionBuilder";
-import { SetGlobalStateBlockBuilder } from "./builders/blocks/SetGlobalStateActionBuilder";
-import { TellSpeechBlockBuilder } from "./builders/blocks/TellSpeechActionBuilder";
+import { GotoStateBlockBuilder } from "./builders/blocks/GotoStateBlockBuilder";
+import { RawResourceBlockBuilder } from "./builders/blocks/RawResourceBlockBuilder";
+import { RemoveGlobalStateBlockBuilder } from "./builders/blocks/RemoveGlobalStateBlockBuilder";
+import { SetGlobalStateBlockBuilder } from "./builders/blocks/SetGlobalStateBlockBuilder";
+import { SkillInfoBlockBuilder } from "./builders/blocks/SkillInfoBlockBuilder";
+import { TellSpeechBlockBuilder } from "./builders/blocks/TellSpeechBlockBuilder";
 import { WhenBlockBuilder } from "./builders/blocks/WhenBlockBuilder";
+import { WhenUserSaysBlockBuilder } from "./builders/blocks/WhenUserSaysBuilder";
 import { ConversationBuilder } from "./builders/ConversationBuilder";
 import { StateBuilder } from "./builders/StateBuilder";
+import { SkillPackage, Locale, LocalizedSkillInfo } from "./skill/Artifacts";
 
 /**
  * Primitive interfaces
@@ -23,12 +27,35 @@ export interface State {
     block: Block;
 }
 
+export interface Context {
+    currentResponse: ResponseEnvelope;
+    platformState: PlatformState;
+}
+
+export interface BuilderContext {
+    package: SkillPackage;
+}
+
+export interface PlatformState {
+    currentStateName: string;
+    globalState: { [name: string]: any };
+}
+
+export interface Event {
+    currentRequest: RequestEnvelope;
+}
+
 /**
  * BLOCKS
  */
 export interface Block {
     /**
-     * Actionable interface for each block
+     * Using this interface a block can define what to build.
+     */
+    build: (context: BuilderContext) => void;
+
+    /**
+     * Actionable interface for each block. Invoked in runtime.
      */
     execute: (context: Context, event: Event) => void;
 }
@@ -69,22 +96,28 @@ export interface GotoStateBlock extends Block {
     name: string;
 }
 
-export interface Context {
-    currentResponse: ResponseEnvelope;
-    platformState: PlatformState;
+export interface WhenUserSaysBlock extends Block {
+    type: "WhenUserSaysBlock";
+    generatedIntentName: string;
+    sampleUtterances: string[];
+    then: Block;
+    otherwise?: Block;
 }
 
-export interface PlatformState {
-    currentStateName: string;
-    globalState: { [name: string]: any };
+/**********************************************************
+ *                  Resouce Only Blocks                   *
+ **********************************************************/
+
+export interface SkillInfoBlock extends Block {
+    type: "SkillInfoBlock";
+    skillName: string;
+    locale: Locale;
 }
 
-export interface Event {
-    currentRequest: RequestEnvelope;
-}
-
-export interface DialogEngine {
-    execute(conversation: Conversation, request: RequestEnvelope): ResponseEnvelope;
+export interface RawResourceBlock extends Block {
+    type: "RawResourceBlock";
+    path: string;
+    resourceContent: string;
 }
 
 /**********************************************************
@@ -119,6 +152,10 @@ export namespace blocks {
         return new WhenBlockBuilder();
     }
 
+    export function whenUserSays() {
+        return new WhenUserSaysBlockBuilder();
+    }
+
     export function ask() {
         return new AskSpeechBlockBuilder();
     }
@@ -138,4 +175,21 @@ export namespace blocks {
     export function goto() {
         return new GotoStateBlockBuilder();
     }
+
+    export function info(locale: Locale) {
+        return new SkillInfoBlockBuilder(locale);
+    }
+
+    export function rawResource(path: string, content: string) {
+        return new RawResourceBlockBuilder(path, content);
+    }
 }
+
+/**
+ * Dialog Engine interface
+ */
+export interface DialogEngine {
+    execute(conversation: Conversation, request: RequestEnvelope): ResponseEnvelope;
+}
+
+export * from "./skill/Artifacts";

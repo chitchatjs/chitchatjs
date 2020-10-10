@@ -1,4 +1,4 @@
-import { Context, Event, TellSpeechBlock } from "../../models";
+import { BuilderContext, Context, Event, TellSpeechBlock } from "../../models";
 import { ResponseFactory } from "ask-sdk-core";
 import { interpolateString } from "../../util/StringUtils";
 
@@ -14,6 +14,7 @@ export class TellSpeechBlockBuilder {
             type: "TellSpeechBlock",
             say: this._say,
             execute: this._executor,
+            build: (context: BuilderContext) => {},
         };
     }
 

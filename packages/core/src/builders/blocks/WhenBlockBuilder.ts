@@ -1,4 +1,5 @@
-import { Block, Event, Context, WhenBlock } from "../../models";
+import { Block, Event, Context, WhenBlock, BuilderContext } from "../../models";
+import { WhenUserSaysBlockBuilder } from "./WhenUserSaysBuilder";
 
 export class WhenBlockBuilder {
     private _condition: (context: Context, event: Event) => boolean;
@@ -10,6 +11,10 @@ export class WhenBlockBuilder {
         this._condition = (context: Context, event: Event): boolean => {
             return true;
         };
+    }
+
+    userSays(sampleUtterances: string[]) {
+        return new WhenUserSaysBlockBuilder().userSays(sampleUtterances);
     }
 
     true(f: (context: Context, event: Event) => boolean) {
@@ -42,14 +47,15 @@ export class WhenBlockBuilder {
             then: this._thenBlock,
             otherwise: this._otherwiseBlock,
             execute: this._executor,
+            build: (context: BuilderContext) => {},
         };
     }
 
     private _executor = (context: Context, event: Event) => {
         if (this._condition(context, event) === true) {
-            this._thenBlock?.execute(context, event);
+            this._thenBlock?.execute && this._thenBlock?.execute(context, event);
         } else {
-            this._otherwiseBlock?.execute(context, event);
+            this._otherwiseBlock?.execute && this._otherwiseBlock?.execute(context, event);
         }
     };
 }

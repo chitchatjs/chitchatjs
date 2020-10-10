@@ -1,4 +1,4 @@
-import { Context, Event, GotoStateBlock, State } from "../../models";
+import { BuilderContext, Context, Event, GotoStateBlock, State } from "../../models";
 
 export class GotoStateBlockBuilder {
     private _name: string;
@@ -16,6 +16,7 @@ export class GotoStateBlockBuilder {
             type: "GotoStateBlock",
             name: this._name,
             execute: this._executor,
+            build: (context: BuilderContext) => {},
         };
     }
 

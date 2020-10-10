@@ -7,4 +7,9 @@ export class FileWriter {
     existsSync(path: string) {
         return fs.existsSync(path);
     }
+
+    // TODO fix me
+    read(path: string): string {
+        return fs.readFileSync(path, "utf8");
+    }
 }

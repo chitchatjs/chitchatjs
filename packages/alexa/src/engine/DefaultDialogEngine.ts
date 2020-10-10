@@ -1,5 +1,5 @@
 import { Context, Conversation, Event, DialogEngine, PlatformState } from "@chitchatjs/core";
-import { AttributesManagerFactory } from "ask-sdk-core";
+import { AttributesManagerFactory, ResponseFactory } from "ask-sdk-core";
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
 
 const INITIAL_STATE_NAME: string = "INIT";
@@ -15,7 +15,8 @@ export class DefaultDialogEngine implements DialogEngine {
         };
 
         let currentStateName = context.platformState.currentStateName;
-        conv.states[currentStateName].block.execute(context, event);
+        let currentStateBlock = conv.states[currentStateName].block;
+        currentStateBlock.execute && currentStateBlock.execute(context, event);
 
         context = this.updateContext(context);
 

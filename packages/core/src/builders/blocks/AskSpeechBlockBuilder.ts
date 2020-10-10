@@ -1,5 +1,5 @@
 import { ResponseFactory } from "ask-sdk-core";
-import { AskSpeechBlock, Context, Event } from "../../models";
+import { AskSpeechBlock, BuilderContext, Context, Event } from "../../models";
 import { interpolateString } from "../../util/StringUtils";
 
 export class AskSpeechBlockBuilder {
@@ -27,6 +27,7 @@ export class AskSpeechBlockBuilder {
             say: this._say,
             reprompt: this._reprompt,
             execute: this._executor,
+            build: (context: BuilderContext) => {},
         };
     }
 

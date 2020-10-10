@@ -1,4 +1,4 @@
-import { Block, CompoundBlock, Context, Event } from "../../models";
+import { Block, BuilderContext, CompoundBlock, Context, Event } from "../../models";
 
 export class CompoundBlockBuilder {
     private _blocks: Block[];
@@ -17,10 +17,15 @@ export class CompoundBlockBuilder {
             type: "CompoundBlock",
             blocks: this._blocks,
             execute: this._executor,
+            build: this._builder,
         };
     }
 
     private _executor = (context: Context, event: Event): void => {
         this._blocks.forEach((block: Block) => block.execute(context, event));
+    };
+
+    private _builder = (context: BuilderContext): void => {
+        this._blocks.forEach((block: Block) => block.build(context));
     };
 }

@@ -1,7 +1,8 @@
-import { getWeatherIntent, launchRequest, orderPizzaIntent, yesIntent } from "./data/requests";
+import { getWeatherIntent, launchRequest, orderPizzaIntent, yesIntent, givemeweatIntent } from "./data/requests";
 import { DefaultDialogEngine } from "./engine/DefaultDialogEngine";
 import { blocks, state, conv, Context, Event } from "@chitchatjs/core";
 import { IntentRequest } from "ask-sdk-model";
+import { Locale } from "@chitchatjs/core";
 
 console.log("----------------------------------------------");
 console.log("----------------Test 1------------------------");
@@ -89,3 +90,43 @@ console.log("----------------------------------------------");
 
 // let dm = new DefaultAlexaDialogManager(mySkill);
 // export const handler = dm.handler();
+
+console.log("----------------------------------------------");
+console.log("----------------Test 3------------------------");
+console.log("----------------------------------------------");
+/**
+ * An example of greeting a user by their name
+ */
+
+let initializeSkill = () => {
+    return blocks.info(Locale.en_US).name("Super Skill").build();
+};
+
+launch = state("INIT")
+    .block(
+        blocks
+            .compound()
+            .add(initializeSkill())
+            .add(blocks.ask().say("Welcome, you can ask me for weather!").reprompt("ask me for weather").build())
+            .add(blocks.goto().stateName("weather").build())
+            .build()
+    )
+    .build();
+
+let weatherState = state("weather")
+    .block(blocks.when().userSays(["give me weather for {usCity}"]).then(blocks.say("Weather is nice").build()).build())
+    .build();
+
+let conv4 = conv().addState(launch).addState(weatherState).build();
+
+um = new DefaultDialogEngine();
+
+console.log("----------------------------------------------");
+response1 = um.execute(conv4, launchRequest);
+console.log(JSON.stringify(response1));
+console.log("----------------------------------------------");
+
+console.log("----------------------------------------------");
+response1 = um.execute(conv4, givemeweatIntent);
+console.log(JSON.stringify(response1));
+console.log("----------------------------------------------");
