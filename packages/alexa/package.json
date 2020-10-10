@@ -1,6 +1,6 @@
 {
     "name": "@chitchatjs/alexa",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "Alexa dialog manager using ChitchatJS.",
     "keywords": [
         "voice",
@@ -31,7 +31,7 @@
         "url": "https://github.com/kevindra/chitchatjs/issues"
     },
     "dependencies": {
-        "@chitchatjs/core": "^0.0.8",
+        "@chitchatjs/core": "^0.0.9",
         "ask-sdk-core": "^2.9.0",
         "ask-sdk-model": "^1.33.0",
         "xstate": "^4.13.0"
