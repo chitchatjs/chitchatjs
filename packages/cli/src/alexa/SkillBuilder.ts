@@ -1,21 +1,15 @@
 import { AlexaBuilderContext, AlexaSkill } from "@chitchatjs/alexa";
 import { v1 } from "ask-smapi-model";
 import { BuilderContext } from "@chitchatjs/core";
-// import { Interaction } from "@chitchatjs/core";
-// import { Dialog } from "@chitchatjs/core";
-// import { DialogSet } from "@chitchatjs/core";
-// import { isUtteranceTrigger } from "@chitchatjs/core";
 import { ErrorMessage, logger } from "../util/util";
-import randomstring = require("randomstring");
-import { ProjectBootstrapper } from "./ProjectBootstrapper";
 import { BuildConfig } from "../builder/ProjectBuilder";
-import { ResourceBuilder } from "./ResourceBuilder";
 import { FileWriter } from "./FileWriter";
 import * as path from "path";
 import * as shell from "shelljs";
 import fse from "fs-extra";
 import {} from "@chitchatjs/alexa";
 import { InteractionModel, SkillManifestEnvelope } from "@chitchatjs/alexa";
+import { ProjectBootstrapper } from "./ProjectBootstrapper";
 
 // TODO - look into validations
 // https://www.npmjs.com/package/typescript-json-validator
@@ -32,6 +26,8 @@ export class SkillBuilder {
      */
     build(skill: AlexaSkill, buildConfig: BuildConfig) {
         let states = skill.definition.states;
+        // TODO Clean this up
+        new ProjectBootstrapper().bootstrapProject(buildConfig);
         let builderContext: AlexaBuilderContext = this.initBuilderContext();
 
         Object.keys(states).forEach((stateName: string) => {
@@ -59,7 +55,9 @@ export class SkillBuilder {
                 // if manifest, perform selective merge
                 if (!fw.existsSync(resourcePath)) {
                     logger.info(`Writing ${resourcePath}`);
+                    fse.ensureFileSync(resourcePath);
                     fw.write(resourcePath, JSON.parse(resourceMap[p]));
+                    logger.info(`Created ${resourcePath}`);
                 } else {
                     let manifestOnDisk: SkillManifestEnvelope = JSON.parse(fw.read(resourcePath));
 
@@ -72,6 +70,7 @@ export class SkillBuilder {
                     logger.info(`Merged manifest as it already exists.`);
                 }
             } else {
+                logger.info(`Copy ${resourcePath}`);
                 // otherwise, simply copy the content.
                 fse.ensureFileSync(resourcePath);
                 fw.write(resourcePath, JSON.parse(resourceMap[p]));
@@ -82,6 +81,7 @@ export class SkillBuilder {
         let lambdaPath = path.join(currDir, outDir, "/lambda");
         logger.info(`Copying lambda code to the lambda directory: ${lambdaPath}`);
         // Only copy package(-lock).json, dist and node_modules dependencies
+        fse.ensureDirSync(lambdaPath);
         shell.cp("-R", ["*.json", "./dist", "./node_modules"], lambdaPath);
         logger.success("Done building.");
     }
