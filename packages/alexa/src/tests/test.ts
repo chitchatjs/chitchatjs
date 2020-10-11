@@ -134,7 +134,7 @@ let weatherState = ax
     .block(
         ax
             .compound()
-            .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice").build()).build())
+            .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice")).build())
             .add(ax.end())
             .build()
     )

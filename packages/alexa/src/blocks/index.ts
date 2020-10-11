@@ -44,6 +44,15 @@ export namespace alexa {
         return new WhenUserSaysBlockBuilder().userSays(sampleUtterances);
     }
 
+    export function whenIntentName(intentName: string) {
+        return alexa.when().true((c: AlexaDialogContext, e: AlexaEvent) => {
+            if (e.currentRequest.request.type === "IntentRequest") {
+                return e.currentRequest.request.intent.name === intentName;
+            }
+            return false;
+        });
+    }
+
     export function setStateVar(
         f: string | { (ctx: AlexaDialogContext, event: AlexaEvent): { [name: string]: any } },
         value?: any
@@ -94,7 +103,7 @@ export namespace alexa {
     }
 
     export function say(msg: string) {
-        return new TellSpeechBlockBuilder(msg);
+        return new TellSpeechBlockBuilder(msg).build();
     }
 
     export function empty() {
