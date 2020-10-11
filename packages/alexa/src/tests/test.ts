@@ -1,4 +1,4 @@
-import { getWeatherIntent, launchRequest, givemeweatIntent } from "./data/requests";
+import { getWeatherIntent, launchRequest, givemeweatIntent, sessionEndedRequest } from "./data/requests";
 import { IntentRequest, RequestEnvelope } from "ask-sdk-model";
 import { alexa as ax } from "../blocks";
 import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
@@ -123,7 +123,7 @@ let launch = ax
         ax
             .compound()
             .add(initializeSkill())
-            .add(ax.ask().say("Welcome, you can ask me for weather!").reprompt("ask me for weather").build())
+            .add(ax.ask("Welcome, you can ask me for weather!").reprompt("ask me for weather").build())
             .add(ax.goto("weather"))
             .build()
     )
@@ -131,7 +131,13 @@ let launch = ax
 
 let weatherState = ax
     .state("weather")
-    .block(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice").build()).build())
+    .block(
+        ax
+            .compound()
+            .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice").build()).build())
+            .add(ax.end())
+            .build()
+    )
     .build();
 
 let skillDefinition = ax.definition().addState(launch).addState(weatherState).build();
@@ -143,9 +149,13 @@ let dm = ax.dialogManager(skillDefinition);
 executeDM(dm, launchRequest, (res) => {
     console.log(res);
     console.log("----------------------------------------------");
-    executeDM(dm, givemeweatIntent, (res) => {
+    // executeDM(dm, givemeweatIntent, (res) => {
+    //     console.log(res);
+    // });
+    executeDM(dm, sessionEndedRequest, (res) => {
         console.log(res);
     });
+
     console.log("----------------------------------------------");
 });
 console.log("----------------------------------------------");

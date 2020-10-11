@@ -56,7 +56,11 @@ export class WhenUserSaysBlockBuilder {
     };
 
     private _isIntentMatching = (event: AlexaEvent, intentName: string): boolean => {
-        return (<IntentRequest>event.currentRequest.request).intent.name === intentName;
+        if (event.currentRequest.request.type === "IntentRequest") {
+            return (<IntentRequest>event.currentRequest.request).intent.name === intentName;
+        } else {
+            return false;
+        }
     };
 
     private _executor = (context: AlexaDialogContext, event: AlexaEvent) => {

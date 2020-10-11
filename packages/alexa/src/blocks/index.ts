@@ -89,8 +89,8 @@ export namespace alexa {
             .build();
     }
 
-    export function ask() {
-        return new AskSpeechBlockBuilder();
+    export function ask(msg: string) {
+        return new AskSpeechBlockBuilder().say(msg);
     }
 
     export function say(msg: string) {
