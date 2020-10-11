@@ -46,3 +46,7 @@ export interface SkillInfoBlock extends AlexaBlock {
     skillName: string;
     locale: Locale;
 }
+
+export interface EmptyBlock extends AlexaBlock {
+    type: "EmptyBlock";
+}

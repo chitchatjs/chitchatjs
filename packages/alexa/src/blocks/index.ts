@@ -17,6 +17,7 @@ import { Locale } from "../models";
 import { AlexaDialogManager } from "..";
 import { AlexaSkill } from "../AlexaSkill";
 import { RuleBasedDialogEngine } from "../engine";
+import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
 
 export namespace alexa {
     export function dialogManager(skillDefinition: SkillDefinition) {
@@ -94,6 +95,20 @@ export namespace alexa {
 
     export function say(msg: string) {
         return new TellSpeechBlockBuilder(msg);
+    }
+
+    export function empty() {
+        return new EmptyBlockBuilder().build();
+    }
+
+    export function end() {
+        return alexa
+            .when()
+            .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
+                return false;
+            })
+            .then(empty())
+            .build();
     }
 
     export function info(locale: Locale) {
