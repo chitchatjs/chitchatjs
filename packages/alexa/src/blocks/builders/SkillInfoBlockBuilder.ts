@@ -1,5 +1,5 @@
-import { BuilderContext, DialogContext, Event, SkillInfoBlock } from "@chitchatjs/core";
-import { Locale, LocalizedSkillInfo } from "@chitchatjs/core";
+import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SkillInfoBlock } from "../../models";
+import { Locale, LocalizedSkillInfo } from "../../models/artifacts";
 
 /**
  * Generates localized Skill Info in the Skill Manifest file.
@@ -23,12 +23,12 @@ export class SkillInfoBlockBuilder {
             type: "SkillInfoBlock",
             skillName: this._name,
             locale: this._locale,
-            execute: (context: DialogContext, event: Event) => {},
+            execute: (context: AlexaDialogContext, event: AlexaEvent) => {},
             build: this._builder,
         };
     }
 
-    private _builder = (context: BuilderContext): void => {
+    private _builder = (context: AlexaBuilderContext): void => {
         let locales = context.package.manifest.manifest?.publishingInformation?.locales;
         let updatedObj: any = {};
         updatedObj[this._locale] = <LocalizedSkillInfo>{

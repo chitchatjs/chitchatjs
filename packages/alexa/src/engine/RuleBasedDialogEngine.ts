@@ -1,6 +1,7 @@
-import { DialogContext, Conversation, Event, DialogEngine, PlatformState } from "@chitchatjs/core";
-import { AttributesManagerFactory, ResponseFactory } from "ask-sdk-core";
+import { PlatformState } from "@chitchatjs/core";
+import { AttributesManagerFactory } from "ask-sdk-core";
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
+import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, SkillDefinition } from "../models";
 
 const INITIAL_STATE_NAME: string = "INIT";
 const PLATFORM_STATE_NAME: string = "platformState";
@@ -9,18 +10,14 @@ const PLATFORM_STATE_NAME: string = "platformState";
  * A rule based dialog engine that executes the conversation states based on the
  * specified conditions and transitions.
  */
-export class RuleBasedDialogEngine implements DialogEngine {
+export class RuleBasedDialogEngine implements AlexaDialogEngine {
     constructor() {}
 
-    execute(conv: Conversation, request: RequestEnvelope): ResponseEnvelope {
-        let context: DialogContext = this.initContext(request);
-
-        let event: Event = {
-            currentRequest: request,
-        };
+    execute(skillDefinition: SkillDefinition, event: AlexaEvent): ResponseEnvelope {
+        let context: AlexaDialogContext = this.initContext(event.currentRequest);
 
         let currentStateName = context.platformState.currentStateName;
-        let currentStateBlock = conv.states[currentStateName].block;
+        let currentStateBlock = skillDefinition.states[currentStateName].block;
         currentStateBlock.execute && currentStateBlock.execute(context, event);
 
         context = this.updateContext(context);
@@ -28,7 +25,7 @@ export class RuleBasedDialogEngine implements DialogEngine {
         return context.currentResponse;
     }
 
-    private initContext(request: RequestEnvelope): DialogContext {
+    private initContext(request: RequestEnvelope): AlexaDialogContext {
         let platformState = this.getPlatformState(request);
         if (!platformState || typeof platformState !== "object") {
             platformState = <PlatformState>{
@@ -52,7 +49,7 @@ export class RuleBasedDialogEngine implements DialogEngine {
         };
     }
 
-    private updateContext(context: DialogContext): DialogContext {
+    private updateContext(context: AlexaDialogContext): AlexaDialogContext {
         if (context.currentResponse.sessionAttributes === undefined) {
             context.currentResponse.sessionAttributes = {};
         }

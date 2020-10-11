@@ -1,17 +1,9 @@
-import { Conversation } from "@chitchatjs/core";
+import { AgentDefinition } from "@chitchatjs/core";
+import { SkillDefinition } from "./models";
 
-/**
- * An AlexaSkill Runtime component responsible for handling user requests.
- */
-class AlexaSkill {
-    conversation: Conversation;
-
-    constructor(conversation: Conversation) {
-        this.conversation = conversation;
-    }
-}
-
-export { AlexaSkill };
+export * from "./AlexaSkill";
 export * from "./AlexaDialogManager";
-export * from "./engine/RuleBasedDialogEngine";
-export * from "./blocks";
+// export * from "./engine/RuleBasedDialogEngine";
+// export * from "./blocks";
+export * from "./models";
+export * from "./engine";

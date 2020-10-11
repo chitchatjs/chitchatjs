@@ -1,29 +1,26 @@
-import { BuilderContext, DialogContext, Event, RawResourceBlock, SkillInfoBlock, TellSpeechBlock } from "../../models";
-import { ResponseFactory } from "ask-sdk-core";
-import { interpolateString } from "../../util/StringUtils";
-import { Locale, LocalizedSkillInfo } from "../../skill/Artifacts";
+import { BuilderContext, DialogContext, Event, RawResourceBlock } from "../../models";
 
-export class RawResourceBlockBuilder {
-    private _path: string;
+export class RawResourceBlockBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
+    private _key: string;
     private _resourceContent: string;
 
-    constructor(path: string, resourceContent: string) {
-        this._path = path;
+    constructor(key: string, resourceContent: string) {
+        this._key = key;
         this._resourceContent = resourceContent;
     }
 
-    build(): RawResourceBlock {
+    build(): RawResourceBlock<B, D, E> {
         return {
             type: "RawResourceBlock",
-            path: this._path,
-            resourceContent: this._resourceContent,
-            execute: (context: DialogContext, event: Event) => {},
+            key: this._key,
+            content: this._resourceContent,
+            execute: (context: D, event: E) => {},
             build: this._builder,
         };
     }
 
-    private _builder = (context: BuilderContext): void => {
-        if (context.package.pathBasedResources !== undefined)
-            context.package.pathBasedResources[this._path] = this._resourceContent;
+    private _builder = (context: B): void => {
+        if (context.resources.resourceMap !== undefined)
+            context.resources.resourceMap[this._key] = this._resourceContent;
     };
 }

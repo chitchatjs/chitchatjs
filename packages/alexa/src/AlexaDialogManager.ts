@@ -1,6 +1,6 @@
 import * as Alexa from "ask-sdk-core";
 import { AlexaSkill } from ".";
-import { DialogEngine } from "@chitchatjs/core";
+import { AlexaDialogEngine, AlexaEvent } from "./models";
 
 /**
  * An Alexa Dialog Manager, that takes an input request and the dialogSet
@@ -8,9 +8,9 @@ import { DialogEngine } from "@chitchatjs/core";
  */
 export class AlexaDialogManager {
     alexaSkill: AlexaSkill;
-    dialogEngine: DialogEngine;
+    dialogEngine: AlexaDialogEngine;
 
-    constructor(alexaSkill: AlexaSkill, dialogEngine: DialogEngine) {
+    constructor(alexaSkill: AlexaSkill, dialogEngine: AlexaDialogEngine) {
         this.alexaSkill = alexaSkill;
         this.dialogEngine = dialogEngine;
     }
@@ -31,7 +31,11 @@ export class AlexaDialogManager {
         },
         handle: async (handlerInput: Alexa.HandlerInput) => {
             console.log("Handling request: " + Alexa.getRequestType(handlerInput.requestEnvelope));
-            let resEnvelope = this.dialogEngine.execute(this.alexaSkill.conversation, handlerInput.requestEnvelope);
+
+            let event: AlexaEvent = {
+                currentRequest: handlerInput.requestEnvelope,
+            };
+            let resEnvelope = this.dialogEngine.execute(this.alexaSkill.skillDefinition, event);
             handlerInput.attributesManager.setSessionAttributes(resEnvelope.sessionAttributes || {});
             return resEnvelope.response;
         },

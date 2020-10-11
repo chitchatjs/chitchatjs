@@ -1,5 +1,6 @@
-import { BuilderContext, DialogContext, Event, TellSpeechBlock } from "@chitchatjs/core";
+import { TellSpeechBlock } from "@chitchatjs/core";
 import { ResponseFactory } from "ask-sdk-core";
+import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent } from "../../models";
 import { interpolateString } from "../../util/StringUtils";
 
 /**
@@ -12,16 +13,16 @@ export class TellSpeechBlockBuilder {
         this._say = msg;
     }
 
-    build(): TellSpeechBlock {
+    build(): TellSpeechBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> {
         return {
             type: "TellSpeechBlock",
             say: this._say,
             execute: this._executor,
-            build: (context: BuilderContext) => {},
+            build: (context: AlexaBuilderContext) => {},
         };
     }
 
-    private _executor = (context: DialogContext, event: Event): void => {
+    private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
         let responseBuilder = ResponseFactory.init();
         responseBuilder.speak(interpolateString(this._say, context.platformState.globalState));
         context.currentResponse.response = Object.assign(

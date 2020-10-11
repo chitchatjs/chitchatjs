@@ -1,41 +1,32 @@
-import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
-import { CompoundBlockBuilder } from "./builders/core/CompoundBlockBuilder";
-import { GotoStateBlockBuilder } from "./builders/core/GotoStateBlockBuilder";
-import { RawResourceBlockBuilder } from "./builders/core/RawResourceBlockBuilder";
-import { RemoveGlobalStateBlockBuilder } from "./builders/core/RemoveGlobalStateBlockBuilder";
-import { SetGlobalStateBlockBuilder } from "./builders/core/SetGlobalStateBlockBuilder";
-import { ConversationBuilder } from "./builders/ConversationBuilder";
-import { WhenBlockBuilder } from "./builders/core/WhenBlockBuilder";
-import { StateBuilder } from "./builders/StateBuilder";
-import { SkillPackage, Locale } from "./skill/Artifacts";
+import { ResponseEnvelope } from "ask-sdk-model";
 
 /************************************************************
  * Primitive interfaces                                     *
  ************************************************************/
 
 /**
- * A Conversation is a collections of State objects by user defined state names.
+ * A AgentDefinition is a collections of State objects and how they interact with each other.
+ * It also defines how a dialog manager will generate resource artifacts during build process.
  */
-export interface Conversation {
-    type: "Conversation";
-    states: { [name: string]: State };
+export interface AgentDefinition<B extends BuilderContext, D extends DialogContext, E extends Event> {
+    type: "AgentDefinition";
+    states: { [name: string]: State<B, D, E> };
 }
 
 /**
  * State is a representation of the application at a specific point in time
  * and which blocks it uses to handle user requests.
  */
-export interface State {
+export interface State<B extends BuilderContext, D extends DialogContext, E extends Event> {
     type: "State";
     name: string;
-    block: Block;
+    block: Block<B, D, E>;
 }
 
 /**
  * Dialog context object holds key information during runtime execution.
  */
 export interface DialogContext {
-    currentResponse: ResponseEnvelope;
     platformState: PlatformState;
 }
 
@@ -43,7 +34,11 @@ export interface DialogContext {
  * Builder context object holds key information during the build process.
  */
 export interface BuilderContext {
-    package: SkillPackage;
+    resources: Resources;
+}
+
+export interface Resources {
+    resourceMap: { [name: string]: string };
 }
 
 /**
@@ -57,58 +52,59 @@ export interface PlatformState {
 /**
  * Event is an input trigger that cause state to start executing its block.
  */
-export interface Event {
-    currentRequest: RequestEnvelope;
-}
+export interface Event {}
 
 /**
  * Blocks - a pluggable interface that defines a specific piece of functionality to build voice interface.
  */
-export interface Block {
+export interface Block<B extends BuilderContext, D extends DialogContext, E extends Event> {
     /**
      * Using this interface a block can define what to build.
      */
-    build: (context: BuilderContext) => void;
+    build: (context: B) => void;
 
     /**
      * Actionable interface for each block. Invoked in runtime.
      */
-    execute: (context: DialogContext, event: Event) => void;
+    execute: (context: D, event: E) => void;
 }
 
 /**
  * CompoundBlock is simply a list of Block.
  */
-export interface CompoundBlock extends Block {
+export interface CompoundBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "CompoundBlock";
-    blocks: Block[];
+    blocks: Block<B, D, E>[];
 }
 
 /**
  * WhenBlock is a if-then-else implementation with a hook for condition execution.
  */
-export interface WhenBlock extends Block {
+export interface WhenBlock<B extends BuilderContext, D extends DialogContext, E extends Event> extends Block<B, D, E> {
     type: "WhenBlock";
-    condition: (context: DialogContext, event: Event) => boolean;
-    then: Block;
-    otherwise?: Block;
+    condition: (context: D, event: E) => boolean;
+    then: Block<B, D, E>;
+    otherwise?: Block<B, D, E>;
 }
 
 /**
  * WhenUserSaysBlock is a block that operates directly on the user utterances
  * in an if-then-else manner.
  */
-export interface WhenUserSaysBlock extends Block {
+export interface WhenUserSaysBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "WhenUserSaysBlock";
     sampleUtterances: string[];
-    then: Block;
-    otherwise?: Block;
+    then: Block<B, D, E>;
+    otherwise?: Block<B, D, E>;
 }
 
 /**
  * AskSpeechBlock is a block to ask users a question and to keep microphone open.
  */
-export interface AskSpeechBlock extends Block {
+export interface AskSpeechBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "AskSpeechBlock";
     say: string;
     reprompt: string;
@@ -117,7 +113,8 @@ export interface AskSpeechBlock extends Block {
 /**
  * TellSpeechBlock is a block to tell users something and then close the microphone.
  */
-export interface TellSpeechBlock extends Block {
+export interface TellSpeechBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "TellSpeechBlock";
     say: string;
 }
@@ -125,23 +122,26 @@ export interface TellSpeechBlock extends Block {
 /**
  * SetGlobalState block is used to set a state variable globally.
  */
-export interface SetGlobalStateBlock extends Block {
+export interface SetGlobalStateBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "SetGlobalStateBlock";
-    evaluate: (context: DialogContext, event: Event) => { [name: string]: any };
+    evaluate: (context: D, event: E) => { [name: string]: any };
 }
 
 /**
  * RemoveGlobalStateBlock removes a state variable from the global state.
  */
-export interface RemoveGlobalStateBlock extends Block {
+export interface RemoveGlobalStateBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "RemoveGlobalStateBlock";
-    evaluate: (context: DialogContext, event: Event) => { [name: string]: any };
+    evaluate: (context: D, event: E) => { [name: string]: any };
 }
 
 /**
  * GotoStateBlock transitions to the specified state name.
  */
-export interface GotoStateBlock extends Block {
+export interface GotoStateBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "GotoStateBlock";
     name: string;
 }
@@ -150,72 +150,16 @@ export interface GotoStateBlock extends Block {
  *                  Resouce Only Blocks                   *
  **********************************************************/
 
-export interface SkillInfoBlock extends Block {
-    type: "SkillInfoBlock";
-    skillName: string;
-    locale: Locale;
-}
-
-export interface RawResourceBlock extends Block {
+export interface RawResourceBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+    extends Block<B, D, E> {
     type: "RawResourceBlock";
-    path: string;
-    resourceContent: string;
-}
-
-/**********************************************************
- *                   Builder Methods                      *
- **********************************************************/
-
-/**
- * Builds a conversation.
- */
-export function conv() {
-    return new ConversationBuilder();
-}
-
-/**
- * Builds a state.
- *
- * @param name State
- */
-export function state(name: string) {
-    return new StateBuilder(name);
-}
-
-/**
- * Available prebuilt core blocks
- */
-export namespace core {
-    export function compound() {
-        return new CompoundBlockBuilder();
-    }
-
-    export function when() {
-        return new WhenBlockBuilder();
-    }
-
-    export function setStateVar() {
-        return new SetGlobalStateBlockBuilder();
-    }
-
-    export function removeStateVar() {
-        return new RemoveGlobalStateBlockBuilder();
-    }
-
-    export function goto() {
-        return new GotoStateBlockBuilder();
-    }
-
-    export function rawResource(path: string, content: string) {
-        return new RawResourceBlockBuilder(path, content);
-    }
+    key: string;
+    content: string;
 }
 
 /**
  * Dialog Engine interface
  */
-export interface DialogEngine {
-    execute(conversation: Conversation, request: RequestEnvelope): ResponseEnvelope;
+export interface DialogEngine<B extends BuilderContext, D extends DialogContext, E extends Event> {
+    execute(conversation: AgentDefinition<B, D, E>, event: E): ResponseEnvelope;
 }
-
-export * from "./skill/Artifacts";

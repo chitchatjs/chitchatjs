@@ -1,34 +1,34 @@
 import { Block, Event, DialogContext, WhenBlock, BuilderContext } from "../../models";
 // import { WhenUserSaysBlockBuilder } from "./WhenUserSaysBuilder";
 
-export class WhenBlockBuilder {
-    private _condition: (context: DialogContext, event: Event) => boolean;
-    private _thenBlock?: Block;
-    private _otherwiseBlock?: Block;
+export class WhenBlockBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
+    private _condition: (context: D, event: E) => boolean;
+    private _thenBlock?: Block<B, D, E>;
+    private _otherwiseBlock?: Block<B, D, E>;
 
     constructor() {
         // default condition just to keep typescript happy
-        this._condition = (context: DialogContext, event: Event): boolean => {
+        this._condition = (context: D, event: E): boolean => {
             return true;
         };
     }
 
-    true(f: (context: DialogContext, event: Event) => boolean) {
+    true(f: (context: D, event: E) => boolean) {
         this._condition = f;
         return this;
     }
 
-    then(block: Block) {
+    then(block: Block<B, D, E>) {
         this._thenBlock = block;
         return this;
     }
 
-    otherwise(block: Block) {
+    otherwise(block: Block<B, D, E>) {
         this._otherwiseBlock = block;
         return this;
     }
 
-    build(): WhenBlock {
+    build(): WhenBlock<B, D, E> {
         if (this._condition === undefined) {
             throw new Error("When block is missing the condition.");
         }
@@ -43,11 +43,11 @@ export class WhenBlockBuilder {
             then: this._thenBlock,
             otherwise: this._otherwiseBlock,
             execute: this._executor,
-            build: (context: BuilderContext) => {},
+            build: (context: B) => {},
         };
     }
 
-    private _executor = (context: DialogContext, event: Event) => {
+    private _executor = (context: D, event: E) => {
         if (this._condition(context, event) === true) {
             this._thenBlock?.execute && this._thenBlock?.execute(context, event);
         } else {

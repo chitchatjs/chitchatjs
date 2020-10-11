@@ -1,15 +1,16 @@
 import { IntentRequest } from "ask-sdk-model";
-import { Block, Event, DialogContext, WhenBlock, WhenUserSaysBlock, BuilderContext } from "@chitchatjs/core";
+import { WhenUserSaysBlock } from "@chitchatjs/core";
 import { v1 } from "ask-smapi-model";
 import { extractVariables, slotToSlotTypeMapping } from "../../util/StringUtils";
+import { AlexaBlock, AlexaBuilderContext, AlexaDialogContext, AlexaEvent } from "../../models";
 
 /**
  * WhenUserSaysBlock implementation for Alexa
  */
 export class WhenUserSaysBlockBuilder {
     private _sampleUtterances: string[];
-    private _thenBlock?: Block;
-    private _otherwiseBlock?: Block;
+    private _thenBlock?: AlexaBlock;
+    private _otherwiseBlock?: AlexaBlock;
 
     constructor() {
         this._sampleUtterances = [];
@@ -20,17 +21,17 @@ export class WhenUserSaysBlockBuilder {
         return this;
     }
 
-    then(block: Block) {
+    then(block: AlexaBlock) {
         this._thenBlock = block;
         return this;
     }
 
-    otherwise(block: Block) {
+    otherwise(block: AlexaBlock) {
         this._otherwiseBlock = block;
         return this;
     }
 
-    build(): WhenUserSaysBlock {
+    build(): WhenUserSaysBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> {
         if (this._sampleUtterances === undefined || this._sampleUtterances.length == 0) {
             throw new Error("WhenUserSays block is missing sample utterances.");
         }
@@ -54,11 +55,11 @@ export class WhenUserSaysBlockBuilder {
         return sampleUtterances[0].replace(/[^a-zA-Z]/g, "").substring(0, 10) + "Intent";
     };
 
-    private _isIntentMatching = (event: Event, intentName: string): boolean => {
+    private _isIntentMatching = (event: AlexaEvent, intentName: string): boolean => {
         return (<IntentRequest>event.currentRequest.request).intent.name === intentName;
     };
 
-    private _executor = (context: DialogContext, event: Event) => {
+    private _executor = (context: AlexaDialogContext, event: AlexaEvent) => {
         let intentName = this._generateIntentName(this._sampleUtterances);
 
         if (this._isIntentMatching(event, intentName) === true) {
@@ -68,7 +69,7 @@ export class WhenUserSaysBlockBuilder {
         }
     };
 
-    private _builder = (context: BuilderContext) => {
+    private _builder = (context: AlexaBuilderContext) => {
         let vars: string[] = [];
         this._sampleUtterances.forEach((utt: string) => {
             vars.push(...extractVariables(utt));
