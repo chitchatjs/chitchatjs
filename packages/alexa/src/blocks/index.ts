@@ -28,6 +28,10 @@ export namespace alexa {
         return new AgentDefinitionBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
     }
 
+    export function start() {
+        return alexa.state("INIT");
+    }
+
     export function state(name: string) {
         return new StateBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>(name);
     }
