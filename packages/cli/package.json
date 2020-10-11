@@ -1,6 +1,6 @@
 {
     "name": "@chitchatjs/cli",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "Chitchat JS CLI",
     "keywords": [
         "ChitchatJS",
@@ -52,8 +52,8 @@
         "ts-node": "^9.0.0"
     },
     "dependencies": {
-        "@chitchatjs/alexa": "^0.0.9",
-        "@chitchatjs/core": "^0.0.10",
+        "@chitchatjs/alexa": "^0.0.10",
+        "@chitchatjs/core": "^0.0.11",
         "ask-sdk-model": "^1.33.0",
         "ask-smapi-model": "^1.12.2",
         "chalk": "^4.1.0",
