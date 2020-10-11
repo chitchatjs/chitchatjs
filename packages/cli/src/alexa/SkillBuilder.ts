@@ -15,7 +15,7 @@ import * as path from "path";
 import * as shell from "shelljs";
 import fse from "fs-extra";
 import {} from "@chitchatjs/alexa";
-import { InteractionModel, SkillManifestEnvelope } from "@chitchatjs/alexa/dist/models/artifacts";
+import { InteractionModel, SkillManifestEnvelope } from "@chitchatjs/alexa";
 
 // TODO - look into validations
 // https://www.npmjs.com/package/typescript-json-validator
