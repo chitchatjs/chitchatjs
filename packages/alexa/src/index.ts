@@ -14,3 +14,4 @@ class AlexaSkill {
 export { AlexaSkill };
 export * from "./AlexaDialogManager";
 export * from "./engine/RuleBasedDialogEngine";
+export * from "./blocks";
