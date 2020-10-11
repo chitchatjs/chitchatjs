@@ -94,7 +94,7 @@ export class SkillBuilder {
             version: "1.0",
             interactionModel: {
                 languageModel: {
-                    invocationName: "sample sample", // TODO FIX ME
+                    invocationName: "october eleven", // TODO FIX ME
                     intents: [
                         {
                             name: "AMAZON.StopIntent",
@@ -102,6 +102,14 @@ export class SkillBuilder {
                         },
                         {
                             name: "AMAZON.FallbackIntent",
+                            samples: [],
+                        },
+                        {
+                            name: "AMAZON.CancelIntent",
+                            samples: [],
+                        },
+                        {
+                            name: "AMAZON.HelpIntent",
                             samples: [],
                         },
                     ],
