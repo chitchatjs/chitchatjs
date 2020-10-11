@@ -1,8 +1,9 @@
-import { BuilderContext, Context, Event, SkillInfoBlock, TellSpeechBlock } from "../../models";
-import { ResponseFactory } from "ask-sdk-core";
-import { interpolateString } from "../../util/StringUtils";
-import { Locale, LocalizedSkillInfo } from "../../skill/Artifacts";
+import { BuilderContext, DialogContext, Event, SkillInfoBlock } from "@chitchatjs/core";
+import { Locale, LocalizedSkillInfo } from "@chitchatjs/core";
 
+/**
+ * Generates localized Skill Info in the Skill Manifest file.
+ */
 export class SkillInfoBlockBuilder {
     private _name: string;
     private _locale: Locale;
@@ -22,7 +23,7 @@ export class SkillInfoBlockBuilder {
             type: "SkillInfoBlock",
             skillName: this._name,
             locale: this._locale,
-            execute: (context: Context, event: Event) => {},
+            execute: (context: DialogContext, event: Event) => {},
             build: this._builder,
         };
     }

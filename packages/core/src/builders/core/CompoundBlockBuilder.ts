@@ -1,4 +1,4 @@
-import { Block, BuilderContext, CompoundBlock, Context, Event } from "../../models";
+import { Block, BuilderContext, CompoundBlock, DialogContext, Event } from "../../models";
 
 export class CompoundBlockBuilder {
     private _blocks: Block[];
@@ -21,7 +21,7 @@ export class CompoundBlockBuilder {
         };
     }
 
-    private _executor = (context: Context, event: Event): void => {
+    private _executor = (context: DialogContext, event: Event): void => {
         this._blocks.forEach((block: Block) => block.execute(context, event));
     };
 

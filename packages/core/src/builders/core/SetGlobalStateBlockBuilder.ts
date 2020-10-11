@@ -1,16 +1,16 @@
-import { BuilderContext, Context, Event, SetGlobalStateBlock } from "../../models";
+import { BuilderContext, DialogContext, Event, SetGlobalStateBlock } from "../../models";
 
 export class SetGlobalStateBlockBuilder {
-    private _evaluate: (context: Context, event: Event) => { [name: string]: any };
+    private _evaluate: (context: DialogContext, event: Event) => { [name: string]: any };
 
     constructor() {
         // default evalutation - no states set
-        this._evaluate = (context: Context, event: Event) => {
+        this._evaluate = (context: DialogContext, event: Event) => {
             return {};
         };
     }
 
-    set(f: (context: Context, event: Event) => { [name: string]: any }) {
+    set(f: (context: DialogContext, event: Event) => { [name: string]: any }) {
         this._evaluate = f;
         return this;
     }
@@ -24,7 +24,7 @@ export class SetGlobalStateBlockBuilder {
         };
     }
 
-    private _executor = (context: Context, event: Event) => {
+    private _executor = (context: DialogContext, event: Event) => {
         let vars: { [name: string]: any } = this._evaluate(context, event);
         Object.assign(context.platformState.globalState, vars);
     };

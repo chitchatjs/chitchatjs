@@ -1,52 +1,68 @@
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
-import { AskSpeechBlockBuilder } from "./builders/blocks/AskSpeechBlockBuilder";
-import { CompoundBlockBuilder } from "./builders/blocks/CompoundBlockBuilder";
-import { GotoStateBlockBuilder } from "./builders/blocks/GotoStateBlockBuilder";
-import { RawResourceBlockBuilder } from "./builders/blocks/RawResourceBlockBuilder";
-import { RemoveGlobalStateBlockBuilder } from "./builders/blocks/RemoveGlobalStateBlockBuilder";
-import { SetGlobalStateBlockBuilder } from "./builders/blocks/SetGlobalStateBlockBuilder";
-import { SkillInfoBlockBuilder } from "./builders/blocks/SkillInfoBlockBuilder";
-import { TellSpeechBlockBuilder } from "./builders/blocks/TellSpeechBlockBuilder";
-import { WhenBlockBuilder } from "./builders/blocks/WhenBlockBuilder";
-import { WhenUserSaysBlockBuilder } from "./builders/blocks/WhenUserSaysBuilder";
+import { CompoundBlockBuilder } from "./builders/core/CompoundBlockBuilder";
+import { GotoStateBlockBuilder } from "./builders/core/GotoStateBlockBuilder";
+import { RawResourceBlockBuilder } from "./builders/core/RawResourceBlockBuilder";
+import { RemoveGlobalStateBlockBuilder } from "./builders/core/RemoveGlobalStateBlockBuilder";
+import { SetGlobalStateBlockBuilder } from "./builders/core/SetGlobalStateBlockBuilder";
 import { ConversationBuilder } from "./builders/ConversationBuilder";
+import { WhenBlockBuilder } from "./builders/core/WhenBlockBuilder";
 import { StateBuilder } from "./builders/StateBuilder";
-import { SkillPackage, Locale, LocalizedSkillInfo } from "./skill/Artifacts";
+import { SkillPackage, Locale } from "./skill/Artifacts";
+
+/************************************************************
+ * Primitive interfaces                                     *
+ ************************************************************/
 
 /**
- * Primitive interfaces
+ * A Conversation is a collections of State objects by user defined state names.
  */
 export interface Conversation {
     type: "Conversation";
     states: { [name: string]: State };
 }
 
+/**
+ * State is a representation of the application at a specific point in time
+ * and which blocks it uses to handle user requests.
+ */
 export interface State {
     type: "State";
     name: string;
     block: Block;
 }
 
-export interface Context {
+/**
+ * Dialog context object holds key information during runtime execution.
+ */
+export interface DialogContext {
     currentResponse: ResponseEnvelope;
     platformState: PlatformState;
 }
 
+/**
+ * Builder context object holds key information during the build process.
+ */
 export interface BuilderContext {
     package: SkillPackage;
 }
 
+/**
+ * Platform State is a simple state holder where framework keeps state related information.
+ */
 export interface PlatformState {
     currentStateName: string;
     globalState: { [name: string]: any };
 }
 
+/**
+ * Event is an input trigger that cause state to start executing its block.
+ */
 export interface Event {
     currentRequest: RequestEnvelope;
 }
 
 /**
- * BLOCKS
+ * Blocks - a pluggable interface that defines a specific piece of functionality to build voice interface.
  */
 export interface Block {
     /**
@@ -57,51 +73,77 @@ export interface Block {
     /**
      * Actionable interface for each block. Invoked in runtime.
      */
-    execute: (context: Context, event: Event) => void;
+    execute: (context: DialogContext, event: Event) => void;
 }
 
-export interface ContainerBlock extends Block {
-    type: "ContainerBlock";
-}
+/**
+ * CompoundBlock is simply a list of Block.
+ */
 export interface CompoundBlock extends Block {
     type: "CompoundBlock";
     blocks: Block[];
 }
+
+/**
+ * WhenBlock is a if-then-else implementation with a hook for condition execution.
+ */
 export interface WhenBlock extends Block {
     type: "WhenBlock";
-    condition: (context: Context, event: Event) => boolean;
+    condition: (context: DialogContext, event: Event) => boolean;
     then: Block;
     otherwise?: Block;
 }
 
+/**
+ * WhenUserSaysBlock is a block that operates directly on the user utterances
+ * in an if-then-else manner.
+ */
+export interface WhenUserSaysBlock extends Block {
+    type: "WhenUserSaysBlock";
+    sampleUtterances: string[];
+    then: Block;
+    otherwise?: Block;
+}
+
+/**
+ * AskSpeechBlock is a block to ask users a question and to keep microphone open.
+ */
 export interface AskSpeechBlock extends Block {
     type: "AskSpeechBlock";
     say: string;
     reprompt: string;
 }
+
+/**
+ * TellSpeechBlock is a block to tell users something and then close the microphone.
+ */
 export interface TellSpeechBlock extends Block {
     type: "TellSpeechBlock";
     say: string;
 }
+
+/**
+ * SetGlobalState block is used to set a state variable globally.
+ */
 export interface SetGlobalStateBlock extends Block {
     type: "SetGlobalStateBlock";
-    evaluate: (context: Context, event: Event) => { [name: string]: any };
+    evaluate: (context: DialogContext, event: Event) => { [name: string]: any };
 }
+
+/**
+ * RemoveGlobalStateBlock removes a state variable from the global state.
+ */
 export interface RemoveGlobalStateBlock extends Block {
     type: "RemoveGlobalStateBlock";
-    evaluate: (context: Context, event: Event) => { [name: string]: any };
+    evaluate: (context: DialogContext, event: Event) => { [name: string]: any };
 }
+
+/**
+ * GotoStateBlock transitions to the specified state name.
+ */
 export interface GotoStateBlock extends Block {
     type: "GotoStateBlock";
     name: string;
-}
-
-export interface WhenUserSaysBlock extends Block {
-    type: "WhenUserSaysBlock";
-    generatedIntentName: string;
-    sampleUtterances: string[];
-    then: Block;
-    otherwise?: Block;
 }
 
 /**********************************************************
@@ -141,27 +183,15 @@ export function state(name: string) {
 }
 
 /**
- * Available prebuilt blocks
+ * Available prebuilt core blocks
  */
-export namespace blocks {
+export namespace core {
     export function compound() {
         return new CompoundBlockBuilder();
     }
 
     export function when() {
         return new WhenBlockBuilder();
-    }
-
-    export function whenUserSays() {
-        return new WhenUserSaysBlockBuilder();
-    }
-
-    export function ask() {
-        return new AskSpeechBlockBuilder();
-    }
-
-    export function say(msg: string) {
-        return new TellSpeechBlockBuilder(msg);
     }
 
     export function setStateVar() {
@@ -174,10 +204,6 @@ export namespace blocks {
 
     export function goto() {
         return new GotoStateBlockBuilder();
-    }
-
-    export function info(locale: Locale) {
-        return new SkillInfoBlockBuilder(locale);
     }
 
     export function rawResource(path: string, content: string) {

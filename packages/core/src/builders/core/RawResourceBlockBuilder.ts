@@ -1,4 +1,4 @@
-import { BuilderContext, Context, Event, RawResourceBlock, SkillInfoBlock, TellSpeechBlock } from "../../models";
+import { BuilderContext, DialogContext, Event, RawResourceBlock, SkillInfoBlock, TellSpeechBlock } from "../../models";
 import { ResponseFactory } from "ask-sdk-core";
 import { interpolateString } from "../../util/StringUtils";
 import { Locale, LocalizedSkillInfo } from "../../skill/Artifacts";
@@ -17,7 +17,7 @@ export class RawResourceBlockBuilder {
             type: "RawResourceBlock",
             path: this._path,
             resourceContent: this._resourceContent,
-            execute: (context: Context, event: Event) => {},
+            execute: (context: DialogContext, event: Event) => {},
             build: this._builder,
         };
     }

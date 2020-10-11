@@ -1,4 +1,4 @@
-import { BuilderContext, Context, Event, GotoStateBlock, State } from "../../models";
+import { BuilderContext, DialogContext, Event, GotoStateBlock, State } from "../../models";
 
 export class GotoStateBlockBuilder {
     private _name: string;
@@ -20,7 +20,7 @@ export class GotoStateBlockBuilder {
         };
     }
 
-    private _executor = (context: Context, event: Event) => {
+    private _executor = (context: DialogContext, event: Event) => {
         console.log("Setting next state = " + this._name);
         context.platformState.currentStateName = this._name;
     };

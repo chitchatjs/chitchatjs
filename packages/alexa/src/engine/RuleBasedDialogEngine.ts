@@ -1,14 +1,19 @@
-import { Context, Conversation, Event, DialogEngine, PlatformState } from "@chitchatjs/core";
+import { DialogContext, Conversation, Event, DialogEngine, PlatformState } from "@chitchatjs/core";
 import { AttributesManagerFactory, ResponseFactory } from "ask-sdk-core";
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
 
 const INITIAL_STATE_NAME: string = "INIT";
+const PLATFORM_STATE_NAME: string = "platformState";
 
-export class DefaultDialogEngine implements DialogEngine {
+/**
+ * A rule based dialog engine that executes the conversation states based on the
+ * specified conditions and transitions.
+ */
+export class RuleBasedDialogEngine implements DialogEngine {
     constructor() {}
 
     execute(conv: Conversation, request: RequestEnvelope): ResponseEnvelope {
-        let context: Context = this.initContext(request);
+        let context: DialogContext = this.initContext(request);
 
         let event: Event = {
             currentRequest: request,
@@ -23,7 +28,7 @@ export class DefaultDialogEngine implements DialogEngine {
         return context.currentResponse;
     }
 
-    private initContext(request: RequestEnvelope): Context {
+    private initContext(request: RequestEnvelope): DialogContext {
         let platformState = this.getPlatformState(request);
         if (!platformState || typeof platformState !== "object") {
             platformState = <PlatformState>{
@@ -47,16 +52,16 @@ export class DefaultDialogEngine implements DialogEngine {
         };
     }
 
-    private updateContext(context: Context): Context {
+    private updateContext(context: DialogContext): DialogContext {
         if (context.currentResponse.sessionAttributes === undefined) {
             context.currentResponse.sessionAttributes = {};
         }
-        context.currentResponse.sessionAttributes["platformState"] = context.platformState;
+        context.currentResponse.sessionAttributes[PLATFORM_STATE_NAME] = context.platformState;
 
         return context;
     }
 
     private getPlatformState(request: RequestEnvelope): PlatformState {
-        return AttributesManagerFactory.init({ requestEnvelope: request }).getSessionAttributes()["platformState"];
+        return AttributesManagerFactory.init({ requestEnvelope: request }).getSessionAttributes()[PLATFORM_STATE_NAME];
     }
 }

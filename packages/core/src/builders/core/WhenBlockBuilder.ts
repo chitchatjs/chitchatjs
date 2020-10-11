@@ -1,23 +1,19 @@
-import { Block, Event, Context, WhenBlock, BuilderContext } from "../../models";
-import { WhenUserSaysBlockBuilder } from "./WhenUserSaysBuilder";
+import { Block, Event, DialogContext, WhenBlock, BuilderContext } from "../../models";
+// import { WhenUserSaysBlockBuilder } from "./WhenUserSaysBuilder";
 
 export class WhenBlockBuilder {
-    private _condition: (context: Context, event: Event) => boolean;
+    private _condition: (context: DialogContext, event: Event) => boolean;
     private _thenBlock?: Block;
     private _otherwiseBlock?: Block;
 
     constructor() {
         // default condition just to keep typescript happy
-        this._condition = (context: Context, event: Event): boolean => {
+        this._condition = (context: DialogContext, event: Event): boolean => {
             return true;
         };
     }
 
-    userSays(sampleUtterances: string[]) {
-        return new WhenUserSaysBlockBuilder().userSays(sampleUtterances);
-    }
-
-    true(f: (context: Context, event: Event) => boolean) {
+    true(f: (context: DialogContext, event: Event) => boolean) {
         this._condition = f;
         return this;
     }
@@ -51,7 +47,7 @@ export class WhenBlockBuilder {
         };
     }
 
-    private _executor = (context: Context, event: Event) => {
+    private _executor = (context: DialogContext, event: Event) => {
         if (this._condition(context, event) === true) {
             this._thenBlock?.execute && this._thenBlock?.execute(context, event);
         } else {

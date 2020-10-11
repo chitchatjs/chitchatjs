@@ -1,16 +1,16 @@
-import { BuilderContext, Context, Event, RemoveGlobalStateBlock } from "../../models";
+import { BuilderContext, DialogContext, Event, RemoveGlobalStateBlock } from "../../models";
 
 export class RemoveGlobalStateBlockBuilder {
-    private _evaluate: (context: Context, event: Event) => string[];
+    private _evaluate: (context: DialogContext, event: Event) => string[];
 
     constructor() {
         // default impl
-        this._evaluate = (context: Context, event: Event) => {
+        this._evaluate = (context: DialogContext, event: Event) => {
             return [];
         };
     }
 
-    remove(f: (context: Context, event: Event) => string[]) {
+    remove(f: (context: DialogContext, event: Event) => string[]) {
         this._evaluate = f;
         return this;
     }
@@ -33,7 +33,7 @@ export class RemoveGlobalStateBlockBuilder {
      * @param context
      * @param event
      */
-    private _executor = (context: Context, event: Event) => {
+    private _executor = (context: DialogContext, event: Event) => {
         let varNames = this._evaluate(context, event);
         varNames.forEach((varName: string) => {
             delete context.platformState.globalState[varName];

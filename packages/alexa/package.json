@@ -34,10 +34,13 @@
         "@chitchatjs/core": "^0.0.10",
         "ask-sdk-core": "^2.9.0",
         "ask-sdk-model": "^1.33.0",
-        "xstate": "^4.13.0"
+        "mustache": "^4.0.1"
     },
     "publishConfig": {
         "access": "public"
     },
-    "gitHead": "aa29ad45de731606062e7c8db65248674b120f09"
+    "gitHead": "5bb7a18691ca3ee780e8512f98eb24251914c2a4",
+    "devDependencies": {
+        "@types/mustache": "^4.0.1"
+    }
 }

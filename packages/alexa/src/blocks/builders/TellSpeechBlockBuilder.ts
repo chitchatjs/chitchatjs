@@ -1,7 +1,10 @@
-import { BuilderContext, Context, Event, TellSpeechBlock } from "../../models";
+import { BuilderContext, DialogContext, Event, TellSpeechBlock } from "@chitchatjs/core";
 import { ResponseFactory } from "ask-sdk-core";
 import { interpolateString } from "../../util/StringUtils";
 
+/**
+ * Alexa platform implementation of TellSpeechBlock
+ */
 export class TellSpeechBlockBuilder {
     private _say: string;
 
@@ -18,7 +21,7 @@ export class TellSpeechBlockBuilder {
         };
     }
 
-    private _executor = (context: Context, event: Event): void => {
+    private _executor = (context: DialogContext, event: Event): void => {
         let responseBuilder = ResponseFactory.init();
         responseBuilder.speak(interpolateString(this._say, context.platformState.globalState));
         context.currentResponse.response = Object.assign(

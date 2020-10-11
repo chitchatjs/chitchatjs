@@ -1,9 +1,11 @@
 import { IntentRequest } from "ask-sdk-model";
-import { Block, Event, Context, WhenBlock, WhenUserSaysBlock, BuilderContext } from "../../models";
-import { WhenBlockBuilder } from "./WhenBlockBuilder";
+import { Block, Event, DialogContext, WhenBlock, WhenUserSaysBlock, BuilderContext } from "@chitchatjs/core";
 import { v1 } from "ask-smapi-model";
 import { extractVariables, slotToSlotTypeMapping } from "../../util/StringUtils";
 
+/**
+ * WhenUserSaysBlock implementation for Alexa
+ */
 export class WhenUserSaysBlockBuilder {
     private _sampleUtterances: string[];
     private _thenBlock?: Block;
@@ -42,7 +44,6 @@ export class WhenUserSaysBlockBuilder {
             then: this._thenBlock,
             otherwise: this._otherwiseBlock,
             execute: this._executor,
-            generatedIntentName: this._generateIntentName(this._sampleUtterances),
             sampleUtterances: this._sampleUtterances,
             build: this._builder,
         };
@@ -57,7 +58,7 @@ export class WhenUserSaysBlockBuilder {
         return (<IntentRequest>event.currentRequest.request).intent.name === intentName;
     };
 
-    private _executor = (context: Context, event: Event) => {
+    private _executor = (context: DialogContext, event: Event) => {
         let intentName = this._generateIntentName(this._sampleUtterances);
 
         if (this._isIntentMatching(event, intentName) === true) {
