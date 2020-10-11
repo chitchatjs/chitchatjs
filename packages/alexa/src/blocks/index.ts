@@ -105,7 +105,7 @@ export namespace alexa {
         return alexa
             .when()
             .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
-                return false;
+                return event.currentRequest.request.type == "SessionEndedRequest";
             })
             .then(empty())
             .build();
