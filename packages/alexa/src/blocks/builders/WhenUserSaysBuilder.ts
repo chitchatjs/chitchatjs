@@ -86,7 +86,16 @@ export class WhenUserSaysBlockBuilder {
         };
 
         // TODO need to figure out the locale story
-        context.package.interactionModels["en-US"].interactionModel?.languageModel?.intents?.push(intent);
+        let im: v1.skill.interactionModel.InteractionModelData = JSON.parse(
+            context.resources.resourceMap["/interactionModels/custom/en-US.json"]
+        );
+
+        im.interactionModel?.languageModel?.intents?.push(intent);
+
+        context.resources.resourceMap["/interactionModels/custom/en-US.json"] = JSON.stringify(im);
+
+        // context.package.interactionModels["en-US"];
+        //.interactionModel?.languageModel?.intents?.push(intent);
     };
 
     private _buildSlot(slotName: string): v1.skill.interactionModel.SlotDefinition {

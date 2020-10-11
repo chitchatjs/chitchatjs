@@ -1,4 +1,4 @@
-import { AlexaSkill } from "@chitchatjs/alexa";
+import { AlexaBuilderContext, AlexaSkill } from "@chitchatjs/alexa";
 import { v1 } from "ask-smapi-model";
 import { BuilderContext } from "@chitchatjs/core";
 // import { Interaction } from "@chitchatjs/core";
@@ -14,7 +14,8 @@ import { FileWriter } from "./FileWriter";
 import * as path from "path";
 import * as shell from "shelljs";
 import fse from "fs-extra";
-import { InteractionModel, Locale, SkillManifestEnvelope } from "@chitchatjs/core/dist/skill/Artifacts";
+import {} from "@chitchatjs/alexa";
+import { InteractionModel, SkillManifestEnvelope } from "@chitchatjs/alexa/dist/models/artifacts";
 
 // TODO - look into validations
 // https://www.npmjs.com/package/typescript-json-validator
@@ -27,19 +28,11 @@ export class SkillBuilder {
     /**
      * Builds the skill into its original artifacts
      * @param skill AlexaSkill
+     * @param buildConfig BuildConfig
      */
-    buildOld(skill: AlexaSkill, buildConfig: BuildConfig): void {
-        // bootstrap the project first
-        new ProjectBootstrapper().bootstrapProject(buildConfig);
-
-        let resBuilder = new ResourceBuilder();
-        // let im = resBuilder.buildInteractionModel(skill);
-        // let manifest = resBuilder.buildSkillManifest(skill);
-    }
-
     build(skill: AlexaSkill, buildConfig: BuildConfig) {
-        let states = skill.conversation.states;
-        let builderContext: BuilderContext = this.initBuilderContext();
+        let states = skill.definition.states;
+        let builderContext: AlexaBuilderContext = this.initBuilderContext();
 
         Object.keys(states).forEach((stateName: string) => {
             states[stateName].block.build(builderContext);
@@ -49,39 +42,41 @@ export class SkillBuilder {
     }
 
     writeContentOnDisk(builderContext: BuilderContext, buildConfig: BuildConfig) {
+        console.log("Updated Builder Context after builders: " + JSON.stringify(builderContext, null, 2));
         let fw = new FileWriter();
 
         let outDir = buildConfig.outDir;
         let currDir = process.cwd();
 
-        // WRITE INTERACTION MODELS
-        let imPath = path.join(currDir, outDir, "/skill-package/interactionModels/custom/en-US.json");
-        logger.info(`Writing ${imPath}`);
-        fse.ensureFileSync(imPath);
-        fw.write(imPath, builderContext.package.interactionModels["en-US"]);
+        let skillPackageRoot = path.join(currDir, outDir, "/skill-package");
 
-        // WRITE MANIFEST
-        let manifestPath = path.join(currDir, outDir, "/skill-package/skill.json");
-        // Only copy if it's not existing already,
-        // because ask-cli puts the end point information in it
-        // after the deployment.
-        // Need to figure out a plan for it.
-        // TODO - optimize merge such that devs can overwrite their endpoint if they want to?
-        // Object.assign(manifestOnDisk, inMemoryManifest)
-        if (!fw.existsSync(manifestPath)) {
-            logger.info(`Writing ${manifestPath}`);
-            fw.write(manifestPath, builderContext.package.manifest);
-        } else {
-            let manifestOnDisk: SkillManifestEnvelope = JSON.parse(fw.read(manifestPath));
+        let resourceMap = builderContext.resources.resourceMap;
 
-            // Keep the endpoint when writing to an existing manifest file.
-            let endpoint = manifestOnDisk.manifest?.apis?.custom?.endpoint;
-            if (manifestOnDisk.manifest?.apis?.custom !== undefined)
-                manifestOnDisk.manifest.apis.custom.endpoint = endpoint;
+        Object.keys(resourceMap).forEach((p: string) => {
+            let resourcePath = path.join(skillPackageRoot, p);
 
-            fw.write(manifestPath, manifestOnDisk);
-            logger.info(`Merged manifest as it already exist.`);
-        }
+            if (p === "/skill.json") {
+                // if manifest, perform selective merge
+                if (!fw.existsSync(resourcePath)) {
+                    logger.info(`Writing ${resourcePath}`);
+                    fw.write(resourcePath, JSON.parse(resourceMap[p]));
+                } else {
+                    let manifestOnDisk: SkillManifestEnvelope = JSON.parse(fw.read(resourcePath));
+
+                    // Keep the endpoint when writing to an existing manifest file.
+                    let endpoint = manifestOnDisk.manifest?.apis?.custom?.endpoint;
+                    if (manifestOnDisk.manifest?.apis?.custom !== undefined)
+                        manifestOnDisk.manifest.apis.custom.endpoint = endpoint;
+
+                    fw.write(resourcePath, manifestOnDisk);
+                    logger.info(`Merged manifest as it already exists.`);
+                }
+            } else {
+                // otherwise, simply copy the content.
+                fse.ensureFileSync(resourcePath);
+                fw.write(resourcePath, JSON.parse(resourceMap[p]));
+            }
+        });
 
         // WRITE LAMBDA FUNCTION
         let lambdaPath = path.join(currDir, outDir, "/lambda");
@@ -91,7 +86,7 @@ export class SkillBuilder {
         logger.success("Done building.");
     }
 
-    initBuilderContext(): BuilderContext {
+    initBuilderContext(): AlexaBuilderContext {
         /**
          * Interaction Model stuff
          */
@@ -123,10 +118,6 @@ export class SkillBuilder {
         let interactionModels: { [name: string]: InteractionModel } = {
             "en-US": im,
         };
-        // for (const l in Locale) {
-        // const locale: Locale = Locale[l as keyof typeof Locale];
-        // interactionModels[l] = im;
-        // }
 
         /**
          * Skill manifest stuff
@@ -154,12 +145,16 @@ export class SkillBuilder {
             },
         };
 
-        let builderContext: BuilderContext = {
-            package: {
-                manifest: skillManifest,
-                interactionModels: interactionModels,
+        let builderContext: AlexaBuilderContext = {
+            resources: {
+                resourceMap: {
+                    "/skill.json": JSON.stringify(skillManifest),
+                    "/interactionModels/custom/en-US.json": JSON.stringify(interactionModels["en-US"]),
+                },
             },
         };
+
+        console.log("BuilderContext ready: " + JSON.stringify(builderContext, null, 2));
         return builderContext;
     }
 }

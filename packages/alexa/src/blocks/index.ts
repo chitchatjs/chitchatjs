@@ -13,7 +13,7 @@ import {
     RawResourceBlockBuilder,
 } from "@chitchatjs/core";
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SkillDefinition } from "../models";
-import { Locale } from "../models/artifacts";
+import { Locale } from "../models";
 import { AlexaDialogManager } from "..";
 import { AlexaSkill } from "../AlexaSkill";
 import { RuleBasedDialogEngine } from "../engine";

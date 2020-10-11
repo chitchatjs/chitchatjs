@@ -1,11 +1,10 @@
 import { getWeatherIntent, launchRequest, givemeweatIntent } from "./data/requests";
 import { IntentRequest, RequestEnvelope } from "ask-sdk-model";
 import { alexa as ax } from "../blocks";
-import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent } from "../models";
+import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
 import { RuleBasedDialogEngine } from "../engine";
 import { AlexaSkill } from "../AlexaSkill";
 import { AlexaDialogManager } from "..";
-import { Locale } from "../models/artifacts";
 import { defaultMaxListeners } from "stream";
 
 // console.log("----------------------------------------------");

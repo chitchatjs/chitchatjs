@@ -1,5 +1,5 @@
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SkillInfoBlock } from "../../models";
-import { Locale, LocalizedSkillInfo } from "../../models/artifacts";
+import { Locale, LocalizedSkillInfo, SkillManifestEnvelope } from "../../models";
 
 /**
  * Generates localized Skill Info in the Skill Manifest file.
@@ -29,13 +29,17 @@ export class SkillInfoBlockBuilder {
     }
 
     private _builder = (context: AlexaBuilderContext): void => {
-        let locales = context.package.manifest.manifest?.publishingInformation?.locales;
+        let skillManifestEnvelope: SkillManifestEnvelope = JSON.parse(context.resources.resourceMap["/skill.json"]);
+
+        let locales = skillManifestEnvelope.manifest?.publishingInformation?.locales;
         let updatedObj: any = {};
         updatedObj[this._locale] = <LocalizedSkillInfo>{
             name: this._name,
         };
 
-        if (context?.package?.manifest?.manifest?.publishingInformation?.locales !== undefined)
-            context.package.manifest.manifest.publishingInformation.locales = Object.assign(locales, updatedObj);
+        if (skillManifestEnvelope.manifest?.publishingInformation?.locales !== undefined)
+            skillManifestEnvelope.manifest.publishingInformation.locales = Object.assign(locales, updatedObj);
+
+        context.resources.resourceMap["/skill.json"] = JSON.stringify(skillManifestEnvelope);
     };
 }

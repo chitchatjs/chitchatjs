@@ -35,7 +35,7 @@ export class AlexaDialogManager {
             let event: AlexaEvent = {
                 currentRequest: handlerInput.requestEnvelope,
             };
-            let resEnvelope = this.dialogEngine.execute(this.alexaSkill.skillDefinition, event);
+            let resEnvelope = this.dialogEngine.execute(this.alexaSkill.definition, event);
             handlerInput.attributesManager.setSessionAttributes(resEnvelope.sessionAttributes || {});
             return resEnvelope.response;
         },
