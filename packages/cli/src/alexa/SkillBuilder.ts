@@ -63,10 +63,25 @@ export class SkillBuilder {
 
                     // Keep the endpoint when writing to an existing manifest file.
                     let endpoint = manifestOnDisk.manifest?.apis?.custom?.endpoint;
-                    if (manifestOnDisk.manifest?.apis?.custom !== undefined)
-                        manifestOnDisk.manifest.apis.custom.endpoint = endpoint;
+                    let resourceMapManifest: SkillManifestEnvelope = JSON.parse(resourceMap[p]) || {};
+                    // if endpoint on disk manifest is present
+                    if (endpoint !== undefined) {
+                        if (
+                            resourceMapManifest.manifest &&
+                            resourceMapManifest.manifest.apis &&
+                            resourceMapManifest.manifest.apis.custom
+                        ) {
+                            if (
+                                !resourceMapManifest.manifest.apis.custom.endpoint ||
+                                resourceMapManifest.manifest.apis.custom.endpoint === ""
+                            ) {
+                                // update end point in the resource manifest only if user didn't supply it themselves
+                                resourceMapManifest.manifest.apis.custom.endpoint = endpoint;
+                            }
+                        }
+                    }
 
-                    fw.write(resourcePath, manifestOnDisk);
+                    fw.write(resourcePath, resourceMapManifest);
                     logger.info(`Merged manifest as it already exists.`);
                 }
             } else {
