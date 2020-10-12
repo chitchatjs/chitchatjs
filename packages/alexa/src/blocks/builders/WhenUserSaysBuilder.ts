@@ -1,8 +1,10 @@
 import { IntentRequest } from "ask-sdk-model";
 import { WhenUserSaysBlock } from "@chitchatjs/core";
 import { v1 } from "ask-smapi-model";
-import { extractVariables, slotToSlotTypeMapping } from "../../util/StringUtils";
+import { extractVariables, getSlotTypeFromSlotName } from "../../util/StringUtils";
 import { AlexaBlock, AlexaBuilderContext, AlexaDialogContext, AlexaEvent } from "../../models";
+
+type TypeMapping = { [name: string]: string };
 
 /**
  * WhenUserSaysBlock implementation for Alexa
@@ -11,13 +13,22 @@ export class WhenUserSaysBlockBuilder {
     private _sampleUtterances: string[];
     private _thenBlock?: AlexaBlock;
     private _otherwiseBlock?: AlexaBlock;
+    private _typeMapping?: TypeMapping;
 
     constructor() {
         this._sampleUtterances = [];
+        this._typeMapping = {};
     }
 
     userSays(sampleUtterances: string[]) {
         this._sampleUtterances = sampleUtterances;
+        return this;
+    }
+
+    withSlotType(slotName: string, slotType: string) {
+        if (this._typeMapping) {
+            this._typeMapping[slotName] = slotType;
+        }
         return this;
     }
 
@@ -76,8 +87,9 @@ export class WhenUserSaysBlockBuilder {
     private _builder = (context: AlexaBuilderContext) => {
         let vars: string[] = [];
         this._sampleUtterances.forEach((utt: string) => {
-            vars.push(...extractVariables(utt));
+            vars.push(...new Set(extractVariables(utt)));
         });
+        vars = [...new Set(vars)];
 
         let slots = vars.map((v: string) => {
             return this._buildSlot(v);
@@ -96,18 +108,47 @@ export class WhenUserSaysBlockBuilder {
 
         im.interactionModel?.languageModel?.intents?.push(intent);
 
-        context.resources.resourceMap["/interactionModels/custom/en-US.json"] = JSON.stringify(im);
+        let proposedSlotTypeNames = slots.map((s) => {
+            return s.type;
+        });
 
-        // context.package.interactionModels["en-US"];
-        //.interactionModel?.languageModel?.intents?.push(intent);
+        let existingSlotTypeNames = im.interactionModel?.languageModel?.types?.map((t) => {
+            return t.name;
+        });
+        existingSlotTypeNames = existingSlotTypeNames || [];
+
+        let allSlotTypeNames = [...new Set([...proposedSlotTypeNames, ...existingSlotTypeNames])];
+
+        allSlotTypeNames.forEach((t) => {
+            if (!existingSlotTypeNames?.includes(t)) {
+                im.interactionModel?.languageModel?.types?.push({
+                    name: t,
+                    values: [],
+                });
+            }
+        });
+
+        context.resources.resourceMap["/interactionModels/custom/en-US.json"] = JSON.stringify(im);
     };
 
     private _buildSlot(slotName: string): v1.skill.interactionModel.SlotDefinition {
-        let slotType = slotToSlotTypeMapping(slotName);
-        return {
-            name: slotName,
-            samples: [],
-            type: slotType,
-        };
+        let slot: { name: string; type: string } | undefined = getSlotTypeFromSlotName(slotName);
+
+        if (slot) {
+            return {
+                name: slot.name,
+                samples: [],
+                type: slot.type,
+            };
+        } else if (this._typeMapping && this._typeMapping[slotName]) {
+            // check the with operator
+            return {
+                name: slotName,
+                samples: [],
+                type: this._typeMapping[slotName],
+            };
+        } else {
+            throw new Error(`Type mapping is missing for slot "${slotName}", try using .withTypes()`);
+        }
     }
 }
