@@ -7,11 +7,11 @@ import { AlexaDialogEngine, AlexaEvent } from "./models";
  * and returns the
  */
 export class AlexaDialogManager {
-    alexaSkill: AlexaSkill;
+    skill: AlexaSkill;
     dialogEngine: AlexaDialogEngine;
 
-    constructor(alexaSkill: AlexaSkill, dialogEngine: AlexaDialogEngine) {
-        this.alexaSkill = alexaSkill;
+    constructor(skill: AlexaSkill, dialogEngine: AlexaDialogEngine) {
+        this.skill = skill;
         this.dialogEngine = dialogEngine;
     }
 
@@ -20,6 +20,16 @@ export class AlexaDialogManager {
      */
     handler(): Alexa.LambdaHandler {
         return Alexa.SkillBuilders.custom().addRequestHandlers(this.executor).addErrorHandlers().lambda();
+    }
+
+    /**
+     * Handy exports for your skill's index.js file
+     */
+    exports(): { default: AlexaSkill; handler: Alexa.LambdaHandler } {
+        return {
+            default: this.skill,
+            handler: this.handler(),
+        };
     }
 
     /**
@@ -35,7 +45,7 @@ export class AlexaDialogManager {
             let event: AlexaEvent = {
                 currentRequest: handlerInput.requestEnvelope,
             };
-            let resEnvelope = this.dialogEngine.execute(this.alexaSkill.definition, event);
+            let resEnvelope = this.dialogEngine.execute(this.skill.definition, event);
             handlerInput.attributesManager.setSessionAttributes(resEnvelope.sessionAttributes || {});
             return resEnvelope.response;
         },

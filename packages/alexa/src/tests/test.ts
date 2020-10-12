@@ -1,6 +1,6 @@
 import { getWeatherIntent, launchRequest, givemeweatIntent, sessionEndedRequest } from "./data/requests";
 import { IntentRequest, RequestEnvelope } from "ask-sdk-model";
-import { alexa as ax } from "../blocks";
+import { alexa, alexa as ax } from "../blocks";
 import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
 import { RuleBasedDialogEngine } from "../engine";
 import { AlexaSkill } from "../AlexaSkill";
