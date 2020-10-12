@@ -120,7 +120,7 @@ export class WhenUserSaysBlockBuilder {
         let allSlotTypeNames = [...new Set([...proposedSlotTypeNames, ...existingSlotTypeNames])];
 
         allSlotTypeNames.forEach((t) => {
-            if (!existingSlotTypeNames?.includes(t)) {
+            if (!existingSlotTypeNames?.includes(t) && t?.startsWith("AMAZON.") === false) {
                 im.interactionModel?.languageModel?.types?.push({
                     name: t,
                     values: [],
