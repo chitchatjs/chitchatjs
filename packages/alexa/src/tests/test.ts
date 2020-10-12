@@ -1,11 +1,12 @@
 import { getWeatherIntent, launchRequest, givemeweatIntent, sessionEndedRequest } from "./data/requests";
 import { IntentRequest, RequestEnvelope } from "ask-sdk-model";
 import { alexa, alexa as ax } from "../blocks";
-import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
+import { AlexaBuilderContext, AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
 import { RuleBasedDialogEngine } from "../engine";
 import { AlexaSkill } from "../AlexaSkill";
 import { AlexaDialogManager } from "..";
 import { defaultMaxListeners } from "stream";
+import { ResponseFactory } from "ask-sdk-core";
 
 // console.log("----------------------------------------------");
 // console.log("----------------Test 1------------------------");
@@ -135,6 +136,16 @@ let weatherState = ax
         ax
             .compound()
             .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice")).build())
+            .add(
+                ax
+                    .custom()
+                    .executor((c: AlexaDialogContext, e: AlexaEvent) => {
+                        let res = ResponseFactory.init();
+                        res.speak("I'm speaking this from a custom block.");
+                        return res.getResponse();
+                    })
+                    .build()
+            )
             .add(ax.end())
             .build()
     )
@@ -149,12 +160,12 @@ let dm = ax.dialogManager(skillDefinition);
 executeDM(dm, launchRequest, (res) => {
     console.log(res);
     console.log("----------------------------------------------");
-    // executeDM(dm, givemeweatIntent, (res) => {
-    //     console.log(res);
-    // });
-    executeDM(dm, sessionEndedRequest, (res) => {
+    executeDM(dm, givemeweatIntent, (res) => {
         console.log(res);
     });
+    // executeDM(dm, sessionEndedRequest, (res) => {
+    //     console.log(res);
+    // });
 
     console.log("----------------------------------------------");
 });

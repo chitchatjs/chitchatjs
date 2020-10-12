@@ -18,6 +18,7 @@ import { AlexaDialogManager } from "..";
 import { AlexaSkill } from "../AlexaSkill";
 import { RuleBasedDialogEngine } from "../engine";
 import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
+import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
 
 export namespace alexa {
     export function dialogManager(skillDefinition: SkillDefinition) {
@@ -128,7 +129,7 @@ export namespace alexa {
         return new SkillInfoBlockBuilder(locale);
     }
 
-    export function rawResource(key: string, content: string) {
-        return new RawResourceBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>(key, content).build();
+    export function custom() {
+        return new CustomBlockBuilder();
     }
 }

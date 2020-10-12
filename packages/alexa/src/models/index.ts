@@ -6,6 +6,7 @@ import {
     DialogEngine,
     AskSpeechBlock,
     Block,
+    Resources,
 } from "@chitchatjs/core";
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
 
@@ -49,4 +50,8 @@ export interface SkillInfoBlock extends AlexaBlock {
 
 export interface EmptyBlock extends AlexaBlock {
     type: "EmptyBlock";
+}
+
+export interface CustomBlock extends AlexaBlock {
+    type: "CustomBlock";
 }
