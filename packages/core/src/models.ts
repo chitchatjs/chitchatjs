@@ -5,11 +5,11 @@ import { ResponseEnvelope } from "ask-sdk-model";
  ************************************************************/
 
 /**
- * A AgentDefinition is a collections of State objects and how they interact with each other.
+ * A Agent is a collections of State objects and how they interact with each other.
  * It also defines how a dialog manager will generate resource artifacts during build process.
  */
-export interface AgentDefinition<B extends BuilderContext, D extends DialogContext, E extends Event> {
-    type: "AgentDefinition";
+export interface Agent<B extends BuilderContext, D extends DialogContext, E extends Event> {
+    type: "Agent";
     states: { [name: string]: State<B, D, E> };
 }
 
@@ -161,5 +161,5 @@ export interface RawResourceBlock<B extends BuilderContext, D extends DialogCont
  * Dialog Engine interface
  */
 export interface DialogEngine<B extends BuilderContext, D extends DialogContext, E extends Event> {
-    execute(conversation: AgentDefinition<B, D, E>, event: E): ResponseEnvelope;
+    execute(agent: Agent<B, D, E>, event: E): ResponseEnvelope;
 }

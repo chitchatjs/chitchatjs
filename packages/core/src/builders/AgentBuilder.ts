@@ -1,6 +1,6 @@
-import { BuilderContext, AgentDefinition, DialogContext, State, Event } from "../models";
+import { BuilderContext, Agent, DialogContext, State, Event } from "../models";
 
-export class AgentDefinitionBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export class AgentBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
     private _states: { [name: string]: State<B, D, E> };
 
     constructor() {
@@ -12,9 +12,9 @@ export class AgentDefinitionBuilder<B extends BuilderContext, D extends DialogCo
         return this;
     }
 
-    build(): AgentDefinition<B, D, E> {
+    build(): Agent<B, D, E> {
         return {
-            type: "AgentDefinition",
+            type: "Agent",
             states: this._states,
         };
     }

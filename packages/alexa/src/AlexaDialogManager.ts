@@ -1,16 +1,14 @@
 import * as Alexa from "ask-sdk-core";
-import { AlexaSkill } from ".";
-import { AlexaDialogEngine, AlexaEvent } from "./models";
+import { AlexaDialogEngine, AlexaEvent, Skill } from "./models";
 
 /**
- * An Alexa Dialog Manager, that takes an input request and the dialogSet
- * and returns the
+ * An Alexa Dialog Manager
  */
 export class AlexaDialogManager {
-    skill: AlexaSkill;
+    skill: Skill;
     dialogEngine: AlexaDialogEngine;
 
-    constructor(skill: AlexaSkill, dialogEngine: AlexaDialogEngine) {
+    constructor(skill: Skill, dialogEngine: AlexaDialogEngine) {
         this.skill = skill;
         this.dialogEngine = dialogEngine;
     }
@@ -19,13 +17,13 @@ export class AlexaDialogManager {
      * Returns an Alexa Handler
      */
     handler(): Alexa.LambdaHandler {
-        return Alexa.SkillBuilders.custom().addRequestHandlers(this.executor).addErrorHandlers().lambda();
+        return Alexa.SkillBuilders.custom().addRequestHandlers(this._executor).addErrorHandlers().lambda();
     }
 
     /**
      * Handy exports for your skill's index.js file
      */
-    exports(): { default: AlexaSkill; handler: Alexa.LambdaHandler } {
+    exports(): { default: Skill; handler: Alexa.LambdaHandler } {
         return {
             default: this.skill,
             handler: this.handler(),
@@ -35,7 +33,7 @@ export class AlexaDialogManager {
     /**
      * Executor to handler the requests
      */
-    executor: Alexa.RequestHandler = {
+    private _executor: Alexa.RequestHandler = {
         canHandle: (handlerInput: Alexa.HandlerInput) => {
             return true;
         },
@@ -45,7 +43,7 @@ export class AlexaDialogManager {
             let event: AlexaEvent = {
                 currentRequest: handlerInput.requestEnvelope,
             };
-            let resEnvelope = this.dialogEngine.execute(this.skill.definition, event);
+            let resEnvelope = this.dialogEngine.execute(this.skill, event);
             handlerInput.attributesManager.setSessionAttributes(resEnvelope.sessionAttributes || {});
             return resEnvelope.response;
         },

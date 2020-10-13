@@ -1,3 +1,3 @@
 export * from "./core";
-export * from "./AgentDefinitionBuilder";
+export * from "./AgentBuilder";
 export * from "./StateBuilder";
