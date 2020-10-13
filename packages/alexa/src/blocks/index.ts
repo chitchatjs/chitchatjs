@@ -3,7 +3,7 @@ import { SkillInfoBlockBuilder } from "./builders/SkillInfoBlockBuilder";
 import { TellSpeechBlockBuilder } from "./builders/TellSpeechBlockBuilder";
 import { WhenUserSaysBlockBuilder } from "./builders/WhenUserSaysBuilder";
 import {
-    AgentDefinitionBuilder,
+    Agent,
     StateBuilder,
     CompoundBlockBuilder,
     WhenBlockBuilder,
@@ -11,22 +11,22 @@ import {
     RemoveGlobalStateBlockBuilder,
     GotoStateBlockBuilder,
     RawResourceBlockBuilder,
+    AgentBuilder,
 } from "@chitchatjs/core";
-import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SkillDefinition } from "../models";
+import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, Skill } from "../models";
 import { Locale } from "../models";
 import { AlexaDialogManager } from "..";
-import { AlexaSkill } from "../AlexaSkill";
 import { RuleBasedDialogEngine } from "../engine";
 import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
 import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
 
 export namespace alexa {
-    export function dialogManager(skillDefinition: SkillDefinition) {
-        return new AlexaDialogManager(new AlexaSkill(skillDefinition), new RuleBasedDialogEngine());
+    export function dialogManager(skill: Skill) {
+        return new AlexaDialogManager(skill, new RuleBasedDialogEngine());
     }
 
-    export function definition() {
-        return new AgentDefinitionBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
+    export function skill() {
+        return new AgentBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
     }
 
     export function start() {

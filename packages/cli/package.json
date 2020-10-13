@@ -29,8 +29,8 @@
         "url": "git+https://github.com/kevindra/chitchatjs.git"
     },
     "scripts": {
-        "build": "npm run clean && npm i && tsc",
-        "clean": "rm -rf ./dist ./node_modules",
+        "build": "npm run clean && tsc",
+        "clean": "rm -rf ./dist",
         "test": "npm run build && npx mocha ./dist/test --recursive --exit",
         "test:light": "tsc && npx mocha ./dist/test --recursive --exit"
     },

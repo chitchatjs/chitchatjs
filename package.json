@@ -4,7 +4,7 @@
     "description": "Monorepo for ChitchatJS.",
     "main": "index.js",
     "scripts": {
-        "build": "npx lerna run build",
+        "build": "npx lerna run build --scope={@chitchatjs/core,@chitchatjs/alexa,@chitchatjs/cli}",
         "build:watch": "npx lerna run build:watch",
         "publish": "npx lerna publish",
         "clean": "npx lerna run clean",

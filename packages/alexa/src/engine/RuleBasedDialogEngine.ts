@@ -1,7 +1,7 @@
 import { PlatformState } from "@chitchatjs/core";
 import { AttributesManagerFactory } from "ask-sdk-core";
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
-import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, SkillDefinition } from "../models";
+import { AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Skill } from "../models";
 
 const INITIAL_STATE_NAME: string = "INIT";
 const PLATFORM_STATE_NAME: string = "platformState";
@@ -13,11 +13,11 @@ const PLATFORM_STATE_NAME: string = "platformState";
 export class RuleBasedDialogEngine implements AlexaDialogEngine {
     constructor() {}
 
-    execute(skillDefinition: SkillDefinition, event: AlexaEvent): ResponseEnvelope {
+    execute(skill: Skill, event: AlexaEvent): ResponseEnvelope {
         let context: AlexaDialogContext = this.initContext(event.currentRequest);
 
         let currentStateName = context.platformState.currentStateName;
-        let currentStateBlock = skillDefinition.states[currentStateName].block;
+        let currentStateBlock = skill.states[currentStateName].block;
         currentStateBlock.execute && currentStateBlock.execute(context, event);
 
         context = this.updateContext(context);

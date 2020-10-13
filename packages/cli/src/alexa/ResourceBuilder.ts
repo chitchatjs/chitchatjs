@@ -1,4 +1,4 @@
-import { AlexaSkill } from "@chitchatjs/alexa";
+import { Skill } from "@chitchatjs/alexa";
 import { v1 } from "ask-smapi-model";
 // import {
 //     IntentTrigger,

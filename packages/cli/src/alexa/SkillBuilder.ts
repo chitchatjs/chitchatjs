@@ -1,4 +1,4 @@
-import { AlexaBuilderContext, AlexaSkill } from "@chitchatjs/alexa";
+import { AlexaBuilderContext, Skill } from "@chitchatjs/alexa";
 import { v1 } from "ask-smapi-model";
 import { BuilderContext } from "@chitchatjs/core";
 import { ErrorMessage, logger } from "../util/util";
@@ -24,8 +24,8 @@ export class SkillBuilder {
      * @param skill AlexaSkill
      * @param buildConfig BuildConfig
      */
-    build(skill: AlexaSkill, buildConfig: BuildConfig) {
-        let states = skill.definition.states;
+    build(skill: Skill, buildConfig: BuildConfig) {
+        let states = skill.states;
         // TODO Clean this up
         new ProjectBootstrapper().bootstrapProject(buildConfig);
         let builderContext: AlexaBuilderContext = this.initBuilderContext();

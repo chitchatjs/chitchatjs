@@ -3,7 +3,6 @@ import { IntentRequest, RequestEnvelope } from "ask-sdk-model";
 import { alexa, alexa as ax } from "../blocks";
 import { AlexaBuilderContext, AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
 import { RuleBasedDialogEngine } from "../engine";
-import { AlexaSkill } from "../AlexaSkill";
 import { AlexaDialogManager } from "..";
 import { defaultMaxListeners } from "stream";
 import { ResponseFactory } from "ask-sdk-core";
@@ -151,11 +150,11 @@ let weatherState = ax
     )
     .build();
 
-let skillDefinition = ax.definition().addState(launch).addState(weatherState).build();
-console.log(JSON.stringify(skillDefinition, null, 2));
+let skill = ax.skill().addState(launch).addState(weatherState).build();
+console.log(JSON.stringify(skill, null, 2));
 console.log("----------------------------------------------");
 
-let dm = ax.dialogManager(skillDefinition);
+let dm = ax.dialogManager(skill);
 
 executeDM(dm, launchRequest, (res) => {
     console.log(res);
