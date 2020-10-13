@@ -4,12 +4,14 @@
     "description": "Monorepo for ChitchatJS.",
     "main": "index.js",
     "scripts": {
+        "clean": "npx lerna run clean",
         "build": "npx lerna run build --scope={@chitchatjs/core,@chitchatjs/alexa,@chitchatjs/cli}",
         "build:watch": "npx lerna run build:watch",
-        "publish": "npx lerna publish",
-        "clean": "npx lerna run clean",
+        "commit": "cz",
+        "diff": "npx lerna diff",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "commit": "cz"
+        "new-version": "npx lerna version --conventional-commits --yes",
+        "publish": "npx lerna publish"
     },
     "repository": {
         "type": "git",
