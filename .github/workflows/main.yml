@@ -7,7 +7,7 @@ on:
             - main
 
 jobs:
-    publish:
+    master_branch:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

@@ -20,17 +20,17 @@ Check out `@chitchatjs/cli` for setup instructions.
 let sampleInteraction: cjs.Interaction = {
     user: {
         trigger: <cjs.UtteranceTrigger>{
-            texts: ["Hello, how are you"]
-        }
+            texts: ["Hello, how are you"],
+        },
     },
     system: {
         actions: [
             <cjs.TellSpeechAction>{
-                text: "I'm good, thank you!"
-            }
-        ]
-    }
-}
+                text: "I'm good, thank you!",
+            },
+        ],
+    },
+};
 
-export let dialog: cjs.Dialog = { interactions: [sampleInteraction] }
+export let dialog: cjs.Dialog = { interactions: [sampleInteraction] };
 ```

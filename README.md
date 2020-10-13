@@ -4,6 +4,10 @@
 
 ChitchatJS framework is used to create, manage, and deploy machine learning or rule based voice interfaces easily.
 
+[![Code Coverage][coverage-badge]][coverage-link]
+
+[coverage-link]: https://codecov.io/gh/chitchatjs/chitchatjs
+
 > WORK IN PROGRESS, STAY TUNED.
 
 ## Getting Started
@@ -40,7 +44,8 @@ $ cjs deploy
 $ cjs test
 ```
 
-----
+---
+
 ## Writing Bot
 
 ### Dialog Script
@@ -51,41 +56,43 @@ $ cjs test
 let sampleInteraction: cjs.Interaction = {
     user: {
         trigger: <cjs.UtteranceTrigger>{
-            texts: ["Hello, how are you"]
-        }
+            texts: ["Hello, how are you"],
+        },
     },
     system: {
         actions: [
             <cjs.TellSpeechAction>{
-                text: "I'm good, thank you!"
-            }
-        ]
-    }
-}
+                text: "I'm good, thank you!",
+            },
+        ],
+    },
+};
 
-export let dialog: cjs.Dialog = { interactions: [sampleInteraction] }
+export let dialog: cjs.Dialog = { interactions: [sampleInteraction] };
 ```
 
-----
+---
+
 ## Future Ideas
+
 Even more abstractions!
 
 ```typescript
 when()
     .userSays(["Hello, how are you"])
-.then()
+    .then()
     .actions()
-        .say("I'm good, thank you")
-.build()
+    .say("I'm good, thank you")
+    .build();
 ```
 
 ```typescript
 when()
     .launch()
-.then()
+    .then()
     .actions()
-        .ask()
-            .question("Welcome, ask me something!")
-            .reprompt("you can ask how am I")
-.build()
+    .ask()
+    .question("Welcome, ask me something!")
+    .reprompt("you can ask how am I")
+    .build();
 ```
