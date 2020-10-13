@@ -96,3 +96,6 @@ when()
     .reprompt("you can ask how am I")
     .build();
 ```
+
+[coverage-badge]: https://codecov.io/gh/chitchatjs/chitchatjs/branch/main/graph/badge.svg
+[coverage-link]: https://codecov.io/gh/chitchatjs/chitchatjs

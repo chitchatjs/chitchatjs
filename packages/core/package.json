@@ -24,7 +24,8 @@
         "build": "npm run clean && tsc",
         "clean": "rm -rf ./dist",
         "test": "mocha --require ts-node/register --watch-extensions ts 'test/**/*.ts'",
-        "testw": "npm test -- -w"
+        "testw": "npm test -- -w",
+        "coverage": "npx nyc npm run test"
     },
     "bugs": {
         "url": "https://github.com/kevindra/chitchatjs/issues"

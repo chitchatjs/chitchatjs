@@ -18,3 +18,5 @@ jobs:
             - run: cd packages/core && npm test
             - run: cd packages/alexa && npm install && cd -
             - run: cd packages/cli && npm install && cd -
+            - run: npm run coverage
+            - run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
