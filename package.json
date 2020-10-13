@@ -10,7 +10,8 @@
         "commit": "cz",
         "diff": "npx lerna diff",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "publish": "npx lerna publish"
+        "version": "npx lerna version --conventional-commits --yes",
+        "publish": "npx lerna run publish"
     },
     "repository": {
         "type": "git",

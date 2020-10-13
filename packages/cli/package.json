@@ -31,8 +31,7 @@
     "scripts": {
         "build": "npm run clean && tsc",
         "clean": "rm -rf ./dist",
-        "test": "npm run build && npx mocha ./dist/test --recursive --exit",
-        "test:light": "tsc && npx mocha ./dist/test --recursive --exit"
+        "test": "npm run build && npx mocha ./dist/test --recursive --exit"
     },
     "bugs": {
         "url": "https://github.com/kevindra/chitchatjs/issues"

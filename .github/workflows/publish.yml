@@ -19,16 +19,13 @@ jobs:
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package: ./packages/core/package.json
-                  dry-run: true
             - run: cd packages/alexa && npm install && cd -
             - uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package: ./packages/core/package.json
-                  dry-run: true
             - run: cd packages/cli && npm install && cd -
             - uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package: ./packages/core/package.json
-                  dry-run: true
