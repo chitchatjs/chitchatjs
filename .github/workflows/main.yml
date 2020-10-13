@@ -36,3 +36,5 @@ jobs:
                   package: ./packages/cli/package.json
               env:
                   INPUT_TOKEN: ""
+            - run: npm run coverage
+            - run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
