@@ -23,9 +23,9 @@ jobs:
             - uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
-                  package: ./packages/core/package.json
+                  package: ./packages/alexa/package.json
             - run: cd packages/cli && npm install && cd -
             - uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
-                  package: ./packages/core/package.json
+                  package: ./packages/cli/package.json
