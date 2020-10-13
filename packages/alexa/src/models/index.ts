@@ -20,16 +20,6 @@ export enum Locale {
     en_US = "en-US",
 }
 
-// export class Skill implements Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> {
-//     type: "Agent";
-//     states: {[name:string] : State<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>}
-
-//     constructor() {
-//         this.type = "Agent";
-//         this.states = {}
-//     }
-// }
-
 export interface AlexaDialogContext extends DialogContext {
     currentResponse: ResponseEnvelope;
 }
