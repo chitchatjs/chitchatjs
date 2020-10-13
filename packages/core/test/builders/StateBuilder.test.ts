@@ -1,23 +1,29 @@
 import { StateBuilder } from "../../src/builders/StateBuilder";
-import { BuilderContext, DialogContext, Event, State } from "../../src/models";
+import { Block, BuilderContext, DialogContext, Event, State } from "../../src/models";
 import { expect } from "chai";
 import "mocha";
+import { exec } from "child_process";
 
-const mockState: State<BuilderContext, DialogContext, Event> = {
-    type: "State",
-    name: "mock-state",
-    block: {
-        build: () => {},
-        execute: () => {},
-    },
+const stateName = "foo-state";
+const block: Block<BuilderContext, DialogContext, Event> = {
+    build: () => {},
+    execute: () => {},
 };
-
 describe("StateBuilder", () => {
+    it("should succeed if state name and block is provided", async () => {
+        let sb = new StateBuilder(stateName);
+        let state = await sb.block(block).build();
+
+        expect(state).is.not.null;
+        expect(state.name).is.equal(stateName);
+        expect(state.block).is.equal(block);
+    });
+
     describe(".block", () => {
         it("should throw validation error if block is missing", async () => {
             let err: Error = new Error();
             try {
-                let sb = new StateBuilder("foo-state");
+                let sb = new StateBuilder(stateName);
                 await sb.build();
             } catch (e) {
                 err = e;

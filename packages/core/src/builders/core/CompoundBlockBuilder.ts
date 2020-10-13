@@ -12,7 +12,7 @@ export class CompoundBlockBuilder<B extends BuilderContext, D extends DialogCont
         return this;
     }
 
-    build(): CompoundBlock<B, D, E> {
+    async build(): Promise<CompoundBlock<B, D, E>> {
         return {
             type: "CompoundBlock",
             blocks: this._blocks,
@@ -21,11 +21,11 @@ export class CompoundBlockBuilder<B extends BuilderContext, D extends DialogCont
         };
     }
 
-    private _executor = (context: D, event: E): void => {
+    private _executor = async (context: D, event: E): Promise<void> => {
         this._blocks.forEach((block: Block<B, D, E>) => block.execute(context, event));
     };
 
-    private _builder = (context: B): void => {
+    private _builder = async (context: B): Promise<void> => {
         this._blocks.forEach((block: Block<B, D, E>) => block.build(context));
     };
 }
