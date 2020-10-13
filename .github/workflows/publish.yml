@@ -26,8 +26,12 @@ jobs:
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package: ./packages/alexa/package.json
+              env:
+                  INPUT_TOKEN: ""
             - run: cd packages/cli && npm install && cd -
             - uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package: ./packages/cli/package.json
+              env:
+                  INPUT_TOKEN: ""
