@@ -2,7 +2,18 @@ import { IntentRequest } from "ask-sdk-model";
 import { WhenUserSaysBlock } from "@chitchatjs/core";
 import { v1 } from "ask-smapi-model";
 import { extractVariables, getSlotTypeFromSlotName } from "../../util/StringUtils";
-import { AlexaBlock, AlexaBuilderContext, AlexaDialogContext, AlexaEvent } from "../../models";
+import {
+    AlexaBlock,
+    AlexaBuilderContext,
+    AlexaDialogContext,
+    AlexaEvent,
+    DEFAULT_LOCALE,
+    Intent,
+    InteractionModel,
+    Locale,
+    Slot,
+} from "../../models";
+import { getDefaultInteractionModel, paths } from "../../util/ResourceUtil";
 
 type TypeMapping = { [name: string]: string };
 
@@ -85,6 +96,15 @@ export class WhenUserSaysBlockBuilder {
     };
 
     private _builder = (context: AlexaBuilderContext) => {
+        let locales = context.currentLocales;
+        if (!locales || locales.length === 0) {
+            this._updateArtifacts(context, DEFAULT_LOCALE);
+        } else {
+            locales.forEach((locale) => this._updateArtifacts(context, locale));
+        }
+    };
+
+    private _updateArtifacts = (context: AlexaBuilderContext, locale: Locale) => {
         let vars: string[] = [];
         this._sampleUtterances.forEach((utt: string) => {
             vars.push(...new Set(extractVariables(utt)));
@@ -95,16 +115,26 @@ export class WhenUserSaysBlockBuilder {
             return this._buildSlot(v);
         });
 
-        let intent: v1.skill.interactionModel.Intent = {
+        let intent: Intent = {
             name: this._generateIntentName(this._sampleUtterances),
             samples: this._sampleUtterances,
             slots: slots,
         };
 
-        // TODO need to figure out the locale story
-        let im: v1.skill.interactionModel.InteractionModelData = JSON.parse(
-            context.resources.resourceMap["/interactionModels/custom/en-US.json"]
-        );
+        this._updateInteractionModel(context, intent, slots, locale);
+    };
+
+    private _updateInteractionModel = (context: AlexaBuilderContext, intent: Intent, slots: Slot[], locale: Locale) => {
+        let imPath = paths.getInteractionModelPath(locale);
+
+        let im: InteractionModel | undefined = undefined;
+        if (!context.resources.resourceMap[imPath]) {
+            im = getDefaultInteractionModel();
+        } else {
+            im = JSON.parse(context.resources.resourceMap[paths.getInteractionModelPath(locale)]);
+        }
+
+        if (!im) return;
 
         im.interactionModel?.languageModel?.intents?.push(intent);
 
@@ -121,14 +151,13 @@ export class WhenUserSaysBlockBuilder {
 
         allSlotTypeNames.forEach((t) => {
             if (!existingSlotTypeNames?.includes(t) && t?.startsWith("AMAZON.") === false) {
-                im.interactionModel?.languageModel?.types?.push({
+                im?.interactionModel?.languageModel?.types?.push({
                     name: t,
                     values: [],
                 });
             }
         });
-
-        context.resources.resourceMap["/interactionModels/custom/en-US.json"] = JSON.stringify(im);
+        context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
     };
 
     private _buildSlot(slotName: string): v1.skill.interactionModel.SlotDefinition {
