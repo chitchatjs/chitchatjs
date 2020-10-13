@@ -31,7 +31,8 @@
     "scripts": {
         "build": "npm run clean && tsc",
         "clean": "rm -rf ./dist",
-        "test": "npm run build && npx mocha ./dist/test --recursive --exit"
+        "test": "mocha --require ts-node/register --watch-extensions ts 'test/**/*.ts'",
+        "testw": "npm test -- -w"
     },
     "bugs": {
         "url": "https://github.com/kevindra/chitchatjs/issues"
