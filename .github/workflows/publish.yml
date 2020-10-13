@@ -10,8 +10,6 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         steps:
-            - env:
-                  INPUT_TOKEN: ""
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v1
               with:
@@ -21,6 +19,8 @@ jobs:
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package: ./packages/core/package.json
+              env:
+                  INPUT_TOKEN: ""
             - run: cd packages/alexa && npm install && cd -
             - uses: JS-DevTools/npm-publish@v1
               with:
