@@ -13,18 +13,30 @@ export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEve
 export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type Skill = Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 
-// TODO - add all the locales
 export enum Locale {
     en_AU = "en-AU",
     en_CA = "en-CA",
+    en_IN = "en-IN",
     en_US = "en-US",
+    de_DE = "de-DE",
+    es_ES = "es-ES",
+    es_MX = "es-MX",
+    es_US = "es-US",
+    fr_CA = "fr-CA",
+    fr_FR = "fr-FR",
+    hi_IN = "hi-IN",
+    it_IT = "it-IT",
+    ja_JP = "ja-JP",
+    pt_BR = "pt-BR",
 }
 
 export interface AlexaDialogContext extends DialogContext {
     currentResponse: ResponseEnvelope;
 }
 
-export interface AlexaBuilderContext extends BuilderContext {}
+export interface AlexaBuilderContext extends BuilderContext {
+    currentLocales?: Locale[];
+}
 
 export interface AlexaEvent extends Event {
     currentRequest: RequestEnvelope;
@@ -45,4 +57,10 @@ export interface EmptyBlock extends AlexaBlock {
 
 export interface CustomBlock extends AlexaBlock {
     type: "CustomBlock";
+}
+
+export interface LocalizedBlock extends AlexaBlock {
+    type: "LocalizedBlock";
+    locales: Locale[];
+    block: AlexaBlock;
 }
