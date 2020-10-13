@@ -8,6 +8,8 @@ import { v1 } from "ask-smapi-model";
  */
 export type SkillManifestEnvelope = v1.skill.Manifest.SkillManifestEnvelope;
 export type InteractionModel = v1.skill.interactionModel.InteractionModelData;
+export type Intent = v1.skill.interactionModel.Intent;
+export type Slot = v1.skill.interactionModel.SlotDefinition;
 export type LocalizedSkillInfo = v1.skill.Manifest.SkillManifestLocalizedPublishingInformation;
 export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;

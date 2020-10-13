@@ -6,7 +6,7 @@ import {
     InteractionModel,
     SkillInfoBlock,
 } from "../../models";
-import { Locale, LocalizedSkillInfo, SkillManifestEnvelope } from "../../models";
+import { Locale, SkillManifestEnvelope } from "../../models";
 import { getDefaultInteractionModel, getDefaultSkillManifest, paths } from "../../util/ResourceUtil";
 
 /**
