@@ -14,7 +14,8 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: 10
-            - run: cd packages/core && npm install && tsc && cd -
+            - run: cd packages/core && npm install && tsc
+            - run: npm test && cd -
             - uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
