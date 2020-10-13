@@ -1,6 +1,5 @@
 import { BuilderContext, Agent, DialogContext, State, Event } from "../models";
 import * as yup from "yup";
-import * as lodash from "lodash";
 
 export class AgentBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
     private _states: { [name: string]: State<B, D, E> };

@@ -9,7 +9,8 @@
         "build:watch": "npx lerna run build:watch",
         "commit": "cz",
         "diff": "npx lerna diff",
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "npx lerna exec npm run test --parallel",
+        "coverage": "npx lerna run coverage --stream",
         "version": "npx lerna version --conventional-commits --yes",
         "publish": "npx lerna run publish"
     },
@@ -25,10 +26,17 @@
     },
     "homepage": "https://github.com/kevindra/chitchatjs#readme",
     "devDependencies": {
+        "@types/chai": "^4.2.13",
+        "@types/mocha": "^8.0.3",
         "@types/node": "^14.11.2",
+        "chai": "^4.2.0",
+        "codecov": "^3.8.0",
         "cz-conventional-changelog": "^3.3.0",
         "cz-emoji": "^1.2.2",
         "lerna": "^3.22.1",
+        "mocha": "^8.1.3",
+        "nyc": "^15.1.0",
+        "ts-node": "^9.0.0",
         "typescript": "^4.0.3"
     },
     "config": {
