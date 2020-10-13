@@ -29,6 +29,7 @@ export enum Locale {
     ja_JP = "ja-JP",
     pt_BR = "pt-BR",
 }
+export const DEFAULT_LOCALE = Locale.en_US;
 
 export interface AlexaDialogContext extends DialogContext {
     currentResponse: ResponseEnvelope;
@@ -48,7 +49,6 @@ export interface AlexaEvent extends Event {
 export interface SkillInfoBlock extends AlexaBlock {
     type: "SkillInfoBlock";
     skillName: string;
-    locale: Locale;
 }
 
 export interface EmptyBlock extends AlexaBlock {

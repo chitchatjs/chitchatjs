@@ -129,8 +129,8 @@ export namespace alexa {
             .build();
     }
 
-    export function info(locale: Locale) {
-        return new SkillInfoBlockBuilder(locale);
+    export function info() {
+        return new SkillInfoBlockBuilder();
     }
 
     export function custom() {
