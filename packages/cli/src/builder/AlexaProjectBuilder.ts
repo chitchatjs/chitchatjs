@@ -6,7 +6,7 @@ import { Skill } from "@chitchatjs/alexa";
 import { SkillBuilder } from "../alexa/SkillBuilder";
 
 /**
- * Alexa Project Builder
+ * Alexa Project Builder.
  */
 export class AlexaProjectBuilder implements ProjectBuilder {
     build(buildConfig: BuildConfig): void {
