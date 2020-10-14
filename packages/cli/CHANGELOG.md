@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/kevindra/chitchatjs/compare/@chitchatjs/cli@0.2.1...@chitchatjs/cli@0.3.0) (2020-10-14)
+
+
+### Bug Fixes
+
+* wrong version in cli and alexa packages ([acdef62](https://github.com/kevindra/chitchatjs/commit/acdef62fbd57028d31eae8fb22d7568d020ff4c8))
+
+
+### Features
+
+* 🎉 first release (beta) 🎉 ([e915836](https://github.com/kevindra/chitchatjs/commit/e91583679309fe196cc2efe7a7b5f044a79b7931))
+
+
+
+
+
 ## [0.2.1](https://github.com/kevindra/chitchatjs/compare/@chitchatjs/cli@0.2.0...@chitchatjs/cli@0.2.1) (2020-10-14)
 
 **Note:** Version bump only for package @chitchatjs/cli
