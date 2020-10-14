@@ -11,8 +11,7 @@ describe("GotoStateBlockBuilder", () => {
     it("should throw an error if state name is not provided", async () => {
         let err: Error = new Error();
         try {
-            let b = new GotoStateBlockBuilder();
-            await b.build();
+            new GotoStateBlockBuilder().build();
         } catch (e) {
             err = e;
         }

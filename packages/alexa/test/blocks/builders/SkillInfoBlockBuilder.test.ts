@@ -3,8 +3,8 @@ import * as _ from "lodash";
 import { expect } from "chai";
 import "mocha";
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, Locale } from "../../../src/models";
-import { getDefaultInteractionModel, getDefaultSkillManifest, paths } from "../../../src/util/ResourceUtil";
-import { builderutil } from "../../../src/util/ContextUtil";
+import { resource_utils, paths } from "../../../src/util/ResourceUtil";
+import { context_util } from "../../../src/util/ContextUtil";
 
 describe("SkillInfoBlockBuilder", () => {
     describe("InvocationName", () => {
@@ -35,11 +35,12 @@ describe("SkillInfoBlockBuilder", () => {
             b.build(builderContext);
 
             expect(builderContext).to.not.be.undefined;
-            expect(builderutil.getIMString(builderContext, Locale.en_US)).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_US).interactionModel).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_US).interactionModel?.languageModel).to.not.be.undefined;
+            expect(context_util.getIMString(builderContext, Locale.en_US)).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_US).interactionModel).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_US).interactionModel?.languageModel).to.not.be
+                .undefined;
             expect(
-                builderutil.getIM(builderContext, Locale.en_US).interactionModel?.languageModel?.invocationName
+                context_util.getIM(builderContext, Locale.en_US).interactionModel?.languageModel?.invocationName
             ).equals(invocationName);
             // exactly one resource is generated i.e. IM in en_US
             expect(Object.keys(builderContext.resources.resourceMap).length).equals(1);
@@ -57,18 +58,20 @@ describe("SkillInfoBlockBuilder", () => {
             b.build(builderContext);
 
             expect(builderContext).to.not.be.undefined;
-            expect(builderutil.getIMString(builderContext, Locale.en_US)).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_US).interactionModel).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_US).interactionModel?.languageModel).to.not.be.undefined;
+            expect(context_util.getIMString(builderContext, Locale.en_US)).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_US).interactionModel).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_US).interactionModel?.languageModel).to.not.be
+                .undefined;
             expect(
-                builderutil.getIM(builderContext, Locale.en_US).interactionModel?.languageModel?.invocationName
+                context_util.getIM(builderContext, Locale.en_US).interactionModel?.languageModel?.invocationName
             ).equals(invocationName);
 
-            expect(builderutil.getIMString(builderContext, Locale.en_CA)).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_CA).interactionModel).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel).to.not.be.undefined;
+            expect(context_util.getIMString(builderContext, Locale.en_CA)).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_CA).interactionModel).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel).to.not.be
+                .undefined;
             expect(
-                builderutil.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel?.invocationName
+                context_util.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel?.invocationName
             ).equals(invocationName);
         });
 
@@ -77,7 +80,9 @@ describe("SkillInfoBlockBuilder", () => {
                 currentLocales: [Locale.en_US, Locale.en_CA],
                 resources: {
                     resourceMap: {
-                        [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(getDefaultInteractionModel()),
+                        [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(
+                            resource_utils.getDefaultInteractionModel()
+                        ),
                     },
                 },
             };
@@ -88,18 +93,20 @@ describe("SkillInfoBlockBuilder", () => {
             b.build(builderContext);
 
             expect(builderContext).to.not.be.undefined;
-            expect(builderutil.getIMString(builderContext, Locale.en_US)).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_US).interactionModel).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_US).interactionModel?.languageModel).to.not.be.undefined;
+            expect(context_util.getIMString(builderContext, Locale.en_US)).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_US).interactionModel).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_US).interactionModel?.languageModel).to.not.be
+                .undefined;
             expect(
-                builderutil.getIM(builderContext, Locale.en_US).interactionModel?.languageModel?.invocationName
+                context_util.getIM(builderContext, Locale.en_US).interactionModel?.languageModel?.invocationName
             ).equals(invocationName);
 
-            expect(builderutil.getIMString(builderContext, Locale.en_CA)).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_CA).interactionModel).to.not.be.undefined;
-            expect(builderutil.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel).to.not.be.undefined;
+            expect(context_util.getIMString(builderContext, Locale.en_CA)).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_CA).interactionModel).to.not.be.undefined;
+            expect(context_util.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel).to.not.be
+                .undefined;
             expect(
-                builderutil.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel?.invocationName
+                context_util.getIM(builderContext, Locale.en_CA).interactionModel?.languageModel?.invocationName
             ).equals(invocationName);
         });
     });
@@ -117,10 +124,10 @@ describe("SkillInfoBlockBuilder", () => {
             b.build(builderContext);
 
             expect(builderContext).to.not.be.undefined;
-            expect(builderutil.getSkillManifestString(builderContext)).to.not.be.undefined;
-            expect(builderutil.getSkillManifest(builderContext).manifest).to.not.be.undefined;
-            expect(builderutil.getSkillManifest(builderContext).manifest?.publishingInformation).to.not.be.undefined;
-            let publishInfoLocales = builderutil.getSkillManifest(builderContext).manifest?.publishingInformation
+            expect(context_util.getSkillManifestString(builderContext)).to.not.be.undefined;
+            expect(context_util.getSkillManifest(builderContext).manifest).to.not.be.undefined;
+            expect(context_util.getSkillManifest(builderContext).manifest?.publishingInformation).to.not.be.undefined;
+            let publishInfoLocales = context_util.getSkillManifest(builderContext).manifest?.publishingInformation
                 ?.locales;
             expect(publishInfoLocales).to.not.be.undefined;
 
@@ -145,10 +152,10 @@ describe("SkillInfoBlockBuilder", () => {
             b.build(builderContext);
 
             expect(builderContext).to.not.be.undefined;
-            expect(builderutil.getSkillManifestString(builderContext)).to.not.be.undefined;
-            expect(builderutil.getSkillManifest(builderContext).manifest).to.not.be.undefined;
-            expect(builderutil.getSkillManifest(builderContext).manifest?.publishingInformation).to.not.be.undefined;
-            let publishInfoLocales = builderutil.getSkillManifest(builderContext).manifest?.publishingInformation
+            expect(context_util.getSkillManifestString(builderContext)).to.not.be.undefined;
+            expect(context_util.getSkillManifest(builderContext).manifest).to.not.be.undefined;
+            expect(context_util.getSkillManifest(builderContext).manifest?.publishingInformation).to.not.be.undefined;
+            let publishInfoLocales = context_util.getSkillManifest(builderContext).manifest?.publishingInformation
                 ?.locales;
             expect(publishInfoLocales).to.not.be.undefined;
 
@@ -165,7 +172,7 @@ describe("SkillInfoBlockBuilder", () => {
                 currentLocales: [Locale.en_US, Locale.en_CA],
                 resources: {
                     resourceMap: {
-                        [paths.getSkillManifestPath()]: JSON.stringify(getDefaultSkillManifest()),
+                        [paths.getSkillManifestPath()]: JSON.stringify(resource_utils.getDefaultSkillManifest()),
                     },
                 },
             };
@@ -176,10 +183,10 @@ describe("SkillInfoBlockBuilder", () => {
             b.build(builderContext);
 
             expect(builderContext).to.not.be.undefined;
-            expect(builderutil.getSkillManifestString(builderContext)).to.not.be.undefined;
-            expect(builderutil.getSkillManifest(builderContext).manifest).to.not.be.undefined;
-            expect(builderutil.getSkillManifest(builderContext).manifest?.publishingInformation).to.not.be.undefined;
-            let publishInfoLocales = builderutil.getSkillManifest(builderContext).manifest?.publishingInformation
+            expect(context_util.getSkillManifestString(builderContext)).to.not.be.undefined;
+            expect(context_util.getSkillManifest(builderContext).manifest).to.not.be.undefined;
+            expect(context_util.getSkillManifest(builderContext).manifest?.publishingInformation).to.not.be.undefined;
+            let publishInfoLocales = context_util.getSkillManifest(builderContext).manifest?.publishingInformation
                 ?.locales;
             expect(publishInfoLocales).to.not.be.undefined;
 

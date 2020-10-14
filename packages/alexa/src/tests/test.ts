@@ -114,7 +114,10 @@ console.log("----------------------------------------------");
  */
 
 let initializeSkill = () => {
-    return ax.info(Locale.en_US).name("Super Skill").build();
+    return ax
+        .info()
+        .name("Super Skill")
+        .build();
 };
 
 let launch = ax
@@ -123,7 +126,12 @@ let launch = ax
         ax
             .compound()
             .add(initializeSkill())
-            .add(ax.ask("Welcome, you can ask me for weather!").reprompt("ask me for weather").build())
+            .add(
+                ax
+                    .ask("Welcome, you can ask me for weather!")
+                    .reprompt("ask me for weather")
+                    .build()
+            )
             .add(ax.goto("weather"))
             .build()
     )
@@ -134,7 +142,12 @@ let weatherState = ax
     .block(
         ax
             .compound()
-            .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice")).build())
+            .add(
+                ax
+                    .whenUserSays(["give me weather for {usCity}"])
+                    .then(ax.say("Weather is nice"))
+                    .build()
+            )
             .add(
                 ax
                     .custom()
@@ -150,7 +163,11 @@ let weatherState = ax
     )
     .build();
 
-let skill = ax.skill().addState(launch).addState(weatherState).build();
+let skill = ax
+    .skill()
+    .addState(launch)
+    .addState(weatherState)
+    .build();
 console.log(JSON.stringify(skill, null, 2));
 console.log("----------------------------------------------");
 

@@ -10,6 +10,8 @@ export type SkillManifestEnvelope = v1.skill.Manifest.SkillManifestEnvelope;
 export type InteractionModel = v1.skill.interactionModel.InteractionModelData;
 export type Intent = v1.skill.interactionModel.Intent;
 export type Slot = v1.skill.interactionModel.SlotDefinition;
+export type SlotType = v1.skill.interactionModel.SlotType;
+export type SlotTypeValue = v1.skill.interactionModel.TypeValue;
 export type LocalizedSkillInfo = v1.skill.Manifest.SkillManifestLocalizedPublishingInformation;
 export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
@@ -65,4 +67,9 @@ export interface LocalizedBlock extends AlexaBlock {
     type: "LocalizedBlock";
     locales: Locale[];
     block: AlexaBlock;
+}
+
+export interface SlotTypeBlock extends AlexaBlock {
+    type: "SlotTypeBlock";
+    slotType: SlotType;
 }

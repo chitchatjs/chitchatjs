@@ -9,7 +9,10 @@ export class StateBuilder<B extends BuilderContext, D extends DialogContext, E e
     private _name: string;
     private _stateSchema = yup.object().shape({
         name: yup.string().required(),
-        block: yup.object().required().defined(),
+        block: yup
+            .object()
+            .required()
+            .defined(),
     });
 
     constructor(name: string) {
@@ -21,20 +24,20 @@ export class StateBuilder<B extends BuilderContext, D extends DialogContext, E e
         return this;
     }
 
-    async build(): Promise<State<B, D, E>> {
+    build(): State<B, D, E> {
         if (this._block === undefined) {
             throw new Error("block is a required field in the state");
         }
 
-        return await this._validate({
+        return this._validate({
             type: "State",
             name: this._name,
             block: this._block,
         });
     }
 
-    private async _validate(state: State<B, D, E>): Promise<State<B, D, E>> {
-        await this._stateSchema.validate(state);
+    private _validate(state: State<B, D, E>): State<B, D, E> {
+        this._stateSchema.validateSync(state);
         return state;
     }
 }

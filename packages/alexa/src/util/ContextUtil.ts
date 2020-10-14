@@ -1,7 +1,7 @@
 import { AlexaBuilderContext, AlexaDialogContext, InteractionModel, Locale, SkillManifestEnvelope } from "../models";
 import { paths } from "./ResourceUtil";
 
-export namespace builderutil {
+export namespace context_util {
     export let getIM = (context: AlexaBuilderContext, locale: Locale): InteractionModel => {
         return JSON.parse(getIMString(context, locale));
     };
