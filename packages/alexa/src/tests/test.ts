@@ -24,12 +24,12 @@ import { ResponseFactory } from "ask-sdk-core";
 // let dm = ax.dialogManager(skillDefinition);
 
 function executeDM(dm: AlexaDialogManager, request: RequestEnvelope, cb: (msg: string) => void) {
-    dm.handler()(request, {}, (err: Error, result?: any) => {
-        if (err) {
-            throw err;
-        }
-        cb(JSON.stringify(result));
-    });
+  dm.handler()(request, {}, (err: Error, result?: any) => {
+    if (err) {
+      throw err;
+    }
+    cb(JSON.stringify(result));
+  });
 }
 
 // console.log("----------------------------------------------");
@@ -114,75 +114,58 @@ console.log("----------------------------------------------");
  */
 
 let initializeSkill = () => {
-    return ax
-        .info()
-        .name("Super Skill")
-        .build();
+  return ax.info().name("Super Skill").build();
 };
 
 let launch = ax
-    .state("INIT")
-    .block(
-        ax
-            .compound()
-            .add(initializeSkill())
-            .add(
-                ax
-                    .ask("Welcome, you can ask me for weather!")
-                    .reprompt("ask me for weather")
-                    .build()
-            )
-            .add(ax.goto("weather"))
-            .build()
-    )
-    .build();
+  .state("INIT")
+  .block(
+    ax
+      .compound()
+      .add(initializeSkill())
+      .add(ax.ask("Welcome, you can ask me for weather!").reprompt("ask me for weather").build())
+      .add(ax.goto("weather"))
+      .build()
+  )
+  .build();
 
 let weatherState = ax
-    .state("weather")
-    .block(
+  .state("weather")
+  .block(
+    ax
+      .compound()
+      .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice")).build())
+      .add(
         ax
-            .compound()
-            .add(
-                ax
-                    .whenUserSays(["give me weather for {usCity}"])
-                    .then(ax.say("Weather is nice"))
-                    .build()
-            )
-            .add(
-                ax
-                    .custom()
-                    .executor((c: AlexaDialogContext, e: AlexaEvent) => {
-                        let res = ResponseFactory.init();
-                        res.speak("I'm speaking this from a custom block.");
-                        return res.getResponse();
-                    })
-                    .build()
-            )
-            .add(ax.end())
-            .build()
-    )
-    .build();
+          .custom()
+          .executor((c: AlexaDialogContext, e: AlexaEvent) => {
+            let res = ResponseFactory.init();
+            res.speak("I'm speaking this from a custom block.");
+            return res.getResponse();
+          })
+          .build()
+      )
+      .add(ax.end())
+      .build()
+  )
+  .build();
 
-let skill = ax
-    .skill()
-    .addState(launch)
-    .addState(weatherState)
-    .build();
+let skill = ax.skill().addState(launch).addState(weatherState).build();
 console.log(JSON.stringify(skill, null, 2));
 console.log("----------------------------------------------");
 
 let dm = ax.dialogManager(skill);
 
 executeDM(dm, launchRequest, (res) => {
+  console.log(res);
+  console.log("----------------------------------------------");
+  executeDM(dm, givemeweatIntent, (res) => {
     console.log(res);
-    console.log("----------------------------------------------");
-    executeDM(dm, givemeweatIntent, (res) => {
-        console.log(res);
-    });
-    // executeDM(dm, sessionEndedRequest, (res) => {
-    //     console.log(res);
-    // });
+  });
+  // executeDM(dm, sessionEndedRequest, (res) => {
+  //     console.log(res);
+  // });
 
-    console.log("----------------------------------------------");
+  console.log("----------------------------------------------");
 });
 console.log("----------------------------------------------");

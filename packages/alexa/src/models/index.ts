@@ -18,58 +18,66 @@ export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogCon
 export type Skill = Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 
 export enum Locale {
-    en_AU = "en-AU",
-    en_CA = "en-CA",
-    en_IN = "en-IN",
-    en_US = "en-US",
-    de_DE = "de-DE",
-    es_ES = "es-ES",
-    es_MX = "es-MX",
-    es_US = "es-US",
-    fr_CA = "fr-CA",
-    fr_FR = "fr-FR",
-    hi_IN = "hi-IN",
-    it_IT = "it-IT",
-    ja_JP = "ja-JP",
-    pt_BR = "pt-BR",
+  en_AU = "en-AU",
+  en_CA = "en-CA",
+  en_GB = "en-GB",
+  en_IN = "en-IN",
+  en_US = "en-US",
+  de_DE = "de-DE",
+  es_ES = "es-ES",
+  es_MX = "es-MX",
+  es_US = "es-US",
+  fr_CA = "fr-CA",
+  fr_FR = "fr-FR",
+  hi_IN = "hi-IN",
+  it_IT = "it-IT",
+  ja_JP = "ja-JP",
+  pt_BR = "pt-BR",
 }
 export const DEFAULT_LOCALE = Locale.en_US;
 
 export interface AlexaDialogContext extends DialogContext {
-    currentResponse: ResponseEnvelope;
+  currentResponse: ResponseEnvelope;
 }
 
 export interface AlexaBuilderContext extends BuilderContext {
-    currentLocales?: Locale[];
+  currentLocales?: Locale[];
 }
 
 export interface AlexaEvent extends Event {
-    currentRequest: RequestEnvelope;
+  currentRequest: RequestEnvelope;
 }
 
 /**
  * Alexa specific blocks
  */
 export interface SkillInfoBlock extends AlexaBlock {
-    type: "SkillInfoBlock";
-    skillName: string;
+  type: "SkillInfoBlock";
+  skillName: string;
 }
 
 export interface EmptyBlock extends AlexaBlock {
-    type: "EmptyBlock";
+  type: "EmptyBlock";
 }
 
 export interface CustomBlock extends AlexaBlock {
-    type: "CustomBlock";
+  type: "CustomBlock";
 }
 
 export interface LocalizedBlock extends AlexaBlock {
-    type: "LocalizedBlock";
-    locales: Locale[];
-    block: AlexaBlock;
+  type: "LocalizedBlock";
+  locales: Locale[];
+  block: AlexaBlock;
+}
+
+export interface IntentBlock extends AlexaBlock {
+  type: "IntentBlock";
+  name: string;
+  slots: Slot[];
+  samples: string[];
 }
 
 export interface SlotTypeBlock extends AlexaBlock {
-    type: "SlotTypeBlock";
-    slotType: SlotType;
+  type: "SlotTypeBlock";
+  slotType: SlotType;
 }
