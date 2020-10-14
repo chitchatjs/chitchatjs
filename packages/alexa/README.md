@@ -85,11 +85,11 @@ When block in its simplest form executes its block only when provided condition 
 
 ```ts
 let whenBlock = ax
-    .when()
-    .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
-        return event.currentRequest.request.type === "IntentRequest";
-    })
-    .then(ax.say("This is an intent request!"));
+  .when()
+  .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
+    return event.currentRequest.request.type === "IntentRequest";
+  })
+  .then(ax.say("This is an intent request!"));
 ```
 
 Above code will render `This is an intent request` on every `IntentRequest`.
@@ -135,20 +135,20 @@ You can set the state variables using `ax.setStateVar()` after a `ax.whenUserSay
 
 ```ts
 ax.whenUserSays(["hello {name}"])
-    .withSlotType("name", "AMAZON.FIRST_NAME")
-    .then(
-        ax
-            .compound()
-            .add(
-                ax.setStateVar((c: AlexaDialogContext, e: AlexaEvent) => {
-                    // setting the slot value as a state var
-                    return { name: e.currentRequest.request.intent.slots.name.value };
-                })
-            )
-            .add(ax.ask("did you mean {name}?").build())
-            .build()
-    )
-    .build();
+  .withSlotType("name", "AMAZON.FIRST_NAME")
+  .then(
+    ax
+      .compound()
+      .add(
+        ax.setStateVar((c: AlexaDialogContext, e: AlexaEvent) => {
+          // setting the slot value as a state var
+          return { name: e.currentRequest.request.intent.slots.name.value };
+        })
+      )
+      .add(ax.ask("did you mean {name}?").build())
+      .build()
+  )
+  .build();
 ```
 
 Output:
@@ -175,12 +175,12 @@ A block to localize the artifacts in your skill, which you can add anywhere in y
 
 ```ts
 ax.localize([Locale.en_US, Locale.en_CA])
-    .block(
-        // now, info block is localized and
-        // will produce artifacts in both en-US and en-CA locales.
-        ax.info().name("Hello bot").build()
-    )
-    .build();
+  .block(
+    // now, info block is localized and
+    // will produce artifacts in both en-US and en-CA locales.
+    ax.info().name("Hello bot").build()
+  )
+  .build();
 ```
 
 ::: tip Note
@@ -214,14 +214,14 @@ You can also use this block to hook your own function, for more dynamic value in
 
 ```ts
 ax.compound()
-    .add(
-        ax.setStateVar((ctx: AlexaDialogContext, event: AlexaEvent) => {
-            let userName = myApi.getUserName();
-            return { name: userName };
-        })
-    )
-    .add(ax.say("hello, {name}!"))
-    .build();
+  .add(
+    ax.setStateVar((ctx: AlexaDialogContext, event: AlexaEvent) => {
+      let userName = myApi.getUserName();
+      return { name: userName };
+    })
+  )
+  .add(ax.say("hello, {name}!"))
+  .build();
 ```
 
 This block uses string interpolation. When you define a variable name inside `{}` it will look for the state.
@@ -248,8 +248,8 @@ This block allows you to go to a new state.
 ax.compound().add(ax.say("taking you to the dungen")).add(ax.goto("Dungen"));
 
 ax.state("Dungen")
-    .add(ax.whenUserSays(["why am I in the dungen"]).then(ax.say("because dungen is cool")).build())
-    .build();
+  .add(ax.whenUserSays(["why am I in the dungen"]).then(ax.say("because dungen is cool")).build())
+  .build();
 ```
 
 Output:
@@ -283,12 +283,12 @@ Custom block gives your full control in how you want to handle the resource gene
 
 ```ts
 ax.custom()
-    .executor((c: AlexaDialogContext, e: AlexaEvent) => {
-        let res = ResponseFactory.init();
-        res.speak("I'm speaking this from a custom block.");
-        return res.getResponse();
-    })
-    .build();
+  .executor((c: AlexaDialogContext, e: AlexaEvent) => {
+    let res = ResponseFactory.init();
+    res.speak("I'm speaking this from a custom block.");
+    return res.getResponse();
+  })
+  .build();
 ```
 
 Output:
@@ -302,14 +302,14 @@ Sometimes you also want to manually handle the Interaction Models, Skill Manifes
 
 ```ts
 ax.custom()
-    .builder((c: AlexaBuilderContext) => {
-        return {
-            resourceMap: {
-                "/skill.json": mySkillManifest,
-            },
-        };
-    })
-    .build();
+  .builder((c: AlexaBuilderContext) => {
+    return {
+      resourceMap: {
+        "/skill.json": mySkillManifest,
+      },
+    };
+  })
+  .build();
 ```
 
 ::: tip

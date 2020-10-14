@@ -6,8 +6,8 @@
 
 Chitchat requires the following dependencies:
 
--   Node.js
--   [ASK CLI (configured)](https://www.npmjs.com/package/ask-cli)
+- Node.js
+- [ASK CLI (configured)](https://www.npmjs.com/package/ask-cli)
 
 ## Quick Start
 
@@ -77,34 +77,32 @@ Alexa: Hello world!
 import { alexa as ax } from "@chitchatjs/alexa";
 
 let initialState = ax
-    .start()
-    .block(ax.ask("Welcome, do you want menu for breakfast, lunch or dinner?").build())
-    .block(ax.goto("food-menu"))
-    .build();
+  .start()
+  .block(ax.ask("Welcome, do you want menu for breakfast, lunch or dinner?").build())
+  .block(ax.goto("food-menu"))
+  .build();
 
 let foodMenuState = ax
-    .state("food-menu")
-    .block(
+  .state("food-menu")
+  .block(
+    ax
+      .compound()
+      .add(
         ax
-            .compound()
-            .add(
-                ax
-                    .whenUserSays(["breakfast", "i want breakfast"])
-                    .then(ax.say("okay I have egg omlette for breakfast today."))
-                    .build()
-            )
-            .add(
-                ax.whenUserSays(["lunch", "i want lunch"]).then(ax.say("okay I have biryani for lunch today.")).build()
-            )
-            .add(
-                ax
-                    .whenUserSays(["dinner", "i want dinner"])
-                    .then(ax.say("okay I have chicken curry, roti for dinner today."))
-                    .build()
-            )
-            .build()
-    )
-    .build();
+          .whenUserSays(["breakfast", "i want breakfast"])
+          .then(ax.say("okay I have egg omlette for breakfast today."))
+          .build()
+      )
+      .add(ax.whenUserSays(["lunch", "i want lunch"]).then(ax.say("okay I have biryani for lunch today.")).build())
+      .add(
+        ax
+          .whenUserSays(["dinner", "i want dinner"])
+          .then(ax.say("okay I have chicken curry, roti for dinner today."))
+          .build()
+      )
+      .build()
+  )
+  .build();
 export = ax.dialogManager(definition).exports();
 ```
 
