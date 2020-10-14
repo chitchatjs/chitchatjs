@@ -34,7 +34,7 @@
     "url": "https://github.com/kevindra/chitchatjs/issues"
   },
   "dependencies": {
-    "@chitchatjs/core": "^0.0.15",
+    "@chitchatjs/core": "^0.1.0",
     "ask-sdk-core": "^2.9.0",
     "ask-sdk-model": "^1.33.0",
     "ask-smapi-model": "^1.12.3",
