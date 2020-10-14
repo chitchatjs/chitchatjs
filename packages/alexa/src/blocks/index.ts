@@ -19,6 +19,7 @@ import { RuleBasedDialogEngine } from "../engine";
 import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
 import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
 import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
+import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
 
 export namespace alexa {
     export function dialogManager(skill: Skill) {
@@ -135,5 +136,9 @@ export namespace alexa {
 
     export function custom() {
         return new CustomBlockBuilder();
+    }
+
+    export function slotType(typeName?: string) {
+        return new SlotTypeBlockBuilder(typeName);
     }
 }

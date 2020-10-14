@@ -16,15 +16,15 @@ export class AgentBuilder<B extends BuilderContext, D extends DialogContext, E e
         return this;
     }
 
-    async build(): Promise<Agent<B, D, E>> {
-        return await this._validate({
+    build(): Agent<B, D, E> {
+        return this._validate({
             type: "Agent",
             states: this._states,
         });
     }
 
-    private async _validate(agent: Agent<B, D, E>) {
-        await this._agentSchema.validate(agent);
+    private _validate(agent: Agent<B, D, E>) {
+        this._agentSchema.validateSync(agent);
         if (Object.keys(agent.states).length === 0) {
             throw new Error("states is a required field");
         }

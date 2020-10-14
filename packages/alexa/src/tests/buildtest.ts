@@ -17,7 +17,29 @@ let b = ax
             .then(ax.say("hello, {name}"))
             .build()
     )
-    .add(ax.info(Locale.en_US).invocationName("super skill").name("Super skill").build())
+    .add(
+        ax
+            .localize([Locale.en_US, Locale.en_IN, Locale.es_MX])
+            .block(
+                ax
+                    .info()
+                    .invocationName("super skill")
+                    .name("Super skill")
+                    .build()
+            )
+            .build()
+    )
+    // .add(
+    //     ax
+    //         .localize([Locale.en_CA])
+    //         .block(
+    //             ax
+    //                 .slotType("AMAZON.US_CITY")
+    //                 .values(["hapur", "ghaziabad"])
+    //                 .build()
+    //         )
+    //         .build()
+    // )
     .build();
 
 let imKey = "/interactionModels/custom/en-US.json";
@@ -65,7 +87,9 @@ b.build(ctx);
 
 // console.log(JSON.stringify(ctx.resources.resourceMap, null, 2));
 
-console.log(JSON.stringify(JSON.parse(ctx.resources.resourceMap[imKey]), null, 2));
+// console.log(JSON.stringify(JSON.parse(ctx.resources.resourceMap[imKey]), null, 2));
 console.log(JSON.stringify(JSON.parse(ctx.resources.resourceMap[skillManifest]), null, 2));
+
+console.log(JSON.stringify(ctx.resources.resourceMap, null, 2));
 
 // console.log(extractVariables("{Hello} how are you {name} asdads {bla|AMAZON.US_CITY}"));

@@ -14,9 +14,6 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: 10
-            - run: cd packages/core && npm install && tsc
-            - run: cd packages/core && npm test
-            - run: cd packages/alexa && npm install && cd -
-            - run: cd packages/cli && npm install && cd -
+            - run: npm run build
             - run: npm run coverage
             - run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}

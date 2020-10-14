@@ -7,7 +7,7 @@ import {
     SkillInfoBlock,
 } from "../../models";
 import { Locale, SkillManifestEnvelope } from "../../models";
-import { getDefaultInteractionModel, getDefaultSkillManifest, paths } from "../../util/ResourceUtil";
+import { resource_utils, paths } from "../../util/ResourceUtil";
 
 /**
  * Generates localized Skill Info in the Skill Manifest file.
@@ -65,7 +65,7 @@ export class SkillInfoBlockBuilder {
         let skillManifestEnvelope: SkillManifestEnvelope | undefined = undefined;
 
         if (!context.resources.resourceMap[skillManifestPath]) {
-            skillManifestEnvelope = getDefaultSkillManifest();
+            skillManifestEnvelope = resource_utils.getDefaultSkillManifest();
         } else {
             skillManifestEnvelope = JSON.parse(context.resources.resourceMap[paths.getSkillManifestPath()]);
         }
@@ -99,7 +99,7 @@ export class SkillInfoBlockBuilder {
 
         let im: InteractionModel | undefined = undefined;
         if (!context.resources.resourceMap[imPath]) {
-            im = getDefaultInteractionModel();
+            im = resource_utils.getDefaultInteractionModel();
         } else {
             im = JSON.parse(context.resources.resourceMap[paths.getInteractionModelPath(locale)]);
         }

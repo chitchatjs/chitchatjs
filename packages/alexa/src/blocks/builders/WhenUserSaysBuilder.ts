@@ -13,7 +13,7 @@ import {
     Locale,
     Slot,
 } from "../../models";
-import { getDefaultInteractionModel, paths } from "../../util/ResourceUtil";
+import { resource_utils, paths } from "../../util/ResourceUtil";
 
 type TypeMapping = { [name: string]: string };
 
@@ -129,7 +129,7 @@ export class WhenUserSaysBlockBuilder {
 
         let im: InteractionModel | undefined = undefined;
         if (!context.resources.resourceMap[imPath]) {
-            im = getDefaultInteractionModel();
+            im = resource_utils.getDefaultInteractionModel();
         } else {
             im = JSON.parse(context.resources.resourceMap[paths.getInteractionModelPath(locale)]);
         }
