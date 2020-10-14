@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/kevindra/chitchatjs/compare/@chitchatjs/alexa@0.2.0...@chitchatjs/alexa@0.2.1) (2020-10-14)
+
+
+### Bug Fixes
+
+* missed intent block from the previous release ([87d790a](https://github.com/kevindra/chitchatjs/commit/87d790aee99ba4f224c915f032cd0e2331d28cd4))
+
+
+
+
+
 # [0.2.0](https://github.com/kevindra/chitchatjs/compare/@chitchatjs/alexa@0.0.24...@chitchatjs/alexa@0.2.0) (2020-10-14)
 
 
