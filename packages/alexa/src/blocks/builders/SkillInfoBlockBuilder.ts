@@ -1,17 +1,23 @@
-import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, InteractionModel, SkillInfoBlock } from "../../models";
-import { Locale, LocalizedSkillInfo, SkillManifestEnvelope } from "../../models";
-import { v1 } from "ask-smapi-model";
+import {
+    AlexaBuilderContext,
+    AlexaDialogContext,
+    AlexaEvent,
+    DEFAULT_LOCALE,
+    InteractionModel,
+    SkillInfoBlock,
+} from "../../models";
+import { Locale, SkillManifestEnvelope } from "../../models";
+import { resource_utils, paths } from "../../util/ResourceUtil";
+
 /**
  * Generates localized Skill Info in the Skill Manifest file.
  */
 export class SkillInfoBlockBuilder {
     private _name: string;
-    private _locale: Locale;
     private _invocationName: string;
 
-    constructor(locale: Locale) {
+    constructor() {
         this._name = "";
-        this._locale = locale;
         this._invocationName = "";
     }
 
@@ -29,34 +35,79 @@ export class SkillInfoBlockBuilder {
         return {
             type: "SkillInfoBlock",
             skillName: this._name,
-            locale: this._locale,
             execute: (context: AlexaDialogContext, event: AlexaEvent) => {},
             build: this._builder,
         };
     }
 
     private _builder = (context: AlexaBuilderContext): void => {
-        let skillManifestEnvelope: SkillManifestEnvelope = JSON.parse(context.resources.resourceMap["/skill.json"]);
+        let locales = context.currentLocales;
+        if (!locales || locales.length === 0) {
+            this._updateArtifacts(context, DEFAULT_LOCALE);
+        } else {
+            locales.forEach((locale) => this._updateArtifacts(context, locale));
+        }
+    };
 
-        let locales = skillManifestEnvelope.manifest?.publishingInformation?.locales;
-        let updatedObj: any = {};
-        updatedObj[this._locale] = <LocalizedSkillInfo>{
-            name: this._name,
-        };
+    private _updateArtifacts = (context: AlexaBuilderContext, locale: Locale) => {
+        if (this._name) {
+            this._updateNameInManifest(context, locale);
+        }
 
-        if (skillManifestEnvelope.manifest?.publishingInformation?.locales !== undefined)
-            skillManifestEnvelope.manifest.publishingInformation.locales = Object.assign(locales, updatedObj);
+        if (this._invocationName) {
+            this._updateInvocationNameInIM(context, locale);
+        }
+    };
 
-        context.resources.resourceMap["/skill.json"] = JSON.stringify(skillManifestEnvelope);
+    private _updateNameInManifest = (context: AlexaBuilderContext, locale: Locale) => {
+        let skillManifestPath = paths.getSkillManifestPath();
 
-        let locale = this._locale;
-        let im: InteractionModel = JSON.parse(
-            context.resources.resourceMap[`/interactionModels/custom/${locale}.json`]
-        );
+        let skillManifestEnvelope: SkillManifestEnvelope | undefined = undefined;
 
-        if (im.interactionModel && im.interactionModel.languageModel) {
+        if (!context.resources.resourceMap[skillManifestPath]) {
+            skillManifestEnvelope = resource_utils.getDefaultSkillManifest();
+        } else {
+            skillManifestEnvelope = JSON.parse(context.resources.resourceMap[paths.getSkillManifestPath()]);
+        }
+
+        let publishingInfo = skillManifestEnvelope?.manifest?.publishingInformation;
+        if (!publishingInfo) {
+            publishingInfo = {};
+        }
+
+        if (!publishingInfo.locales) {
+            publishingInfo.locales = {};
+        }
+
+        if (!publishingInfo.locales[locale]) {
+            publishingInfo.locales[locale] = {
+                name: this._name,
+            };
+        } else {
+            publishingInfo.locales[locale].name = this._name;
+        }
+
+        if (skillManifestEnvelope && skillManifestEnvelope.manifest?.publishingInformation !== undefined) {
+            skillManifestEnvelope.manifest.publishingInformation = publishingInfo;
+        }
+
+        context.resources.resourceMap[paths.getSkillManifestPath()] = JSON.stringify(skillManifestEnvelope);
+    };
+
+    private _updateInvocationNameInIM = (context: AlexaBuilderContext, locale: Locale) => {
+        let imPath = paths.getInteractionModelPath(locale);
+
+        let im: InteractionModel | undefined = undefined;
+        if (!context.resources.resourceMap[imPath]) {
+            im = resource_utils.getDefaultInteractionModel();
+        } else {
+            im = JSON.parse(context.resources.resourceMap[paths.getInteractionModelPath(locale)]);
+        }
+
+        if (im && im.interactionModel && im.interactionModel.languageModel) {
             im.interactionModel.languageModel.invocationName = this._invocationName;
         }
-        context.resources.resourceMap[`/interactionModels/custom/${locale}.json`] = JSON.stringify(im);
+
+        context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
     };
 }

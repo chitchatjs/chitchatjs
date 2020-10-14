@@ -13,12 +13,13 @@ import {
     RawResourceBlockBuilder,
     AgentBuilder,
 } from "@chitchatjs/core";
-import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, Skill } from "../models";
-import { Locale } from "../models";
+import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, Skill, Locale } from "../models";
 import { AlexaDialogManager } from "..";
 import { RuleBasedDialogEngine } from "../engine";
 import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
 import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
+import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
+import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
 
 export namespace alexa {
     export function dialogManager(skill: Skill) {
@@ -35,6 +36,10 @@ export namespace alexa {
 
     export function state(name: string) {
         return new StateBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>(name);
+    }
+
+    export function localize(locales: Locale[]) {
+        return new LocalizedBlockBuilder(locales);
     }
 
     export function compound() {
@@ -125,11 +130,15 @@ export namespace alexa {
             .build();
     }
 
-    export function info(locale: Locale) {
-        return new SkillInfoBlockBuilder(locale);
+    export function info() {
+        return new SkillInfoBlockBuilder();
     }
 
     export function custom() {
         return new CustomBlockBuilder();
+    }
+
+    export function slotType(typeName?: string) {
+        return new SlotTypeBlockBuilder(typeName);
     }
 }

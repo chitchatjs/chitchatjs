@@ -16,8 +16,8 @@ export class GotoStateBlockBuilder<B extends BuilderContext, D extends DialogCon
         return this;
     }
 
-    async build(): Promise<GotoStateBlock<B, D, E>> {
-        return await this._validate({
+    build(): GotoStateBlock<B, D, E> {
+        return this._validate({
             type: "GotoStateBlock",
             name: this._name,
             execute: this._executor,
@@ -30,8 +30,8 @@ export class GotoStateBlockBuilder<B extends BuilderContext, D extends DialogCon
         context.platformState.currentStateName = this._name;
     };
 
-    private async _validate(block: GotoStateBlock<B, D, E>) {
-        await this._schema.validate(block);
+    private _validate(block: GotoStateBlock<B, D, E>) {
+        this._schema.validateSync(block);
         return block;
     }
 }

@@ -8,33 +8,40 @@ import { v1 } from "ask-smapi-model";
  */
 export type SkillManifestEnvelope = v1.skill.Manifest.SkillManifestEnvelope;
 export type InteractionModel = v1.skill.interactionModel.InteractionModelData;
+export type Intent = v1.skill.interactionModel.Intent;
+export type Slot = v1.skill.interactionModel.SlotDefinition;
+export type SlotType = v1.skill.interactionModel.SlotType;
+export type SlotTypeValue = v1.skill.interactionModel.TypeValue;
 export type LocalizedSkillInfo = v1.skill.Manifest.SkillManifestLocalizedPublishingInformation;
 export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type Skill = Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 
-// TODO - add all the locales
 export enum Locale {
     en_AU = "en-AU",
     en_CA = "en-CA",
+    en_IN = "en-IN",
     en_US = "en-US",
+    de_DE = "de-DE",
+    es_ES = "es-ES",
+    es_MX = "es-MX",
+    es_US = "es-US",
+    fr_CA = "fr-CA",
+    fr_FR = "fr-FR",
+    hi_IN = "hi-IN",
+    it_IT = "it-IT",
+    ja_JP = "ja-JP",
+    pt_BR = "pt-BR",
 }
-
-// export class Skill implements Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> {
-//     type: "Agent";
-//     states: {[name:string] : State<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>}
-
-//     constructor() {
-//         this.type = "Agent";
-//         this.states = {}
-//     }
-// }
+export const DEFAULT_LOCALE = Locale.en_US;
 
 export interface AlexaDialogContext extends DialogContext {
     currentResponse: ResponseEnvelope;
 }
 
-export interface AlexaBuilderContext extends BuilderContext {}
+export interface AlexaBuilderContext extends BuilderContext {
+    currentLocales?: Locale[];
+}
 
 export interface AlexaEvent extends Event {
     currentRequest: RequestEnvelope;
@@ -46,7 +53,6 @@ export interface AlexaEvent extends Event {
 export interface SkillInfoBlock extends AlexaBlock {
     type: "SkillInfoBlock";
     skillName: string;
-    locale: Locale;
 }
 
 export interface EmptyBlock extends AlexaBlock {
@@ -55,4 +61,15 @@ export interface EmptyBlock extends AlexaBlock {
 
 export interface CustomBlock extends AlexaBlock {
     type: "CustomBlock";
+}
+
+export interface LocalizedBlock extends AlexaBlock {
+    type: "LocalizedBlock";
+    locales: Locale[];
+    block: AlexaBlock;
+}
+
+export interface SlotTypeBlock extends AlexaBlock {
+    type: "SlotTypeBlock";
+    slotType: SlotType;
 }
