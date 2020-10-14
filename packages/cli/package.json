@@ -60,8 +60,8 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "@chitchatjs/alexa": "^0.0.24",
-    "@chitchatjs/core": "^0.0.15",
+    "@chitchatjs/alexa": "^0.1.0",
+    "@chitchatjs/core": "^0.1.0",
     "ask-sdk-model": "^1.33.0",
     "ask-smapi-model": "^1.12.3",
     "chalk": "^4.1.0",
