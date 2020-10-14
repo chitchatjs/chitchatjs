@@ -10,20 +10,20 @@ With `@chitchatjs/alexa` you get many prebuilt Blocks that you can plug into you
 
 ### `ax.dialogManager()`
 
-`ax.dialogManager()` instantiates a dialog manager for your skill. It uses the specified `SkillDefinition` and a `RuleBasedDialogManager` by default.
+`ax.dialogManager()` instantiates a dialog manager for your skill. It uses the specified `Skill` and a `RuleBasedDialogManager` by default.
 
 You should export your skill and dialog manager `handler` from your skill's `index.js` file.
 
 ```ts
-export = ax.dialogManager(definition).exports();
+export = ax.dialogManager(skill).exports();
 ```
 
-### `ax.definition()`
+### `ax.skill()`
 
-This is where your Skill code begins. A skill has a single `SkillDefinition`, definition contains multiple states and hence everything is wired to the definition object.
+This is where your Skill code begins. A skill contains multiple states such as 'welcome', 'pizza ordering', 'new offers' etc.
 
 ```ts
-ax.definition()
+ax.skill()
     .addState(..)
     .addState(..)
     .build()
@@ -31,17 +31,17 @@ ax.definition()
 
 ### `ax.state()`
 
-Defines a new state in your `SkillDefinition`.
+Defines a new state in your `Skill`.
 
 ```ts
-let dungenState = ax.state("Dungen").build();
+let dungenState = ax.state("Dungen").block(ax.say('welcome to the dungen'))build();
 
-definition.addState(dungenState);
+skill.addState(dungenState);
 ```
 
 ### `ax.start()`
 
-One of the states in your `SkillDefinition` must start with `ax.start()..`. Think of it as a root block of your skill. This is where `LaunchRequest` is captured when user opens your skill.
+One of the states in your `Skill` must start with `ax.start()..`. Think of it as a root state of your skill. This is where `LaunchRequest` is captured when user opens your skill.
 
 ## Blocks
 
@@ -271,7 +271,7 @@ Sometimes, you may not want to render any response back. This is useful when you
 
 ### `ax.info()`
 
-Info block allows you to update your skill's details such as its name, invocation name etc. You can simply plug in this block anywhere in your skill definition and it will inject the specified name in your Skill's manifest and/or in your interaction models.
+Info block allows you to update your skill's details such as its name, invocation name etc. You can simply plug in this block anywhere in your skill and it will inject the specified name in your Skill's manifest and/or in your interaction models.
 
 ```ts
 ax.info(Locale.en_US).name("My Skill").invocationName("My Skill").build();
