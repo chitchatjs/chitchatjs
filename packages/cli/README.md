@@ -1,91 +1,120 @@
 # `ChitchatJS CLI`
 
-![](./images/logo/128x128.png)
+![](./images/logo/logo-128x128.png)
 
-> WORK IN PROGRESS, NOT COMPLETELY FUNCTIONAL AT THE MOMENT. STAY TUNED.
+## Prerequisites
 
-ChitchatJS framework(`cjs`) is used to create, manage, and deploy machine learning or rule based voice interfaces easily.
+Chitchat requires the following dependencies:
 
-## Getting Started
+-   Node.js
+-   [ASK CLI (configured)](https://www.npmjs.com/package/ask-cli)
 
-### Install CLI
+## Quick Start
 
-```
-$ npm install -g @chitchatjs/cli
-```
+![An image](./images/gifs/create-project.gif)
 
-### Create new project
+1. Install CLI
 
-```
-$ cjs new
-```
-
-> Note: Gif a bit outdated
-
-![](./images/gifs/create-project.gif)
-
-### Build
-
-Builds the project based on the build configuration in `cjs.json` in the root of the project.
-
-```
-$ cjs build
+```sh
+npm install -g @chitchat/cli
 ```
 
-#### Build Configurations
+2.  Create a new project
 
-Build configurations are defined in the `cjs.json` in your project root.
+Projects can be created from a prebuilt template. CJS is agnostic of the Node language you use, you can use Typescript or Javascript based templates.
 
-```json
-{
-    "outDir": "./pkg",
-    "target": "Alexa"
-}
+```sh
+cjs new
 ```
 
-| Config   | Description                                                                                            | Required |
-| -------- | ------------------------------------------------------------------------------------------------------ | -------- |
-| `outDir` | Location of the output directory.                                                                      | Yes      |
-| `target` | Platform you want to deploy to. Can be `Alexa` or `Google`. <br/> Only `Alexa` is supported right now. | Yes      |
+3. Build the project
 
-### Deploy
+Building a project generates all the required artifacts, and the backend infrastructure.
 
-Deploys the project to the target platform.
-
-```
-$ cjs deploy
+```sh
+cjs build
 ```
 
-## Templates
+4. Deploy
 
-You can bootstrap your projects using external templates. Some of the existing templates:
+Deploy command deploys the generated project to the chosen platform.
 
--   [hello-bot](https://github.com/chitchatjs/hello-bot-template)
-
-### Installing templates
-
-Installing template is easy!
-
-Go to your `~/.cjs/config.json`
-
-```json
-{
-    "version": "1.0",
-    "templates": [
-        {
-            "name": "hello-bot",
-            "url": {
-                "type": "GIT",
-                "value": "https://github.com/chitchatjs/hello-bot-template.git"
-            }
-        },
-        {
-            "name": "<my-template>",
-            "url": {
-                "type": "GIT",
-                "value": "<git-url>"
-            }
-        }
-    ]
-}
+```sh
+cjs deploy
 ```
+
+::: tip Info
+Examples below are shown using the Alexa implementation `@chitchatjs/alexa` of the framework.
+:::
+
+## Examples
+
+### Hello World
+
+```ts
+import { alexa as ax } from "@chitchatjs/alexa";
+
+// A sample conversation
+let initialState = ax.start().block(ax.say("Hello world!")).build();
+
+// Skill Definition that wires all the
+// states and transitions together
+let skillDefinition = ax.definition().addState(initialState).build();
+
+export = ax.dialogManager(skillDefinition).exports();
+```
+
+Output:
+
+```
+User: open my skill
+Alexa: Hello world!
+```
+
+### Food Menu
+
+```ts
+import { alexa as ax } from "@chitchatjs/alexa";
+
+let initialState = ax
+    .start()
+    .block(ax.ask("Welcome, do you want menu for breakfast, lunch or dinner?").build())
+    .block(ax.goto("food-menu"))
+    .build();
+
+let foodMenuState = ax
+    .state("food-menu")
+    .block(
+        ax
+            .compound()
+            .add(
+                ax
+                    .whenUserSays(["breakfast", "i want breakfast"])
+                    .then(ax.say("okay I have egg omlette for breakfast today."))
+                    .build()
+            )
+            .add(
+                ax.whenUserSays(["lunch", "i want lunch"]).then(ax.say("okay I have biryani for lunch today.")).build()
+            )
+            .add(
+                ax
+                    .whenUserSays(["dinner", "i want dinner"])
+                    .then(ax.say("okay I have chicken curry, roti for dinner today."))
+                    .build()
+            )
+            .build()
+    )
+    .build();
+export = ax.dialogManager(definition).exports();
+```
+
+Output:
+
+```
+U: open my skill
+A: Welcome, do you want menu for breakfast, lunch or dinner?
+U: lunch
+A: okay I have biryani for lunch today
+```
+
+To learn more, check the guide on https://chitchat.js.org

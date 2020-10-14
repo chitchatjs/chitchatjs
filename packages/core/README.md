@@ -1,36 +1,9 @@
 # `ChitchatJS`
 
-![](./images/logo/128x128.png)
+![](./images/logo/logo-128x128.png)
 
-ChitchatJS framework is used to create, manage, and deploy machine learning or rule based voice interfaces easily.
+Chitchat (or CJS) is a framework for building voice driven multi-modal user interfaces (a.k.a. VUI). Chitchat is designed to be incrementally adaptable. You can write a simple rule based voice user interface or as complex as a machine learnt model based VUI. Chitchat comes with three primary components - core library (`@chichatjs/core`), a CLI (`@chitchatjs/cli`) and the implementation strategies (dialog management) which may or may not be platform dependents. We offer `@chitchatjs/alexa` to seamlessly integrate your voice user interface with Alexa.
 
-> WORK IN PROGRESS, STAY TUNED.
+`@chichatjs/core` is a primitive base that defines core framework premitives that are voice-platform and dialog management strategy independent. `@chitchatjs/cli` provides easy command access to create a project, build and deploy it (only supported for Alexa platform right now). `@chitchatjs/alexa` is a collection of VUI components designed on top of the core library's components that help build Alexa oriented VUI.
 
-## Getting Started
-
-Check out `@chitchatjs/cli` for setup instructions.
-
-## Writing Bot
-
-### Dialog Script
-
-#### A basic hello world dialog script.
-
-```typescript
-let sampleInteraction: cjs.Interaction = {
-    user: {
-        trigger: <cjs.UtteranceTrigger>{
-            texts: ["Hello, how are you"],
-        },
-    },
-    system: {
-        actions: [
-            <cjs.TellSpeechAction>{
-                text: "I'm good, thank you!",
-            },
-        ],
-    },
-};
-
-export let dialog: cjs.Dialog = { interactions: [sampleInteraction] };
-```
+To get started, check the quick start guide on https://chitchat.js.org/
