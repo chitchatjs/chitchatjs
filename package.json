@@ -12,7 +12,7 @@
     "test": "npx lerna exec npm run test --parallel",
     "coverage": "npx lerna run coverage --stream",
     "lerna-version": "npx lerna version --conventional-commits --yes",
-    "publish": "npx lerna run publish"
+    "publish": "npx lerna publish"
   },
   "repository": {
     "type": "git",
