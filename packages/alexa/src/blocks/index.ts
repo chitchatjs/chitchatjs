@@ -21,6 +21,7 @@ import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
 import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
 import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
 import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
+import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
 
 export namespace alexa {
   export function dialogManager(skill: Skill) {
@@ -145,5 +146,17 @@ export namespace alexa {
 
   export function intent(name: string, samples?: string[], slots?: Slot[]) {
     return new IntentBlockBuilder(name, samples, slots);
+  }
+
+  /**
+   * Use this block when you're expecting an intent request
+   * and want to check if slot value is present.
+   * You can then wire the .then() to a prompt.
+   * And optionally use .otherwise().
+   *
+   * @param slotName Slot name
+   */
+  export function whenMissingSlot(slotName: string) {
+    return new WhenSlotNotFilledBlockBuilder(slotName);
   }
 }
