@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.2.1...@chitchatjs/alexa@0.2.2) (2020-10-15)
+
+
+### Bug Fixes
+
+* adding ax.whenMissingSlot() block for slot prompts ([6cca0c6](https://github.com/chitchatjs/chitchatjs/commit/6cca0c633caa8487a9a8475a5ff716709ee9b078)), closes [#19](https://github.com/chitchatjs/chitchatjs/issues/19) [#19](https://github.com/chitchatjs/chitchatjs/issues/19)
+
+
+
+
+
 ## [0.2.1](https://github.com/kevindra/chitchatjs/compare/@chitchatjs/alexa@0.2.0...@chitchatjs/alexa@0.2.1) (2020-10-14)
 
 
