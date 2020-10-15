@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/alexa",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Alexa dialog manager using ChitchatJS.",
   "keywords": [
     "voice",
