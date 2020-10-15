@@ -103,27 +103,4 @@ describe("WhenSlotNotFilledBlockBuilder", () => {
 
     expect(dialogContext.currentResponse.response.outputSpeech).to.be.undefined;
   });
-
-  it("should not invoke thenBlock if slot is present in the intent request but intent is mismatch", async () => {
-    let event: AlexaEvent = { currentRequest: helloIntentRequest };
-    let dialogContext: AlexaDialogContext = {
-      platformState: { globalState: {}, currentStateName: "" },
-      currentResponse: {
-        version: "1.0",
-        response: JSON.parse("{}"),
-      },
-    };
-
-    let promptMsg = "Hello world";
-    let b = new WhenSlotNotFilledBlockBuilder("city")
-      .for("WeatherIntent")
-      .then(ax.say("bla bla"))
-      .otherwise(ax.say(promptMsg))
-      .build();
-    b.execute(dialogContext, event);
-
-    expect(dialogContext.currentResponse.response.outputSpeech).to.not.be.undefined;
-    let s = <ui.SsmlOutputSpeech>dialogContext.currentResponse.response.outputSpeech;
-    expect(s.ssml).equals(`<speak>${promptMsg}</speak>`);
-  });
 });
