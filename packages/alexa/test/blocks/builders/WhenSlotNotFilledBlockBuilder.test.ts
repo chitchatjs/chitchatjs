@@ -49,10 +49,15 @@ describe("WhenSlotNotFilledBlockBuilder", () => {
     expect(s.ssml).equals(`<speak>${promptMsg}</speak>`);
   });
 
-  it("should not invoke thenBlock if slot is present in the intent request", async () => {
+  it("should not invoke thenBlock if slot is present in the state", async () => {
     let event: AlexaEvent = { currentRequest: weatherIntentRequestOneMissingSlot };
     let dialogContext: AlexaDialogContext = {
-      platformState: { globalState: {}, currentStateName: "" },
+      platformState: {
+        globalState: {
+          city: "seattle",
+        },
+        currentStateName: "",
+      },
       currentResponse: {
         version: "1.0",
         response: JSON.parse("{}"),
@@ -66,10 +71,15 @@ describe("WhenSlotNotFilledBlockBuilder", () => {
     expect(dialogContext.currentResponse.response.outputSpeech).to.be.undefined;
   });
 
-  it("should invoke thenBlock if slot is present in the intent request", async () => {
+  it("should invoke thenBlock if slot is present in the state", async () => {
     let event: AlexaEvent = { currentRequest: weatherIntentRequestOneMissingSlot };
     let dialogContext: AlexaDialogContext = {
-      platformState: { globalState: {}, currentStateName: "" },
+      platformState: {
+        globalState: {
+          city: "seattle",
+        },
+        currentStateName: "",
+      },
       currentResponse: {
         version: "1.0",
         response: JSON.parse("{}"),
@@ -102,28 +112,5 @@ describe("WhenSlotNotFilledBlockBuilder", () => {
     b.execute(dialogContext, event);
 
     expect(dialogContext.currentResponse.response.outputSpeech).to.be.undefined;
-  });
-
-  it("should not invoke thenBlock if slot is present in the intent request but intent is mismatch", async () => {
-    let event: AlexaEvent = { currentRequest: helloIntentRequest };
-    let dialogContext: AlexaDialogContext = {
-      platformState: { globalState: {}, currentStateName: "" },
-      currentResponse: {
-        version: "1.0",
-        response: JSON.parse("{}"),
-      },
-    };
-
-    let promptMsg = "Hello world";
-    let b = new WhenSlotNotFilledBlockBuilder("city")
-      .for("WeatherIntent")
-      .then(ax.say("bla bla"))
-      .otherwise(ax.say(promptMsg))
-      .build();
-    b.execute(dialogContext, event);
-
-    expect(dialogContext.currentResponse.response.outputSpeech).to.not.be.undefined;
-    let s = <ui.SsmlOutputSpeech>dialogContext.currentResponse.response.outputSpeech;
-    expect(s.ssml).equals(`<speak>${promptMsg}</speak>`);
   });
 });

@@ -22,6 +22,9 @@ import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
 import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
 import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
 import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
+import { isInteger } from "lodash";
+import { intent_utils } from "../util/IntentUtils";
+import { Intent, IntentRequest } from "ask-sdk-model";
 
 export namespace alexa {
   export function dialogManager(skill: Skill) {
@@ -58,9 +61,18 @@ export namespace alexa {
 
   export function whenIntentName(intentName: string) {
     return alexa.when().true((c: AlexaDialogContext, e: AlexaEvent) => {
+      let isIntentRequest = false;
       if (e.currentRequest.request.type === "IntentRequest") {
-        return e.currentRequest.request.intent.name === intentName;
+        let req = <IntentRequest>e.currentRequest.request;
+        if ((isIntentRequest = req.intent.name === intentName)) {
+          // update state to capture slots
+          let state = c.platformState.globalState;
+          let flattenSlots = intent_utils.flattenSlotValues(req);
+          c.platformState.globalState = Object.assign(state, flattenSlots);
+          return true;
+        }
       }
+
       return false;
     });
   }
