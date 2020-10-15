@@ -1,4 +1,10 @@
 {
-    "packages": ["packages/*"],
-    "version": "independent"
+  "packages": ["packages/*"],
+  "version": "independent",
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "message": "chore(release): npm release"
+    }
+  }
 }
