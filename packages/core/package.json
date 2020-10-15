@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kevindra/chitchatjs.git"
+    "url": "git+https://github.com/chitchat/chitchatjs.git"
   },
   "scripts": {
     "build": "npm run clean && tsc",
@@ -28,7 +28,7 @@
     "coverage": "npx nyc npm run test"
   },
   "bugs": {
-    "url": "https://github.com/kevindra/chitchatjs/issues"
+    "url": "https://github.com/chitchatjs/chitchatjs/issues"
   },
   "gitHead": "5bb7a18691ca3ee780e8512f98eb24251914c2a4",
   "dependencies": {
