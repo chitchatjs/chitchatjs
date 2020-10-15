@@ -43,8 +43,7 @@ export class WhenSlotNotFilledBlockBuilder {
     let request = <IntentRequest>event.currentRequest.request;
     if (request.type !== "IntentRequest") return;
 
-    let slots = request.intent.slots;
-    if (slots && slots[this._slotName] && !slots[this._slotName].value) {
+    if (!context.platformState.globalState[this._slotName]) {
       this._thenBlock?.execute(context, event);
     } else {
       this._otherwiseBlock?.execute(context, event);

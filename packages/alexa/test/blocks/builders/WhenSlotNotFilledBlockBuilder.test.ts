@@ -49,10 +49,15 @@ describe("WhenSlotNotFilledBlockBuilder", () => {
     expect(s.ssml).equals(`<speak>${promptMsg}</speak>`);
   });
 
-  it("should not invoke thenBlock if slot is present in the intent request", async () => {
+  it("should not invoke thenBlock if slot is present in the state", async () => {
     let event: AlexaEvent = { currentRequest: weatherIntentRequestOneMissingSlot };
     let dialogContext: AlexaDialogContext = {
-      platformState: { globalState: {}, currentStateName: "" },
+      platformState: {
+        globalState: {
+          city: "seattle",
+        },
+        currentStateName: "",
+      },
       currentResponse: {
         version: "1.0",
         response: JSON.parse("{}"),
@@ -66,10 +71,15 @@ describe("WhenSlotNotFilledBlockBuilder", () => {
     expect(dialogContext.currentResponse.response.outputSpeech).to.be.undefined;
   });
 
-  it("should invoke thenBlock if slot is present in the intent request", async () => {
+  it("should invoke thenBlock if slot is present in the state", async () => {
     let event: AlexaEvent = { currentRequest: weatherIntentRequestOneMissingSlot };
     let dialogContext: AlexaDialogContext = {
-      platformState: { globalState: {}, currentStateName: "" },
+      platformState: {
+        globalState: {
+          city: "seattle",
+        },
+        currentStateName: "",
+      },
       currentResponse: {
         version: "1.0",
         response: JSON.parse("{}"),
