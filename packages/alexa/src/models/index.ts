@@ -85,7 +85,6 @@ export interface SlotTypeBlock extends AlexaBlock {
 export interface WhenSlotNotFilledBlock extends AlexaBlock {
   type: "WhenSlotNotFilledBlock";
   name: string;
-  intentName?: string;
   then: AlexaBlock;
   otherwise?: AlexaBlock;
 }
