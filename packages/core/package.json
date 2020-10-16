@@ -1,9 +1,9 @@
 {
   "name": "@chitchatjs/core",
   "version": "0.2.1",
-  "description": "Core ChitchatJS engine. ChitchatJS provides an easy way to add a dialog manager to your Alexa Skills.",
+  "description": "Core chitchat.js library. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
-  "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/core#readme",
+  "homepage": "https://chitchat.js.org",
   "license": "ISC",
   "main": "dist/index.js",
   "directories": {
