@@ -1,7 +1,7 @@
 import { IntentRequest } from "ask-sdk-model";
 import { WhenUserSaysBlock } from "@chitchatjs/core";
 import { v1 } from "ask-smapi-model";
-import { extractVariables, getSlotTypeFromSlotName } from "../../util/StringUtils";
+import { extractVariables, getSlotTypeFromSlotName, listEquals } from "../../util/StringUtils";
 import {
   AlexaBlock,
   AlexaBuilderContext,
@@ -15,6 +15,7 @@ import {
 } from "../../models";
 import { resource_utils, paths } from "../../util/ResourceUtil";
 import { intent_utils } from "../../util/IntentUtils";
+import { context_util } from "../../util/ContextUtil";
 
 type TypeMapping = { [name: string]: string };
 
@@ -131,10 +132,37 @@ export class WhenUserSaysBlockBuilder {
       slots: slots,
     };
 
-    this._updateInteractionModel(context, intent, slots, locale);
+    let duplicateSamples = this._utterancesAlreadyExist(context, intent, locale);
+
+    // only add if interaction model doesn't already have this list
+    if (!duplicateSamples) {
+      this._updateInteractionModel(context, intent, slots, locale);
+    }
   };
 
-  private _updateInteractionModel = (context: AlexaBuilderContext, intent: Intent, slots: Slot[], locale: Locale) => {
+  private _utterancesAlreadyExist(context: AlexaBuilderContext, intent: Intent, locale: Locale) {
+    let intentSamples = intent.samples || [];
+
+    let im = context_util.getIM(context, locale);
+    let imIntents: Intent[] = im.interactionModel?.languageModel?.intents || [];
+
+    for (let k in imIntents) {
+      let imIntent = imIntents[k];
+      let imIntentSamples = imIntent.samples || [];
+
+      if (listEquals(intentSamples, imIntentSamples)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private _updateInteractionModel = (
+    context: AlexaBuilderContext,
+    intent: Intent,
+    slots: Slot[],
+    locale: Locale
+  ) => {
     let imPath = paths.getInteractionModelPath(locale);
 
     let im: InteractionModel | undefined = undefined;

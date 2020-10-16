@@ -1,5 +1,6 @@
 import { alexa as ax } from "../blocks";
 import { AlexaBuilderContext, InteractionModel, Locale, SkillManifestEnvelope } from "../models";
+import { context_util } from "../util/ContextUtil";
 import { extractVariables } from "../util/StringUtils";
 
 let b = ax
@@ -25,6 +26,19 @@ let b = ax
           .compound()
           .add(ax.info().invocationName("super skill").name("Super skill").build())
           .add(ax.intent("HelloIntent", ["hello how are you"]).build())
+          .add(
+            ax
+              .whenUserSays([
+                "hello how are you {num|AMAZON.NUMBER}",
+                "what's {name} {name} up {name}",
+                "what are you doing {boo}",
+              ])
+              .withSlotType("name", "AMAZON.FIRST_NAME")
+              .withSlotType("boo", "AMAZON.US_CITY")
+              .withSlotType("xxx", "AMAZON.FIRST_NAME")
+              .then(ax.say("hello, {name}"))
+              .build()
+          )
           .build()
       )
       .build()
@@ -86,10 +100,11 @@ ctx.resources.resourceMap[skillManifest] = JSON.stringify(<SkillManifestEnvelope
 b.build(ctx);
 
 // console.log(JSON.stringify(ctx.resources.resourceMap, null, 2));
-
 // console.log(JSON.stringify(JSON.parse(ctx.resources.resourceMap[imKey]), null, 2));
-console.log(JSON.stringify(JSON.parse(ctx.resources.resourceMap[skillManifest]), null, 2));
-
-console.log(JSON.stringify(ctx.resources.resourceMap, null, 2));
-
+// console.log(JSON.stringify(JSON.parse(ctx.resources.resourceMap[skillManifest]), null, 2));
+// console.log(JSON.stringify(ctx.resources.resourceMap, null, 2));
 // console.log(extractVariables("{Hello} how are you {name} asdads {bla|AMAZON.US_CITY}"));
+
+console.log("enus: " + JSON.stringify(context_util.getIM(ctx, Locale.en_US)));
+console.log("enin: " + JSON.stringify(context_util.getIM(ctx, Locale.en_IN)));
+console.log("esmx: " + JSON.stringify(context_util.getIM(ctx, Locale.es_MX)));
