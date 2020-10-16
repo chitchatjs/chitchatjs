@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/cli",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "chitchat.js CLI. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
   "keywords": [
     "voice",
