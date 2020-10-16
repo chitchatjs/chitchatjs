@@ -14,72 +14,37 @@ let deployCommand = new DeployCommand();
 // https://devhints.io/yargs
 
 function setupCommands() {
-    let args =
-        // .strict()
-        yargs
-            .scriptName(chalk.green("cjs"))
-            .usage(`$0 ${chalk.blue("[cmd]")} ${chalk.magenta("[options]")}`)
+  let args = yargs
+    .scriptName(chalk.green("cjs"))
+    .usage(`$0 ${chalk.blue("[cmd]")} ${chalk.magenta("[options]")}`)
 
-            .command(
-                "new",
-                "🚧 Create a new ChitchatJS project.",
-                newCommand.initializer(),
-                newCommand.executor()
-            )
-            .command(
-                "add",
-                "➕ Create a new talk.",
-                (yargs) => {},
-                (argv) => {
-                    console.log("Command executed.");
-                }
-            )
-            .command(
-                "build",
-                "🔨 Build the project.",
-                buildCommand.initializer(),
-                buildCommand.executor()
-            )
-            .command(
-                "deploy",
-                "🚀 Deploy the project (requires ask-cli).",
-                deployCommand.initializer(),
-                deployCommand.executor()
-            )
-            .command(
-                "clean",
-                "⛔ Clean up.",
-                (yargs) => {},
-                (argv) => {
-                    console.log("Not implemented yet.");
-                }
-            )
+    .command("new", "🚧 Create a new Chitchat project.", newCommand.initializer(), newCommand.executor())
+    .command("build", "🔨 Build the project.", buildCommand.initializer(), buildCommand.executor())
+    .command(
+      "deploy",
+      "🚀 Deploy the project (requires ask-cli).",
+      deployCommand.initializer(),
+      deployCommand.executor()
+    )
 
-            .alias("h", "help")
-            .help("help")
-            .describe("help", "See what's available!")
-            .showHelpOnFail(
-                true,
-                "Specify --help or -h for available commands and options."
-            )
+    .alias("h", "help")
+    .help("help")
+    .describe("help", "See what's available!")
+    .showHelpOnFail(true, "Specify --help or -h for available commands and options.")
 
-            .alias("v", "version")
-            .describe("version", "Show current version of CJS.").argv;
+    .alias("v", "version")
+    .describe("version", "Show current version of CJS.").argv;
 
-    if (args["_"] && args["_"].length == 0) {
-        /**
-         * Figlets are fun,
-         * and so is Chalk!
-         */
-        console.log(buildBanner("Chit chat JS"));
+  if (args["_"] && args["_"].length == 0) {
+    console.log(buildBanner("Chit chat JS"));
 
-        yargs.showHelp();
-        process.exit(0);
-    }
+    yargs.showHelp();
+    process.exit(0);
+  }
 }
 
 try {
-    setupCommands();
+  setupCommands();
 } catch (err) {
-    logger.errorAndExit(err.stack);
+  logger.errorAndExit(err.stack);
 }
