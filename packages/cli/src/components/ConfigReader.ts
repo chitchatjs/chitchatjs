@@ -7,17 +7,24 @@ const DEFAULT_CONFIG: Config = {
   version: "1.0",
   templates: [
     {
-      name: "hello-bot",
+      name: "Hello Bot",
       url: {
         type: "GIT",
         value: "https://github.com/chitchatjs/hello-bot-template.git",
       },
     },
     {
-      name: "pet-match",
+      name: "Dog Match",
       url: {
         type: "GIT",
         value: "https://github.com/chitchatjs/pet-match-template.git",
+      },
+    },
+    {
+      name: "High Low Game",
+      url: {
+        type: "GIT",
+        value: "https://github.com/chitchatjs/high-low-game.git",
       },
     },
   ],
@@ -48,7 +55,9 @@ export class ConfigReader {
     }
 
     let cfg = fs.readFileSync(path.join(configDir, CONFIG_NAME), "utf8");
-    return JSON.parse(cfg) as Config;
+
+    // merge with default config to make sure we append new skills as we launch them
+    return Object.assign(DEFAULT_CONFIG, JSON.parse(cfg));
   }
 
   exists(configDir: string) {

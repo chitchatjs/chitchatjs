@@ -1,7 +1,6 @@
 import { AlexaBuilderContext, Skill } from "@chitchatjs/alexa";
-import { v1 } from "ask-smapi-model";
 import { BuilderContext } from "@chitchatjs/core";
-import { ErrorMessage, logger } from "../util/util";
+import { logger } from "../util/util";
 import { BuildConfig } from "../builder/ProjectBuilder";
 import { FileWriter } from "./FileWriter";
 import * as path from "path";
@@ -11,173 +10,170 @@ import {} from "@chitchatjs/alexa";
 import { InteractionModel, SkillManifestEnvelope } from "@chitchatjs/alexa";
 import { ProjectBootstrapper } from "./ProjectBootstrapper";
 
-// TODO - look into validations
-// https://www.npmjs.com/package/typescript-json-validator
-
 /**
- * This assumes that data provided to it is valid.
- * No validations available right now.
+ * Builds the skill using root block's build method.
  */
 export class SkillBuilder {
-    /**
-     * Builds the skill into its original artifacts
-     * @param skill AlexaSkill
-     * @param buildConfig BuildConfig
-     */
-    build(skill: Skill, buildConfig: BuildConfig) {
-        let states = skill.states;
-        // TODO Clean this up
-        new ProjectBootstrapper().bootstrapProject(buildConfig);
-        let builderContext: AlexaBuilderContext = this.initBuilderContext();
+  /**
+   * Builds the skill into its original artifacts
+   * @param skill AlexaSkill
+   * @param buildConfig BuildConfig
+   */
+  build(skill: Skill, buildConfig: BuildConfig) {
+    let states = skill.states;
+    new ProjectBootstrapper().bootstrapProject(buildConfig);
 
-        Object.keys(states).forEach((stateName: string) => {
-            states[stateName].block.build(builderContext);
-        });
+    let builderContext: AlexaBuilderContext = this.initBuilderContext();
 
-        this.writeContentOnDisk(builderContext, buildConfig);
-    }
+    Object.keys(states).forEach((stateName: string) => {
+      states[stateName].block.build(builderContext);
+    });
 
-    writeContentOnDisk(builderContext: BuilderContext, buildConfig: BuildConfig) {
-        console.log("Updated Builder Context after builders: " + JSON.stringify(builderContext, null, 2));
-        let fw = new FileWriter();
+    this.writeContentOnDisk(builderContext, buildConfig);
+  }
 
-        let outDir = buildConfig.outDir;
-        let currDir = process.cwd();
+  writeContentOnDisk(builderContext: BuilderContext, buildConfig: BuildConfig) {
+    console.log("Updated Builder Context after builders: " + JSON.stringify(builderContext, null, 2));
+    let fw = new FileWriter();
 
-        let skillPackageRoot = path.join(currDir, outDir, "/skill-package");
+    let outDir = buildConfig.outDir;
+    let currDir = process.cwd();
 
-        let resourceMap = builderContext.resources.resourceMap;
+    let skillPackageRoot = path.join(currDir, outDir, "/skill-package");
 
-        Object.keys(resourceMap).forEach((p: string) => {
-            let resourcePath = path.join(skillPackageRoot, p);
+    let resourceMap = builderContext.resources.resourceMap;
 
-            if (p === "/skill.json") {
-                // if manifest, perform selective merge
-                if (!fw.existsSync(resourcePath)) {
-                    logger.info(`Writing ${resourcePath}`);
-                    fse.ensureFileSync(resourcePath);
-                    fw.write(resourcePath, JSON.parse(resourceMap[p]));
-                    logger.info(`Created ${resourcePath}`);
-                } else {
-                    let manifestOnDisk: SkillManifestEnvelope = JSON.parse(fw.read(resourcePath));
+    Object.keys(resourceMap).forEach((p: string) => {
+      let resourcePath = path.join(skillPackageRoot, p);
 
-                    // Keep the endpoint when writing to an existing manifest file.
-                    let endpoint = manifestOnDisk.manifest?.apis?.custom?.endpoint;
-                    let resourceMapManifest: SkillManifestEnvelope = JSON.parse(resourceMap[p]) || {};
-                    // if endpoint on disk manifest is present
-                    if (endpoint !== undefined) {
-                        if (
-                            resourceMapManifest.manifest &&
-                            resourceMapManifest.manifest.apis &&
-                            resourceMapManifest.manifest.apis.custom
-                        ) {
-                            if (
-                                !resourceMapManifest.manifest.apis.custom.endpoint ||
-                                resourceMapManifest.manifest.apis.custom.endpoint === ""
-                            ) {
-                                // update end point in the resource manifest only if user didn't supply it themselves
-                                resourceMapManifest.manifest.apis.custom.endpoint = endpoint;
-                            }
-                        }
-                    }
+      if (p === "/skill.json") {
+        // if manifest, perform selective merge
+        if (!fw.existsSync(resourcePath)) {
+          logger.info(`Writing ${resourcePath}`);
+          fse.ensureFileSync(resourcePath);
+          fw.write(resourcePath, JSON.parse(resourceMap[p]));
+          logger.info(`Created ${resourcePath}`);
+        } else {
+          let manifestOnDisk: SkillManifestEnvelope = JSON.parse(fw.read(resourcePath));
 
-                    fw.write(resourcePath, resourceMapManifest);
-                    logger.info(`Merged manifest as it already exists.`);
-                }
-            } else {
-                logger.info(`Copy ${resourcePath}`);
-                // otherwise, simply copy the content.
-                fse.ensureFileSync(resourcePath);
-                fw.write(resourcePath, JSON.parse(resourceMap[p]));
+          // Keep the endpoint when writing to an existing manifest file.
+          let endpoint = manifestOnDisk.manifest?.apis?.custom?.endpoint;
+          let resourceMapManifest: SkillManifestEnvelope = JSON.parse(resourceMap[p]) || {};
+          // if endpoint on disk manifest is present
+          if (endpoint !== undefined) {
+            if (
+              resourceMapManifest.manifest &&
+              resourceMapManifest.manifest.apis &&
+              resourceMapManifest.manifest.apis.custom
+            ) {
+              if (
+                !resourceMapManifest.manifest.apis.custom.endpoint ||
+                resourceMapManifest.manifest.apis.custom.endpoint === ""
+              ) {
+                // update end point in the resource manifest only if user didn't supply it themselves
+                resourceMapManifest.manifest.apis.custom.endpoint = endpoint;
+              }
             }
-        });
+          }
 
-        // WRITE LAMBDA FUNCTION
-        let lambdaPath = path.join(currDir, outDir, "/lambda");
-        logger.info(`Copying lambda code to the lambda directory: ${lambdaPath}`);
-        // Only copy package(-lock).json, dist and node_modules dependencies
-        fse.ensureDirSync(lambdaPath);
-        shell.cp("-R", ["*.json", "./dist", "./node_modules"], lambdaPath);
-        logger.success("Done building.");
-    }
+          fw.write(resourcePath, resourceMapManifest);
+          logger.info(`Merged manifest as it already exists.`);
+        }
+      } else {
+        logger.info(`Copy ${resourcePath}`);
+        // otherwise, simply copy the content.
+        fse.ensureFileSync(resourcePath);
+        fw.write(resourcePath, JSON.parse(resourceMap[p]));
+      }
+    });
 
-    initBuilderContext(): AlexaBuilderContext {
-        /**
-         * Interaction Model stuff
-         */
-        let im: InteractionModel = {
-            version: "1.0",
-            interactionModel: {
-                languageModel: {
-                    invocationName: "october eleven", // TODO FIX ME
-                    intents: [
-                        {
-                            name: "AMAZON.StopIntent",
-                            samples: [],
-                        },
-                        {
-                            name: "AMAZON.FallbackIntent",
-                            samples: [],
-                        },
-                        {
-                            name: "AMAZON.CancelIntent",
-                            samples: [],
-                        },
-                        {
-                            name: "AMAZON.HelpIntent",
-                            samples: [],
-                        },
-                    ],
-                    types: [],
-                    modelConfiguration: {
-                        fallbackIntentSensitivity: {
-                            level: "LOW",
-                        },
-                    },
-                },
+    // WRITE LAMBDA FUNCTION
+    let lambdaPath = path.join(currDir, outDir, "/lambda");
+    logger.info(`Copying lambda code to the lambda directory: ${lambdaPath}`);
+
+    // Only copy package(-lock).json, dist and node_modules dependencies
+    fse.ensureDirSync(lambdaPath);
+    shell.cp("-R", ["*.json", "./dist", "./node_modules"], lambdaPath);
+    logger.success("Done building.");
+  }
+
+  initBuilderContext(): AlexaBuilderContext {
+    /**
+     * Interaction Model stuff
+     */
+    let im: InteractionModel = {
+      version: "1.0",
+      interactionModel: {
+        languageModel: {
+          invocationName: "chitchat bot",
+          intents: [
+            {
+              name: "AMAZON.StopIntent",
+              samples: [],
             },
-        };
-
-        let interactionModels: { [name: string]: InteractionModel } = {
-            "en-US": im,
-        };
-
-        /**
-         * Skill manifest stuff
-         */
-        let skillManifest: SkillManifestEnvelope = {
-            manifest: {
-                manifestVersion: "1.0",
-                apis: {
-                    custom: {},
-                },
-                publishingInformation: {
-                    locales: {
-                        "en-US": {
-                            summary: "Sample Short Description",
-                            examplePhrases: ["Alexa open hello world", "hello", "help"],
-                            name: "Chitchat Bot",
-                            description: "Sample Full Description",
-                        },
-                    },
-                    isAvailableWorldwide: true,
-                    testingInstructions: "Sample Testing Instructions.",
-                    category: "KNOWLEDGE_AND_TRIVIA",
-                    distributionCountries: [],
-                },
+            {
+              name: "AMAZON.FallbackIntent",
+              samples: [],
             },
-        };
-
-        let builderContext: AlexaBuilderContext = {
-            resources: {
-                resourceMap: {
-                    "/skill.json": JSON.stringify(skillManifest),
-                    "/interactionModels/custom/en-US.json": JSON.stringify(interactionModels["en-US"]),
-                },
+            {
+              name: "AMAZON.CancelIntent",
+              samples: [],
             },
-        };
+            {
+              name: "AMAZON.HelpIntent",
+              samples: [],
+            },
+          ],
+          types: [],
+          modelConfiguration: {
+            fallbackIntentSensitivity: {
+              level: "LOW",
+            },
+          },
+        },
+      },
+    };
 
-        console.log("BuilderContext ready: " + JSON.stringify(builderContext, null, 2));
-        return builderContext;
-    }
+    let interactionModels: { [name: string]: InteractionModel } = {
+      "en-US": im,
+    };
+
+    /**
+     * Skill manifest stuff
+     */
+    let skillManifest: SkillManifestEnvelope = {
+      manifest: {
+        manifestVersion: "1.0",
+        apis: {
+          custom: {},
+        },
+        publishingInformation: {
+          locales: {
+            "en-US": {
+              summary: "Sample Short Description",
+              examplePhrases: ["Alexa open hello world", "hello", "help"],
+              name: "Chitchat Bot",
+              description: "Sample Full Description",
+            },
+          },
+          isAvailableWorldwide: true,
+          testingInstructions: "Sample Testing Instructions.",
+          category: "KNOWLEDGE_AND_TRIVIA",
+          distributionCountries: [],
+        },
+      },
+    };
+
+    let builderContext: AlexaBuilderContext = {
+      resources: {
+        resourceMap: {
+          "/skill.json": JSON.stringify(skillManifest),
+          "/interactionModels/custom/en-US.json": JSON.stringify(interactionModels["en-US"]),
+        },
+      },
+    };
+
+    console.log("BuilderContext ready: " + JSON.stringify(builderContext, null, 2));
+    return builderContext;
+  }
 }
