@@ -1,13 +1,15 @@
 {
   "name": "@chitchatjs/cli",
   "version": "0.3.2",
-  "description": "Chitchat JS CLI",
+  "description": "chitchat.js CLI. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
   "keywords": [
-    "ChitchatJS",
-    "CLI"
+    "voice",
+    "framework",
+    "alexa",
+    "skill"
   ],
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
-  "homepage": "https://github.com/kevindra/chitchatjs/tree/master/packages/cli#readme",
+  "homepage": "https://chitchat.js.org",
   "license": "ISC",
   "main": "dist/index.js",
   "bin": {
