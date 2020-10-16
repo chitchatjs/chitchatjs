@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/core",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Core chitchat.js library. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
   "homepage": "https://chitchat.js.org",
