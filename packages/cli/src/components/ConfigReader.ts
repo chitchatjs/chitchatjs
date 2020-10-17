@@ -27,6 +27,13 @@ const DEFAULT_CONFIG: Config = {
         value: "https://github.com/chitchatjs/high-low-game.git",
       },
     },
+    {
+      name: "Coffee Shop",
+      url: {
+        type: "GIT",
+        value: "https://github.com/chitchatjs/coffee-shop.git",
+      },
+    },
   ],
 };
 
@@ -66,6 +73,10 @@ export class ConfigReader {
 
   create(configDir: string) {
     fs.mkdirSync(configDir);
-    fs.writeFileSync(path.join(configDir, CONFIG_NAME), JSON.stringify(DEFAULT_CONFIG, null, 2), "utf8");
+    fs.writeFileSync(
+      path.join(configDir, CONFIG_NAME),
+      JSON.stringify(DEFAULT_CONFIG, null, 2),
+      "utf8"
+    );
   }
 }
