@@ -15,6 +15,8 @@
   </a>
 </p>
 
+<a href="https://chitchat.js.org">📄 Read the documentation</a>
+
 | Package                                                              | NPM                                                                                                                  | Build                                                                                                                                                                                                                                                                                                                 |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [@chitchatjs/cli](https://www.npmjs.com/package/@chitchatjs/cli)     | [![npm version](https://badge.fury.io/js/%40chitchatjs%2Fcli.svg)](https://badge.fury.io/js/%40chitchatjs%2Fcli)     | ![Build Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoicSt5K3NIM0xCa0pkVXNnb2p5TzJqODFzbFA0djNhNTY2eWFRVkhMSkNYVEhjSW9ETGZONldNdlNsWjA5WkRoS1VlZ1ZyeDArN1F0bStDWnZweEtEQTdvPSIsIml2UGFyYW1ldGVyU3BlYyI6IldhZlNpZUttSUlYSlBVY3ciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main) |
