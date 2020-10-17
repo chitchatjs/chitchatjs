@@ -1,18 +1,8 @@
 # `chitchat.js alexa library`
 
 <p align="left">
-  <a href="https://chitchat.js.org">
-  <br />
-  <img style="float: left" src="./images/logo/logo-128x128.png" alt="Chitchat.js"/>
-  <br />
-  <br />
-  <br />
+  <img style="float: right" src="./images/logo/logo-128x128.png" alt="Chitchat.js"/>
     <strong>JavaScript framework for building voice user interfaces.</strong>
-  <br />
-  <br />
-  <br />
-  <br />
-  </a>
 </p>
 
 <a href="https://chitchat.js.org">📄 Read the documentation</a>
