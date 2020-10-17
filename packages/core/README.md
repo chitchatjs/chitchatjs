@@ -1,6 +1,6 @@
 # `chitchat.js core library`
 
-<p align="left">
+<p>
   <img style="float: right" src="./images/logo/logo-128x128.png" alt="Chitchat.js"/>
     <strong>JavaScript framework for building voice user interfaces.</strong>
 </p>
