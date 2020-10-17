@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.2.4...@chitchatjs/alexa@0.2.5) (2020-10-17)
+
+
+### Bug Fixes
+
+* fixing a bug where whenUserSays() utterances result in duplicate intents ([9b7f37b](https://github.com/chitchatjs/chitchatjs/commit/9b7f37b78e6ee7625c71eb71332968a6ce702822)), closes [#41](https://github.com/chitchatjs/chitchatjs/issues/41)
+
+
+
+
+
 ## [0.2.4](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.2.3...@chitchatjs/alexa@0.2.4) (2020-10-16)
 
 **Note:** Version bump only for package @chitchatjs/alexa
