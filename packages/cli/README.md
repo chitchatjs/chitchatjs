@@ -2,41 +2,52 @@
 
 ![](./images/logo/logo-128x128.png)
 
+## What is chitchat.js? <Badge text="beta" />
+
 Chitchat (or CJS) is a framework for building voice driven multi-modal user interfaces (a.k.a. VUI). Chitchat is designed to be incrementally adaptable. You can write a simple rule based voice user interface or as complex as a machine learnt model based VUI. Chitchat comes with three primary components - core library (`@chichatjs/core`), a CLI (`@chitchatjs/cli`) and the implementation strategies (dialog management) which may or may not be platform dependent. We offer `@chitchatjs/alexa` to seamlessly integrate your voice user interface with Alexa.
 
 `@chichatjs/core` is a primitive base that defines core framework premitives that are voice-platform and dialog management strategy agnostic. `@chitchatjs/cli` provides an easy command access to create a project, build and deploy it (only supported for Alexa platform right now). `@chitchatjs/alexa` is a collection of VUI components designed on top of the core library specifically for Alexa Skill development.
 
-## Installation
+## Prerequisites
+
+Chitchat requires the following dependencies:
+
+- Node.js
+- [ASK CLI (configured)](https://www.npmjs.com/package/ask-cli)
+
+## Quick Start
+
+**1. Installation**
 
 ```sh
 npm i -g @chitchatjs/cli
 ```
 
-## Creating a new project
+**2. Creating a new project**
 
 ```sh
 cjs new # then choose a starting template
 ```
 
-## Build the project
+**3. Build the project**
 
 ```sh
 tsc && cjs build # tsc only if it is a typescript project
 ```
 
-## Deploy
+**4. Deploy**
 
 ```sh
 cjs deploy
 ```
 
-## And test..
+**5. And test..**
 
 You can either go to [Alexa Developer Console](https://developer.amazon.com) and open your skill and then go to the test tab.
 Or you can use [ask dialog command](https://developer.amazon.com/en-US/docs/alexa/smapi/ask-cli-command-reference.html#dialog-command) to test your dialog in CLI itself.
 
 ```sh
-ask dialog --skill-id <skill-id> --locale en-US --state development
+ask dialog --skill-id <skill-id> --locale en-US --stage development
 
 U> open my skill
 A> hello world!
@@ -83,7 +94,9 @@ let askName = ax
 exports = ax.dialogManager(skill).exports();
 ```
 
-## Or build and share a new Block and publish it on NPM
+## Writing a reusable Block
+
+A block for greeting with name, that we implemented above in our skill.
 
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
@@ -99,7 +112,11 @@ export namespace greetings {
 }
 ```
 
-## Now code for our skill will look like
+Now, we can download and use this block in our skill:
+
+```sh
+npm i cjs-greetings --save # assuming we name package as "cjs-greetings"
+```
 
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
@@ -124,10 +141,11 @@ let askName = ax
 exports = ax.dialogManager(skill).exports();
 ```
 
-## Other Packages
+## Packages
 
 1. [chitchat.js core library](https://www.npmjs.com/package/@chitchatjs/core)
 2. [chitchat.js alexa library](https://www.npmjs.com/package/@chitchatjs/alexa)
+3. [chitchat.js cli](https://www.npmjs.com/package/@chitchatjs/cli)
 
 **Sample Skills**
 
