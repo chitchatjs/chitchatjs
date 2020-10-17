@@ -1,11 +1,8 @@
 # `ChitchatJS`
 
-<p>
-  <img style="float: right" src="./images/logo/logo-128x128.png" alt="Chitchat.js"/>
-    <strong>JavaScript framework for building voice user interfaces.</strong>
-</p>
+![](./images/logo/logo-128x128.png)
 
-<a href="https://chitchat.js.org">📄 Read the documentation</a>
+<strong>🤖 JavaScript framework for building voice user interfaces. </strong> | <a href="https://chitchat.js.org">📄 Read the documentation </a>
 
 | Package                                                              | NPM                                                                                                                  | Build                                                                                                                                                                                                                                                                                                                 |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
