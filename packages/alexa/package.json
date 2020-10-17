@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/alexa",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Alexa dialog manager using chitchat.js. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
   "keywords": [
     "voice",
@@ -34,7 +34,7 @@
     "url": "https://github.com/chitchatjs/chitchatjs/issues"
   },
   "dependencies": {
-    "@chitchatjs/core": "^0.2.2",
+    "@chitchatjs/core": "^0.2.3",
     "ask-sdk-core": "^2.9.0",
     "ask-sdk-model": "^1.33.0",
     "ask-smapi-model": "^1.12.3",
