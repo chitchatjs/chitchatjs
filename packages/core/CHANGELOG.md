@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.2.3...@chitchatjs/core@0.2.4) (2020-10-19)
+
+
+### Bug Fixes
+
+* adding support for fallback and catch blocks for State objects ([69e7a30](https://github.com/chitchat/chitchatjs/commit/69e7a30ffbc0bc67d6eaa0fa2c1b379749e78fed)), closes [#17](https://github.com/chitchat/chitchatjs/issues/17)
+
+
+
+
+
 ## [0.2.3](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.2.2...@chitchatjs/core@0.2.3) (2020-10-17)
 
 **Note:** Version bump only for package @chitchatjs/core
