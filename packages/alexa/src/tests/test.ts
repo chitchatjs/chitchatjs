@@ -1,7 +1,18 @@
-import { getWeatherIntent, launchRequest, givemeweatIntent, sessionEndedRequest } from "./data/requests";
+import {
+  getWeatherIntent,
+  launchRequest,
+  givemeweatIntent,
+  sessionEndedRequest,
+} from "./data/requests";
 import { IntentRequest, RequestEnvelope } from "ask-sdk-model";
 import { alexa, alexa as ax } from "../blocks";
-import { AlexaBuilderContext, AlexaDialogContext, AlexaDialogEngine, AlexaEvent, Locale } from "../models";
+import {
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaDialogEngine,
+  AlexaEvent,
+  Locale,
+} from "../models";
 import { RuleBasedDialogEngine } from "../engine";
 import { AlexaDialogManager } from "..";
 import { defaultMaxListeners } from "stream";
@@ -125,8 +136,20 @@ let launch = ax
       .add(initializeSkill())
       .add(ax.ask("Welcome, you can ask me for weather!").reprompt("ask me for weather").build())
       .add(ax.goto("weather"))
+      // .add(
+      //   ax
+      //     .custom()
+      //     .executor((ctx: AlexaDialogContext, e: AlexaEvent) => {
+      //       throw new Error("BLA BLA ERROR");
+      //     })
+      //     .build()
+      // )
       .build()
   )
+  .catch((ctx: AlexaDialogContext, e: AlexaEvent, err: Error) => {
+    return ax.say("Something went wrong.");
+  })
+  // .fallback(ax.ask("I really don't understand.").build())
   .build();
 
 let weatherState = ax
@@ -134,7 +157,9 @@ let weatherState = ax
   .block(
     ax
       .compound()
-      .add(ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice")).build())
+      .add(
+        ax.whenUserSays(["give me weather for {usCity}"]).then(ax.say("Weather is nice")).build()
+      )
       .add(
         ax
           .custom()
@@ -158,14 +183,14 @@ let dm = ax.dialogManager(skill);
 
 executeDM(dm, launchRequest, (res) => {
   console.log(res);
-  console.log("----------------------------------------------");
-  executeDM(dm, givemeweatIntent, (res) => {
-    console.log(res);
-  });
+  // console.log("----------------------------------------------");
+  // executeDM(dm, givemeweatIntent, (res) => {
+  //   console.log(res);
+  // });
   // executeDM(dm, sessionEndedRequest, (res) => {
   //     console.log(res);
   // });
 
-  console.log("----------------------------------------------");
+  // console.log("----------------------------------------------");
 });
 console.log("----------------------------------------------");
