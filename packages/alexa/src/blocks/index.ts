@@ -3,17 +3,22 @@ import { SkillInfoBlockBuilder } from "./builders/SkillInfoBlockBuilder";
 import { TellSpeechBlockBuilder } from "./builders/TellSpeechBlockBuilder";
 import { WhenUserSaysBlockBuilder } from "./builders/WhenUserSaysBuilder";
 import {
-  Agent,
   StateBuilder,
   CompoundBlockBuilder,
   WhenBlockBuilder,
   SetGlobalStateBlockBuilder,
   RemoveGlobalStateBlockBuilder,
   GotoStateBlockBuilder,
-  RawResourceBlockBuilder,
   AgentBuilder,
 } from "@chitchatjs/core";
-import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, Skill, Locale, Slot } from "../models";
+import {
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent,
+  Skill,
+  Locale,
+  Slot,
+} from "../models";
 import { AlexaDialogManager } from "..";
 import { RuleBasedDialogEngine } from "../engine";
 import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
@@ -22,9 +27,8 @@ import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
 import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
 import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
 import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
-import { isInteger } from "lodash";
 import { intent_utils } from "../util/IntentUtils";
-import { Intent, IntentRequest } from "ask-sdk-model";
+import { IntentRequest } from "ask-sdk-model";
 
 export namespace alexa {
   export function dialogManager(skill: Skill) {
@@ -91,10 +95,14 @@ export namespace alexa {
       func = <typeof func>f;
     }
 
-    return new SetGlobalStateBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>().set(func).build();
+    return new SetGlobalStateBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>()
+      .set(func)
+      .build();
   }
 
-  export function removeStateVar(f: string | string[] | { (ctx: AlexaDialogContext, event: AlexaEvent): string[] }) {
+  export function removeStateVar(
+    f: string | string[] | { (ctx: AlexaDialogContext, event: AlexaEvent): string[] }
+  ) {
     let func: (ctx: AlexaDialogContext, event: AlexaEvent) => string[];
 
     if (typeof f === "string") {
