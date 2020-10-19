@@ -36,6 +36,155 @@ export enum Locale {
 }
 export const DEFAULT_LOCALE = Locale.en_US;
 
+export namespace ssml {
+  /**
+   * Ref - https://developer.amazon.com/en-US/docs/alexa/custom-skills/speech-synthesis-markup-language-ssml-reference.html#voice
+   */
+  export enum Voice {
+    Ivy = "Ivy",
+    Joanna = "Joanna",
+    Joey = "Joey",
+    Justin = "Justin",
+    Kendra = "Kendra",
+    Kimberly = "Kimberly",
+    Matthew = "Matthew",
+    Salli = "Salli",
+    Nicole = "Nicole",
+    Russell = "Russell",
+    Amy = "Amy",
+    Brian = "Brian",
+    Emma = "Emma",
+    Raveena = "Raveena",
+    Chantal = "Chantal",
+    Celine = "Celine",
+    Lea = "Lea",
+    Mathieu = "Mathieu",
+    Hans = "Hans",
+    Marlene = "Marlene",
+    Vicki = "Vicki",
+    Aditi = "Aditi",
+    Carla = "Carla",
+    Giorgio = "Giorgio",
+    Bianca = "Biance",
+    Mizuki = "Mizuki",
+    Takumi = "Takumi",
+    Vitoria = "Victoria",
+    Camila = "Camila",
+    Ricardo = "Ricardo",
+    Penelope = "Penelope",
+    Lupe = "Lupe",
+    Miguel = "Miguel",
+    Conchita = "Conchita",
+    Enrique = "Enrique",
+    Lucia = "Lucia",
+    Mia = "Mia",
+  }
+
+  export enum Domain {
+    conversational = "conversational",
+    long_form = "long-form",
+    music = "music",
+    news = "news",
+  }
+
+  export enum Effect {
+    whispered = "whispered",
+  }
+
+  export enum Emotion {
+    excited = "excited",
+    disappointed = "disappointed",
+  }
+
+  export enum Intensity {
+    low = "low",
+    medium = "medium",
+    high = "high",
+  }
+
+  export enum BreakStrength {
+    none = "none",
+    x_weak = "x-weak",
+    weak = "weak",
+    medium = "medium",
+    strong = "strong",
+    x_strong = "x-strong",
+  }
+
+  export enum EmphasisLevel {
+    strong = "strong",
+    moderate = "moderate",
+    reduced = "reduced",
+  }
+
+  export enum PhoneticAlphabet {
+    ipa = "ipa",
+    x_sampe = "x-sampe",
+  }
+
+  export enum Volume {
+    silent = "silent",
+    x_soft = "x-soft",
+    soft = "soft",
+    medium = "medium",
+    loud = "loud",
+    x_loud = "x-loud",
+  }
+
+  export enum Pitch {
+    x_low = "x-low",
+    low = "low",
+    medium = "medium",
+    high = "high",
+    x_high = "x-high",
+  }
+
+  export enum Rate {
+    x_slow = "x-slow",
+    slow = "slow",
+    medium = "medium",
+    fast = "fast",
+    x_fast = "x-fast",
+  }
+
+  export enum Interpreters {
+    characters = "characters",
+    spell_out = "spell-out",
+    cardinal = "cardinal",
+    number = "number",
+    ordinal = "ordinal",
+    digits = "digits",
+    fraction = "fraction",
+    unit = "unit",
+    date = "date",
+    time = "time",
+    telephone = "telephone",
+    address = "address",
+    interjection = "interjection",
+    expletive = "expletive",
+  }
+
+  export enum DateInterpreterFormat {
+    mdy = "mdy",
+    dmy = "dmy",
+    ymd = "ymd",
+    md = "md",
+    dm = "dm",
+    ym = "ym",
+    my = "my",
+    d = "d",
+    m = "m",
+    y = "y",
+  }
+
+  export enum WordRole {
+    vb = "amazon:VB",
+    vbd = "amazon:VBD",
+    nn = "amazon:NN",
+    sense_1 = "amazon:SENSE_1",
+  }
+}
+
 export interface AlexaDialogContext extends DialogContext {
   currentResponse: ResponseEnvelope;
 }
@@ -87,4 +236,9 @@ export interface WhenSlotNotFilledBlock extends AlexaBlock {
   name: string;
   then: AlexaBlock;
   otherwise?: AlexaBlock;
+}
+
+export interface SSMLSpeechBlock extends AlexaBlock {
+  type: "SSMLSpeechBlock";
+  speech: string;
 }
