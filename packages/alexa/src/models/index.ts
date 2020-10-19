@@ -1,5 +1,5 @@
 import { BuilderContext, Agent, DialogContext, Event, DialogEngine, Block } from "@chitchatjs/core";
-import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
+import { Directive, RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
 
 import { v1 } from "ask-smapi-model";
 
@@ -203,6 +203,7 @@ export interface AlexaEvent extends Event {
 export interface SkillInfoBlock extends AlexaBlock {
   type: "SkillInfoBlock";
   skillName: string;
+  invocationName: string;
 }
 
 export interface EmptyBlock extends AlexaBlock {
@@ -241,4 +242,9 @@ export interface WhenSlotNotFilledBlock extends AlexaBlock {
 export interface SSMLSpeechBlock extends AlexaBlock {
   type: "SSMLSpeechBlock";
   speech: string;
+}
+
+export interface DirectiveBlock extends AlexaBlock {
+  type: "DirectiveBlock";
+  directive: Directive;
 }

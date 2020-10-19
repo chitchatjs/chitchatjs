@@ -28,8 +28,9 @@ import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
 import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
 import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
 import { intent_utils } from "../util/IntentUtils";
-import { IntentRequest } from "ask-sdk-model";
+import { Directive, IntentRequest } from "ask-sdk-model";
 import { SSMLSpeechBlockBuilder } from "./builders/SSMLSpeechBlockBuilder";
+import { DirectiveBlockBuilder } from "./builders/DirectiveBlockBuilder";
 
 export namespace alexa {
   export function dialogManager(skill: Skill) {
@@ -188,5 +189,13 @@ export namespace alexa {
    */
   export function ssml(speech: string) {
     return new SSMLSpeechBlockBuilder(speech);
+  }
+
+  /**
+   * Adds the specified directive to the response.
+   * @param directive Directive
+   */
+  export function directive(directive: Directive) {
+    return new DirectiveBlockBuilder(directive).build();
   }
 }
