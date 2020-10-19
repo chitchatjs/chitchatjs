@@ -29,6 +29,7 @@ import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
 import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
 import { intent_utils } from "../util/IntentUtils";
 import { IntentRequest } from "ask-sdk-model";
+import { SSMLSpeechBlockBuilder } from "./builders/SSMLSpeechBlockBuilder";
 
 export namespace alexa {
   export function dialogManager(skill: Skill) {
@@ -178,5 +179,14 @@ export namespace alexa {
    */
   export function whenMissingSlot(slotName: string) {
     return new WhenSlotNotFilledBlockBuilder(slotName);
+  }
+
+  /**
+   * Builds a SSML speech.
+   *
+   * @param speech text to speak
+   */
+  export function ssml(speech: string) {
+    return new SSMLSpeechBlockBuilder(speech);
   }
 }
