@@ -18,6 +18,7 @@ import {
   Skill,
   Locale,
   Slot,
+  SSMLSpeechBlock,
 } from "../models";
 import { AlexaDialogManager } from "..";
 import { RuleBasedDialogEngine } from "../engine";
@@ -185,9 +186,9 @@ export namespace alexa {
   /**
    * Builds a SSML speech.
    *
-   * @param speech text to speak
+   * @param speech text to speak or SSMLSpeechBlock
    */
-  export function ssml(speech: string) {
+  export function ssml(speech: string | SSMLSpeechBlock) {
     return new SSMLSpeechBlockBuilder(speech);
   }
 
