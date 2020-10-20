@@ -5,6 +5,7 @@ import { expect } from "chai";
 import "mocha";
 import { AlexaBuilderContext, Locale, Slot, ssml, SSMLSpeechBlock } from "../../../src/models";
 import { paths, resource_utils } from "../../../src/util/ResourceUtil";
+import { alexa } from "../../../src";
 
 describe("SSMLSpeechBlockBuilder", () => {
   it("should build plain text", async () => {
@@ -164,7 +165,7 @@ describe("SSMLSpeechBlockBuilder", () => {
     speechEquals(b, `${speech1} ${speech2}`);
   });
 
-  it("should apply nested tags", async () => {
+  it("should apply nested tags on string speech", async () => {
     let speech = "this is an example of multiple tags.";
     let b = new SSMLSpeechBlockBuilder(speech)
       .volume(ssml.Volume.loud)
@@ -175,6 +176,21 @@ describe("SSMLSpeechBlockBuilder", () => {
     speechEquals(
       b,
       `<amazon:emotion name="excited" intensity="low"><prosody rate="fast"><prosody volume="loud">this is an example of multiple tags.</prosody></prosody></amazon:emotion>`
+    );
+  });
+
+  it("should apply nested tags on ssml block", async () => {
+    let b = new SSMLSpeechBlockBuilder(
+      alexa.ssml("hello").emphasis(ssml.EmphasisLevel.reduced).build()
+    )
+      .volume(ssml.Volume.loud)
+      .rate(ssml.Rate.fast)
+      .emotion(ssml.Emotion.excited, ssml.Intensity.low)
+      .build();
+
+    speechEquals(
+      b,
+      `<amazon:emotion name="excited" intensity="low"><prosody rate="fast"><prosody volume="loud"><emphasis level="reduced">hello</emphasis></prosody></prosody></amazon:emotion>`
     );
   });
 });

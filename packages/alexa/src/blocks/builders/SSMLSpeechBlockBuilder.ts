@@ -17,8 +17,12 @@ import { interpolateString } from "../../util/StringUtils";
 export class SSMLSpeechBlockBuilder {
   private _speech: string;
 
-  constructor(speech: string) {
-    this._speech = speech;
+  constructor(speech: string | SSMLSpeechBlock) {
+    if (typeof speech === "string") {
+      this._speech = speech;
+    } else {
+      this._speech = speech.speech;
+    }
   }
 
   voice(voice: ssml.Voice) {
