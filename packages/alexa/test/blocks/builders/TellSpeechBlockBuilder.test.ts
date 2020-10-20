@@ -2,7 +2,7 @@ import { TellSpeechBlockBuilder } from "../../../src/blocks/builders/TellSpeechB
 import * as _ from "lodash";
 import { expect } from "chai";
 import "mocha";
-import { AlexaDialogContext, AlexaEvent, ssml } from "../../../src/models";
+import { AlexaDialogContext, AlexaEvent, Locale, ssml } from "../../../src/models";
 import { launchRequest } from "../../data/launchRequest";
 import { paths, resource_utils } from "../../../src/util/ResourceUtil";
 import { alexa } from "../../../src/blocks/index";
@@ -25,21 +25,38 @@ describe("TellSpeechBlockBuilder", () => {
   it("should build plain text", async () => {
     let speech = "sample speech";
     let b = new TellSpeechBlockBuilder(speech).build();
+    let c = _.cloneDeep(context);
+    let e = _.cloneDeep(event);
 
-    b.execute(context, event);
-    speechEquals(context, `<speak>${speech}</speak>`);
+    b.execute(c, e);
+    speechEquals(c, `<speak>${speech}</speak>`);
   });
 
   it("should build ssml", async () => {
     let speech = "sample speech";
     let ssmlObj = alexa.ssml(speech).emotion(ssml.Emotion.excited, ssml.Intensity.high).build();
     let b = new TellSpeechBlockBuilder(ssmlObj).build();
+    let c = _.cloneDeep(context);
+    let e = _.cloneDeep(event);
 
-    b.execute(context, event);
+    b.execute(c, e);
     speechEquals(
-      context,
+      c,
       `<speak><amazon:emotion name="excited" intensity="high">${speech}</amazon:emotion></speak>`
     );
+  });
+
+  it("should not build speech if context_util.shouldRender() returns false", async () => {
+    let speech = "sample speech";
+    let b = new TellSpeechBlockBuilder(speech).build();
+
+    let c = _.cloneDeep(context);
+    let e = _.cloneDeep(event);
+    c.currentLocales = [Locale.en_GB];
+
+    b.execute(c, e);
+
+    expect(c.currentResponse.response.outputSpeech).to.be.undefined;
   });
 });
 
