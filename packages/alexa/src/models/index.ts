@@ -187,6 +187,7 @@ export namespace ssml {
 
 export interface AlexaDialogContext extends DialogContext {
   currentResponse: ResponseEnvelope;
+  currentLocales?: Locale[];
 }
 
 export interface AlexaBuilderContext extends BuilderContext {

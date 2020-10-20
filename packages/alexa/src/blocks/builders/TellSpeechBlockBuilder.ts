@@ -1,6 +1,7 @@
 import { TellSpeechBlock } from "@chitchatjs/core";
 import { ResponseFactory } from "ask-sdk-core";
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SSMLSpeechBlock } from "../../models";
+import { context_util } from "../../util/ContextUtil";
 import { interpolateString } from "../../util/StringUtils";
 
 /**
@@ -27,11 +28,13 @@ export class TellSpeechBlockBuilder {
   }
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
-    let responseBuilder = ResponseFactory.init();
-    responseBuilder.speak(interpolateString(this._say, context.platformState.globalState));
-    context.currentResponse.response = Object.assign(
-      context.currentResponse.response,
-      responseBuilder.getResponse()
-    );
+    if (context_util.shouldRender(context, event)) {
+      let responseBuilder = ResponseFactory.init();
+      responseBuilder.speak(interpolateString(this._say, context.platformState.globalState));
+      context.currentResponse.response = Object.assign(
+        context.currentResponse.response,
+        responseBuilder.getResponse()
+      );
+    }
   };
 }

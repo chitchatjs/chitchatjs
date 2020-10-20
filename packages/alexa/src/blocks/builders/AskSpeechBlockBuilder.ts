@@ -2,7 +2,7 @@ import { ResponseFactory } from "ask-sdk-core";
 import { AskSpeechBlock } from "@chitchatjs/core";
 import { interpolateString } from "../../util/StringUtils";
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SSMLSpeechBlock } from "../../models";
-import { SSMLSpeechBlockBuilder } from "./SSMLSpeechBlockBuilder";
+import { context_util } from "../../util/ContextUtil";
 
 /**
  * An Alexa Platform implementation of AskSpeechBlock
@@ -45,13 +45,15 @@ export class AskSpeechBlockBuilder {
   }
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
-    let responseBuilder = ResponseFactory.init();
-    responseBuilder
-      .speak(interpolateString(this._say, context.platformState.globalState))
-      .reprompt(interpolateString(this._reprompt, context.platformState.globalState));
-    context.currentResponse.response = Object.assign(
-      context.currentResponse.response,
-      responseBuilder.getResponse()
-    );
+    if (context_util.shouldRender(context, event)) {
+      let responseBuilder = ResponseFactory.init();
+      responseBuilder
+        .speak(interpolateString(this._say, context.platformState.globalState))
+        .reprompt(interpolateString(this._reprompt, context.platformState.globalState));
+      context.currentResponse.response = Object.assign(
+        context.currentResponse.response,
+        responseBuilder.getResponse()
+      );
+    }
   };
 }
