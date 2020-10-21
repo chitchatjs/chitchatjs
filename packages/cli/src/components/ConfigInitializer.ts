@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { CLI_CONFIG_DIRECTORY as CONFIG_DIR } from "../util/util";
 import { CLI_CONFIG_FILE_NAME as CONFIG_NAME } from "../util/util";
+import { logger } from "./Logger";
 
 const DEFAULT_CONFIG: Config = {
   version: "1.0",
@@ -54,9 +55,9 @@ export interface Url {
 /**
  * Reads the user defined compiler config
  */
-export class ConfigReader {
-  read(configDir: string = CONFIG_DIR): Config {
-    console.log(`Config directory: `, configDir);
+export class ConfigInitializer {
+  init(configDir: string = CONFIG_DIR): Config {
+    logger.debug(`Config directory: `, configDir);
     if (!this.exists(configDir)) {
       this.create(configDir);
     }

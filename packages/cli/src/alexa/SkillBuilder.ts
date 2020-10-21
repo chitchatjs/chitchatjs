@@ -1,39 +1,52 @@
-import { AlexaBuilderContext, Skill } from "@chitchatjs/alexa";
+import {
+  AlexaBuilderContext,
+  InteractionModel,
+  Skill,
+  SkillManifestEnvelope,
+} from "@chitchatjs/alexa";
 import { BuilderContext } from "@chitchatjs/core";
-import { logger } from "../util/util";
 import { BuildConfig } from "../builder/ProjectBuilder";
 import { FileWriter } from "./FileWriter";
-import * as path from "path";
+import { logger } from "../components/Logger";
+import path from "path";
 import * as shell from "shelljs";
 import fse from "fs-extra";
-import {} from "@chitchatjs/alexa";
-import { InteractionModel, SkillManifestEnvelope } from "@chitchatjs/alexa";
-import { ProjectBootstrapper } from "./ProjectBootstrapper";
+import { ProjectInitializer } from "./ProjectInitializer";
 
 /**
  * Builds the skill using root block's build method.
  */
 export class SkillBuilder {
+  projectInitializer: ProjectInitializer;
+
+  constructor() {
+    this.projectInitializer = new ProjectInitializer();
+  }
   /**
    * Builds the skill into its original artifacts
    * @param skill AlexaSkill
    * @param buildConfig BuildConfig
    */
   build(skill: Skill, buildConfig: BuildConfig) {
-    let states = skill.states;
-    new ProjectBootstrapper().bootstrapProject(buildConfig);
+    if (!this.projectInitializer.isInitialized(buildConfig)) {
+      this.projectInitializer.initialize(buildConfig);
+    }
 
     let builderContext: AlexaBuilderContext = this.initBuilderContext();
+    logger.debug(`Initialized builder context: ${JSON.stringify(builderContext)}`);
 
+    let states = skill.states;
     Object.keys(states).forEach((stateName: string) => {
+      logger.debug(`Compiling state ${stateName}`);
       states[stateName].block.build(builderContext);
     });
 
+    logger.debug(`Final builder context: ${JSON.stringify(builderContext)}`);
+    logger.info(`Saving compiled project on disk..`);
     this.writeContentOnDisk(builderContext, buildConfig);
   }
 
   writeContentOnDisk(builderContext: BuilderContext, buildConfig: BuildConfig) {
-    console.log("Updated Builder Context after builders: " + JSON.stringify(builderContext, null, 2));
     let fw = new FileWriter();
 
     let outDir = buildConfig.outDir;
@@ -98,82 +111,12 @@ export class SkillBuilder {
   }
 
   initBuilderContext(): AlexaBuilderContext {
-    /**
-     * Interaction Model stuff
-     */
-    let im: InteractionModel = {
-      version: "1.0",
-      interactionModel: {
-        languageModel: {
-          invocationName: "chitchat bot",
-          intents: [
-            {
-              name: "AMAZON.StopIntent",
-              samples: [],
-            },
-            {
-              name: "AMAZON.FallbackIntent",
-              samples: [],
-            },
-            {
-              name: "AMAZON.CancelIntent",
-              samples: [],
-            },
-            {
-              name: "AMAZON.HelpIntent",
-              samples: [],
-            },
-          ],
-          types: [],
-          modelConfiguration: {
-            fallbackIntentSensitivity: {
-              level: "LOW",
-            },
-          },
-        },
-      },
-    };
-
-    let interactionModels: { [name: string]: InteractionModel } = {
-      "en-US": im,
-    };
-
-    /**
-     * Skill manifest stuff
-     */
-    let skillManifest: SkillManifestEnvelope = {
-      manifest: {
-        manifestVersion: "1.0",
-        apis: {
-          custom: {},
-        },
-        publishingInformation: {
-          locales: {
-            "en-US": {
-              summary: "Sample Short Description",
-              examplePhrases: ["Alexa open hello world", "hello", "help"],
-              name: "Chitchat Bot",
-              description: "Sample Full Description",
-            },
-          },
-          isAvailableWorldwide: true,
-          testingInstructions: "Sample Testing Instructions.",
-          category: "KNOWLEDGE_AND_TRIVIA",
-          distributionCountries: [],
-        },
-      },
-    };
-
     let builderContext: AlexaBuilderContext = {
       resources: {
-        resourceMap: {
-          "/skill.json": JSON.stringify(skillManifest),
-          "/interactionModels/custom/en-US.json": JSON.stringify(interactionModels["en-US"]),
-        },
+        resourceMap: {},
       },
     };
 
-    console.log("BuilderContext ready: " + JSON.stringify(builderContext, null, 2));
     return builderContext;
   }
 }

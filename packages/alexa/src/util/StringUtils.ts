@@ -16,7 +16,6 @@ export let extractVariables = (msg: string): string[] => {
 };
 
 export let getSlotTypeFromSlotName = (varName: string) => {
-  console.log(varName);
   if (!varName) {
     throw new Error('You seem to have defined a "{}" without a variable name.');
   }
