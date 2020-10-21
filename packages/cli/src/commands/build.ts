@@ -1,37 +1,35 @@
 import { BaseCommand } from "./base";
-import * as yargs from "yargs";
 import { AlexaProjectBuilder } from "../builder/AlexaProjectBuilder";
-import { BuildConfig } from "../builder/ProjectBuilder";
-import { logger, BUILD_CONFIG_FILE_NAME } from "../util/util";
 import { BuildConfigReader } from "../components/BuildConfigReader";
+import commander from "commander";
+import { logger } from "../components/Logger";
+import { CJS_CMD } from "../util/util";
 
 /**
- * Builds the project into the artifacts required for the target platform such as alexa or dialogflow.
+ * Command to build the project.
+ * $ cjs build
  */
 export class BuildCommand implements BaseCommand {
-    buildConfigReader: BuildConfigReader;
+  buildConfigReader: BuildConfigReader;
 
-    constructor() {
-        this.buildConfigReader = new BuildConfigReader();
+  constructor() {
+    this.buildConfigReader = new BuildConfigReader();
+  }
+
+  register(program: commander.Command) {
+    program.command("build").alias("b").description("🔨 Build the project.").action(this._action);
+    logger.debug(`Registered ${CJS_CMD} build command.`);
+  }
+
+  _action = (command: commander.Command) => {
+    const buildConfig = this.buildConfigReader.read();
+
+    if (buildConfig?.target === "Alexa") {
+      let builder = new AlexaProjectBuilder();
+      builder.build(buildConfig);
+    } else {
+      logger.error("Dialogflow is not yet supported");
+      process.exit(0);
     }
-
-    initializer(): any {
-        return (yargs: yargs.Argv) => {
-            // not supporting any options for now.
-        };
-    }
-
-    executor(): any {
-        return (argv: any) => {
-            const buildConfig = this.buildConfigReader.read();
-
-            if (buildConfig?.target === "Alexa") {
-                let builder = new AlexaProjectBuilder();
-                builder.build(buildConfig);
-            } else {
-                logger.error("Dialogflow is not yet supported");
-            }
-            process.exit(0);
-        };
-    }
+  };
 }

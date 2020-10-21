@@ -1,34 +1,49 @@
 import { BaseCommand } from "./base";
-import * as yargs from "yargs";
-import { AlexaProjectBuilder } from "../builder/AlexaProjectBuilder";
-import { BuildConfig } from "../builder/ProjectBuilder";
-import { logger } from "../util/util";
 import * as shell from "shelljs";
 import { BuildConfigReader } from "../components/BuildConfigReader";
+import commander from "commander";
+import { logger } from "../components/Logger";
+import { CJS_CMD } from "../util/util";
+import { execSync } from "child_process";
 
 /**
- * Deploys the project to Alexa/Dialogflow.
+ * Command to deploy project.
+ * $ cjs deploy
  */
 export class DeployCommand implements BaseCommand {
-    buildConfigReader: BuildConfigReader;
+  buildConfigReader: BuildConfigReader;
 
-    constructor() {
-        this.buildConfigReader = new BuildConfigReader();
-    }
-    initializer(): any {
-        return (yargs: yargs.Argv) => {
-            // not supporting any options for now.
-        };
+  constructor() {
+    this.buildConfigReader = new BuildConfigReader();
+  }
+
+  register(program: commander.Command) {
+    program.command("deploy").alias("d").description("🚀 Deploy the project.").action(this._action);
+    logger.debug(`Registered ${CJS_CMD} deploy command.`);
+  }
+
+  _action = (command: commander.Command) => {
+    let buildConfig = this.buildConfigReader.read();
+
+    if (!buildConfig) {
+      logger.error("Build config is undefined.");
+      throw new Error("Build config is undefined.");
     }
 
-    executor(): any {
-        return (argv: any) => {
-            let buildConfig = this.buildConfigReader.read();
-
-            shell.cd(buildConfig?.outDir);
-            shell.exec("ask deploy");
-            shell.cd("..");
-            process.exit(0);
-        };
+    let s = shell.which("ask");
+    if (!s) {
+      logger.error(
+        "cjs requires 'ask' command to deploy your Alexa Skill. \nASK-CLI quick start guide: " +
+          "https://developer.amazon.com/en-US/docs/alexa/smapi/quick-start-alexa-skills-kit-command-line-interface.html"
+      );
+      return;
     }
+
+    // deploy using ask
+    execSync(`cd ${buildConfig.outDir} && ask deploy`, {
+      windowsHide: true,
+      stdio: "inherit",
+      cwd: process.cwd(),
+    });
+  };
 }
