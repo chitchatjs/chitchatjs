@@ -1,105 +1,119 @@
-import { BaseCommand } from "./base";
-import * as yargs from "yargs";
-import * as inquirer from "inquirer";
 import * as fs from "fs";
-import * as path from "path";
-import Choice = require("inquirer/lib/objects/choice");
-import BottomBar = require("inquirer/lib/ui/bottom-bar");
-import { buildBanner, startSpinner } from "../util/util";
-import { GitClient } from "../components/GitClient";
-import { Config, ConfigReader, Template } from "../components/ConfigReader";
+import { Config, ConfigInitializer, Template } from "../components/ConfigInitializer";
+import commander = require("commander");
+import inquirer = require("inquirer");
 import { TemplatesManager } from "../components/TemplatesManager";
+import { buildBanner, CJS_CMD } from "../util/util";
+import { logger } from "../components/Logger";
+import { initSpinner } from "../components/Spinner";
+import { GitClient } from "../components/GitClient";
+import { join } from "path";
+import { execSync } from "child_process";
 
-/**
- * Constants
- */
 const CURR_DIR: string = process.cwd();
 
-/**
- * Global variables
- */
-let ui: BottomBar = new inquirer.ui.BottomBar();
-
-/**
- * Register Inquirer Plugins
- */
-inquirer.registerPrompt("chalk-pipe", require("inquirer-chalk-pipe"));
-
-/**
- * cjs new command executor.
- *  - to create a new project
- */
-export class NewCommand implements BaseCommand {
-    configReader: ConfigReader;
-    templatesManager: TemplatesManager;
-    gitClient: GitClient;
-
-    constructor() {
-        this.configReader = new ConfigReader();
-        this.templatesManager = new TemplatesManager();
-        this.gitClient = new GitClient();
-    }
-    initializer() {
-        return (yargs: yargs.Argv) => {
-            // No options for now. Interactive command.
-        };
-    }
-    executor() {
-        return (argv: any) => {
-            console.log(buildBanner("Chit chat JS"));
-            // load the config
-            let config = this.configReader.read();
-            inquirer
-                .prompt(prepareQuestions(config))
-                .then((answers) => {
-                    this.createProject(answers, config);
-                })
-                .catch((error) => {
-                    ui.updateBottomBar(`❌  An error occurred "${error}}".`);
-                });
-        };
-    }
-
-    createProject(answers: inquirer.Answers, config: Config) {
-        let name = answers.name;
-        let dir = answers.dir;
-        let templateName = answers.template;
-
-        let template: Template = this.templatesManager.getTemplateByName(
-            config,
-            templateName
-        );
-
-        const spinner = startSpinner("🚧 Creating your project..");
-        this.gitClient.clone(template.url.value, path.join(process.cwd(), dir));
-        setTimeout(() => {
-            spinner.stop();
-            ui.updateBottomBar(
-                `✔️  Project created successfully at location ./"${dir}".`
-            );
-        }, 2000);
-    }
+interface Options {
+  outputDir?: string;
+  sample?: string;
 }
 
-function prepareQuestions(config: Config): inquirer.Question[] {
-    let templateNames = new TemplatesManager().getTemplateNames(config);
+/**
+ * Command to create new projects.
+ * $ cjs new
+ */
+export class NewCommand {
+  configReader: ConfigInitializer;
+  templatesManager: TemplatesManager;
+  config: Config;
+  gitClient: GitClient;
 
-    return [
-        {
-            type: "list",
-            name: "template",
-            message: "Pick a starting template: ",
-            choices: templateNames,
-        } as inquirer.ListQuestion,
-        {
-            type: "chalk-pipe",
-            name: "dir",
-            message: "Directory name: ",
-            default: "my-bot",
-            validate: (input: string) => {
-                if (!fs.existsSync(`${CURR_DIR}/${input}`)) return true;
-                return "Directory already exists.";
-            },
-        },
-    ];
+  constructor() {
+    this.configReader = new ConfigInitializer();
+    this.config = this.configReader.init();
+    this.templatesManager = new TemplatesManager();
+    this.gitClient = new GitClient();
+  }
+
+  register(program: commander.Command) {
+    program.command("new").alias("n").description("🚧 Create a new project.").action(this._action);
+    logger.debug(`Registered ${CJS_CMD} new command.`);
+  }
+
+  private _action = (command: commander.Command) => {
+    let options: Options = {
+      outputDir: command.outputDir,
+      sample: command.sample,
+    };
+
+    console.log(buildBanner());
+
+    let questions = this._prepareQuestions(options);
+    logger.debug("New command questions: " + JSON.stringify(questions));
+
+    inquirer
+      .prompt(questions)
+      .then((answers) => {
+        this._createProject(answers, this.config);
+      })
+      .catch((error) => {
+        logger.error(error.stack);
+        process.exit(1);
+      });
+  };
+
+  private _prepareQuestions(options: Options): inquirer.Question[] {
+    let templateNames = new TemplatesManager().getTemplateNames(this.config);
+    let questions: inquirer.Question[] = [];
+
+    questions.push({
+      type: "list",
+      name: "template",
+      message: "Pick a starting sample: ",
+      choices: templateNames,
+    } as inquirer.ListQuestion);
+
+    questions.push({
+      type: "chalk-pipe",
+      name: "dir",
+      message: "Directory name: ",
+      default: "my-bot",
+      validate: (input: string) => {
+        if (!fs.existsSync(`${CURR_DIR}/${input}`)) return true;
+        return "Directory already exists.";
+      },
+    });
+
+    return questions;
+  }
+
+  private _createProject(answers: inquirer.Answers, config: Config) {
+    let dir = answers.dir;
+    let templateName = answers.template;
+
+    let template: Template = this.templatesManager.getTemplateByName(config, templateName);
+
+    let spinner = initSpinner("🚧 Creating your project..").start();
+    let projectLocation = join(process.cwd(), dir);
+    setTimeout(() => {
+      spinner.color = "yellow";
+      spinner.text = "🚧 Cloning the sample..";
+      setTimeout(() => {
+        this.gitClient.clone(template.url.value, projectLocation);
+
+        // install and compile
+        execSync(`cd ${projectLocation} && npm i && tsc`, {
+          windowsHide: true,
+          stdio: "inherit",
+          cwd: process.cwd(),
+        });
+
+        spinner.stop();
+
+        logger.success(`Project created successfully at ${projectLocation}.`);
+        logger.tip(
+          `Project setup includes dependencies installation and compilation. Next, try running "cjs build".`
+        );
+      }, 500);
+    }, 500);
+  }
 }

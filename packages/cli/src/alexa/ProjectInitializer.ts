@@ -2,7 +2,8 @@ import { BuildConfig } from "../builder/ProjectBuilder";
 import * as fs from "fs";
 import * as path from "path";
 import { v1 } from "ask-smapi-model";
-import { logger } from "../util/util";
+import { logger } from "../components/Logger";
+import { INITIAL_ASK_RESOURCE, INITIAL_ASK_STATES, INITIAL_SKILL_MANIFEST } from "../util/util";
 
 interface CjsMetadata {
   askStates: any;
@@ -10,48 +11,10 @@ interface CjsMetadata {
   skillManifest: v1.skill.Manifest.SkillManifest;
 }
 
-const defaultCjsMetadata: CjsMetadata = {
-  askResources: {
-    askcliResourcesVersion: "2020-03-31",
-    profiles: {
-      default: {
-        skillMetadata: {
-          src: "./skill-package",
-        },
-        code: {
-          default: {
-            src: "./lambda",
-          },
-        },
-        skillInfrastructure: {
-          userConfig: {
-            runtime: "nodejs10.x",
-            handler: "dist/index.handler",
-            awsRegion: "us-east-1",
-          },
-          type: "@ask-cli/lambda-deployer",
-        },
-      },
-    },
-  },
-  askStates: {
-    askcliStatesVersion: "2020-03-31",
-    profiles: {
-      default: {
-        skillInfrastructure: {
-          "@ask-cli/lambda-deployer": {
-            deployState: {},
-          },
-        },
-      },
-    },
-  },
-  skillManifest: <v1.skill.Manifest.SkillManifest>{
-    manifestVersion: "1.0",
-    apis: {
-      custom: {},
-    },
-  },
+const DEFAULT_CJS_METADATA: CjsMetadata = {
+  askResources: INITIAL_ASK_RESOURCE,
+  askStates: INITIAL_ASK_STATES,
+  skillManifest: INITIAL_SKILL_MANIFEST,
 };
 
 /**
@@ -59,12 +22,29 @@ const defaultCjsMetadata: CjsMetadata = {
  * It runs everytime SkillBuilder is invoked.
  * It's job is to setup directories if not already present.
  */
-export class ProjectBootstrapper {
-  bootstrapProject(buildConfig: BuildConfig): void {
+export class ProjectInitializer {
+  /**
+   * Checks if project is initialized already.
+   * @param buildConfig BuildConfig
+   */
+  isInitialized(buildConfig: BuildConfig): boolean {
+    let outDir = buildConfig.outDir;
+    let currDir = process.cwd();
+    let targetLocation = path.join(currDir, outDir);
+
+    logger.info(`Output directory already exists. Skipping the bootstrapping.`);
+    return fs.existsSync(targetLocation);
+  }
+
+  /**
+   * Initializes the project for the first time
+   * @param buildConfig BuildConfig
+   */
+  initialize(buildConfig: BuildConfig): void {
     let outDir = buildConfig.outDir;
     let currDir = process.cwd();
 
-    this.bootstrapOutDir(outDir, currDir);
+    this.initializeOutDir(outDir, currDir);
   }
 
   /**
@@ -73,13 +53,8 @@ export class ProjectBootstrapper {
    * @param outDir Output directory
    * @param currDir Current directory
    */
-  private bootstrapOutDir(outDir: string, currDir: string) {
+  private initializeOutDir(outDir: string, currDir: string) {
     let targetLocation = path.join(currDir, outDir);
-
-    if (fs.existsSync(targetLocation)) {
-      logger.info(`Output directory already exists. Skipping the bootstrapping.`);
-      return;
-    }
 
     fs.mkdirSync(targetLocation, { recursive: true });
 
@@ -109,22 +84,30 @@ export class ProjectBootstrapper {
       logger.info(`Created ${askDirTargetLocation}`);
     }
 
-    this.bootstrapMetadata(outDir, currDir);
+    this.initializeData(outDir, currDir);
   }
 
   /**
    * If CJS metadata is present, it reads from there, otherwise creates it.
    */
-  private bootstrapMetadata(outDir: string, currDir: string): CjsMetadata | void {
+  private initializeData(outDir: string, currDir: string): CjsMetadata | void {
     // Save default ask-resources.json
     let askResourcesTargetLocation = path.join(currDir, outDir, "/ask-resources.json");
 
     logger.info(`Writing ${askResourcesTargetLocation}`);
-    fs.writeFileSync(askResourcesTargetLocation, JSON.stringify(defaultCjsMetadata.askResources, null, 2), "utf8");
+    fs.writeFileSync(
+      askResourcesTargetLocation,
+      JSON.stringify(DEFAULT_CJS_METADATA.askResources, null, 2),
+      "utf8"
+    );
 
     // Save default ask-states.json
     let askStatesTargetLocation = path.join(currDir, outDir, "/.ask/ask-states.json");
     logger.info(`Writing ${askStatesTargetLocation}`);
-    fs.writeFileSync(askStatesTargetLocation, JSON.stringify(defaultCjsMetadata.askStates, null, 2), "utf8");
+    fs.writeFileSync(
+      askStatesTargetLocation,
+      JSON.stringify(DEFAULT_CJS_METADATA.askStates, null, 2),
+      "utf8"
+    );
   }
 }

@@ -1,77 +1,72 @@
-import ora = require("ora");
-import cliSpinners = require("cli-spinners");
-import figlet = require("figlet");
-import chalk = require("chalk");
-import * as inquirer from "inquirer";
-import * as path from "path";
-import * as os from "os";
-
-import BottomBar = require("inquirer/lib/ui/bottom-bar");
-
-let ui: BottomBar = new inquirer.ui.BottomBar();
+import chalk from "chalk";
+import path from "path";
+import os from "os";
+import { v1 } from "ask-smapi-model";
 
 /**
  * Constants
  */
+export let CJS_CMD = "cjs";
 export let DEV_WORKING_DIRECTORY: string = process.cwd();
 export let CLI_CONFIG_DIRECTORY: string = path.join(os.homedir(), ".cjs/");
 export let CLI_CONFIG_FILE_NAME: string = "config.json";
 export let BUILD_CONFIG_FILE_NAME: string = "cjs.json";
 
 /**
- * Utility methods
- */
-
-/**
- * Shows a spinner with the text beside it.
- * Currently set to randomize the spinner choice every time user runs it.
- *
- * @param text Text
- */
-export let startSpinner = (text: string) => {
-  return ora({ text: text, spinner: cliSpinners.random }).start();
-};
-
-/**
  * Builds a Figlet banner using ASCII letters.
  *
  * @param text Banner Text
  */
-export let buildBanner = (text: string) => {
-  return figlet.textSync(text);
+export let buildBanner = () => {
+  let banner =
+    chalk.red("===========\n") +
+    chalk.bold(chalk.white("Chit") + chalk.green("chat") + chalk.white(".js\n")) +
+    chalk.red("===========\n") +
+    "A command line interface to build voice interfaces for Alexa Skills." +
+    "\n";
+  return banner;
 };
 
-/**
- * Logger Utility
- */
-export interface Logger {
-  info(text: string): void;
-  warn(text: string): void;
-  error(text: string, error?: Error): void;
-  logObject(obj: any): void;
-  errorAndExit(text: string): void;
-  success(text: string): void;
-}
+export const INITIAL_ASK_RESOURCE = {
+  askcliResourcesVersion: "2020-03-31",
+  profiles: {
+    default: {
+      skillMetadata: {
+        src: "./skill-package",
+      },
+      code: {
+        default: {
+          src: "./lambda",
+        },
+      },
+      skillInfrastructure: {
+        userConfig: {
+          runtime: "nodejs10.x",
+          handler: "dist/index.handler",
+          awsRegion: "us-east-1",
+        },
+        type: "@ask-cli/lambda-deployer",
+      },
+    },
+  },
+};
 
-export let logger: Logger = {
-  info: (text: string) => {
-    ui.log.write(chalk.green("info") + " " + text);
+export const INITIAL_ASK_STATES = {
+  askcliStatesVersion: "2020-03-31",
+  profiles: {
+    default: {
+      skillInfrastructure: {
+        "@ask-cli/lambda-deployer": {
+          deployState: {},
+        },
+      },
+    },
   },
-  warn: (text: string) => {
-    ui.log.write(chalk.yellow("warn") + " " + text);
-  },
-  error: (text: string, error?: Error) => {
-    ui.log.write(chalk.red(text));
-    if (error) ui.log.write(chalk.red(error?.stack));
-  },
-  logObject: (obj: any) => {
-    ui.log.write(JSON.stringify(obj, null, 2));
-  },
-  errorAndExit: (text: string) => {
-    ui.log.write(chalk.red(text));
-    process.exit(1);
-  },
-  success: (text: string) => {
-    ui.log.write(chalk.bgGreen(chalk.white(text)));
+};
+
+export const INITIAL_SKILL_MANIFEST = <v1.skill.Manifest.SkillManifest>{
+  manifestVersion: "1.0",
+  apis: {
+    custom: {},
   },
 };

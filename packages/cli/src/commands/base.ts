@@ -1,18 +1,13 @@
-import * as yargs from "yargs";
+import commander from "commander";
 
 /**
  * Base Command interface
  */
 export interface BaseCommand {
-    /**
-     * Defines the options of the command.
-     *
-     */
-    initializer(): any;
-
-    /**
-     * Executes the arguments object parsed by the Yargs.
-     *
-     */
-    executor(): any;
+  /**
+   * Register the command into the commander
+   *
+   * @param program Command
+   */
+  register(program: commander.Command): any;
 }
