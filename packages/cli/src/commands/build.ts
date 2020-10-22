@@ -1,19 +1,20 @@
-import { BaseCommand } from "./base";
-import { AlexaProjectBuilder } from "../builder/AlexaProjectBuilder";
-import { BuildConfigReader } from "../components/BuildConfigReader";
 import commander from "commander";
+
+import { AlexaProjectBuilder } from "../builder/AlexaProjectBuilder";
+import { ProjectConfigReader } from "../components/ProjectConfigReader";
 import { logger } from "../components/Logger";
-import { CJS_CMD } from "../util/util";
+import { CJS_CMD } from "../util/constants";
+import { BaseCommand } from "./base";
 
 /**
  * Command to build the project.
  * $ cjs build
  */
 export class BuildCommand implements BaseCommand {
-  buildConfigReader: BuildConfigReader;
+  buildConfigReader: ProjectConfigReader;
 
   constructor() {
-    this.buildConfigReader = new BuildConfigReader();
+    this.buildConfigReader = new ProjectConfigReader();
   }
 
   register(program: commander.Command) {

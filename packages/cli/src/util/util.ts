@@ -1,16 +1,5 @@
-import chalk from "chalk";
-import path from "path";
-import os from "os";
 import { v1 } from "ask-smapi-model";
-
-/**
- * Constants
- */
-export let CJS_CMD = "cjs";
-export let DEV_WORKING_DIRECTORY: string = process.cwd();
-export let CLI_CONFIG_DIRECTORY: string = path.join(os.homedir(), ".cjs/");
-export let CLI_CONFIG_FILE_NAME: string = "config.json";
-export let BUILD_CONFIG_FILE_NAME: string = "cjs.json";
+import chalk from "chalk";
 
 /**
  * Builds a Figlet banner using ASCII letters.
@@ -64,9 +53,15 @@ export const INITIAL_ASK_STATES = {
   },
 };
 
-export const INITIAL_SKILL_MANIFEST = <v1.skill.Manifest.SkillManifest>{
-  manifestVersion: "1.0",
-  apis: {
-    custom: {},
+export const INITIAL_SKILL_MANIFEST = <v1.skill.Manifest.SkillManifestEnvelope>{
+  manifest: {
+    manifestVersion: "1.0",
+    apis: {
+      custom: {},
+    },
   },
+};
+
+export let prettyJson = (s: string) => {
+  return JSON.stringify(JSON.parse(s), null, 2);
 };
