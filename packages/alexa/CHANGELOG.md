@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.0...@chitchatjs/alexa@0.3.1) (2020-10-22)
+
+
+### Bug Fixes
+
+* removing default intents from the default IM, we will use plugin ([ec87239](https://github.com/chitchatjs/chitchatjs/commit/ec872393187b54556f4229967451da8ea419aec5)), closes [#73](https://github.com/chitchatjs/chitchatjs/issues/73)
+
+
+
+
+
 # [0.3.0](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.2.7...@chitchatjs/alexa@0.3.0) (2020-10-22)
 
 

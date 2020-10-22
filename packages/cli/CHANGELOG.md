@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.9](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.8...@chitchatjs/cli@0.3.9) (2020-10-22)
+
+
+### Bug Fixes
+
+* removing default intents from the default IM, we will use plugin ([ec87239](https://github.com/chitchatjs/chitchatjs/commit/ec872393187b54556f4229967451da8ea419aec5)), closes [#73](https://github.com/chitchatjs/chitchatjs/issues/73)
+
+
+
+
+
 ## [0.3.8](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.7...@chitchatjs/cli@0.3.8) (2020-10-22)
 
 **Note:** Version bump only for package @chitchatjs/cli
