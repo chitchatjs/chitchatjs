@@ -1,6 +1,10 @@
-import { PlatformState, State } from "@chitchatjs/core";
 import { AttributesManagerFactory } from "ask-sdk-core";
 import { RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
+import * as _ from "lodash";
+
+import { PlatformState, State } from "@chitchatjs/core";
+
+import { alexa } from "../blocks";
 import {
   AlexaBuilderContext,
   AlexaDialogContext,
@@ -8,13 +12,8 @@ import {
   AlexaEvent,
   Skill,
 } from "../models";
-import * as _ from "lodash";
-import { alexa } from "../blocks";
+import { INITIAL_STATE_NAME } from "../models/index";
 
-/**
- * Beginning state name
- */
-const INITIAL_STATE_NAME: string = "INIT";
 /**
  * Session Attribute key name for platform state
  */

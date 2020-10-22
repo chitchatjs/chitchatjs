@@ -17,6 +17,11 @@ export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEve
 export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type Skill = Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 
+/**
+ * Beginning state name
+ */
+export const INITIAL_STATE_NAME: string = "__INIT__";
+
 export enum Locale {
   en_AU = "en-AU",
   en_CA = "en-CA",
