@@ -1,37 +1,40 @@
-import { AskSpeechBlockBuilder } from "./builders/AskSpeechBlockBuilder";
-import { SkillInfoBlockBuilder } from "./builders/SkillInfoBlockBuilder";
-import { TellSpeechBlockBuilder } from "./builders/TellSpeechBlockBuilder";
-import { WhenUserSaysBlockBuilder } from "./builders/WhenUserSaysBuilder";
+import { Directive, IntentRequest } from "ask-sdk-model";
+
 import {
-  StateBuilder,
-  CompoundBlockBuilder,
-  WhenBlockBuilder,
-  SetGlobalStateBlockBuilder,
-  RemoveGlobalStateBlockBuilder,
-  GotoStateBlockBuilder,
   AgentBuilder,
+  CompoundBlockBuilder,
+  GotoStateBlockBuilder,
+  RemoveGlobalStateBlockBuilder,
+  SetGlobalStateBlockBuilder,
+  StateBuilder,
+  WhenBlockBuilder,
 } from "@chitchatjs/core";
+
+import { AlexaDialogManager } from "../";
+import { RuleBasedDialogEngine } from "../engine";
 import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
-  Skill,
+  INITIAL_STATE_NAME,
   Locale,
+  Skill,
   Slot,
   SSMLSpeechBlock,
 } from "../models";
-import { AlexaDialogManager } from "..";
-import { RuleBasedDialogEngine } from "../engine";
-import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
-import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
-import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
-import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
-import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
-import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
 import { intent_utils } from "../util/IntentUtils";
-import { Directive, IntentRequest } from "ask-sdk-model";
-import { SSMLSpeechBlockBuilder } from "./builders/SSMLSpeechBlockBuilder";
+import { AskSpeechBlockBuilder } from "./builders/AskSpeechBlockBuilder";
+import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
 import { DirectiveBlockBuilder } from "./builders/DirectiveBlockBuilder";
+import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
+import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
+import { LocalizedBlockBuilder } from "./builders/LocalizedBlockBuilder";
+import { SkillInfoBlockBuilder } from "./builders/SkillInfoBlockBuilder";
+import { SlotTypeBlockBuilder } from "./builders/SlotTypeBlockBuilder";
+import { SSMLSpeechBlockBuilder } from "./builders/SSMLSpeechBlockBuilder";
+import { TellSpeechBlockBuilder } from "./builders/TellSpeechBlockBuilder";
+import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
+import { WhenUserSaysBlockBuilder } from "./builders/WhenUserSaysBuilder";
 
 export namespace alexa {
   export function dialogManager(skill: Skill) {
@@ -43,7 +46,7 @@ export namespace alexa {
   }
 
   export function start() {
-    return alexa.state("INIT");
+    return alexa.state(INITIAL_STATE_NAME);
   }
 
   export function state(name: string) {
