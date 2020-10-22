@@ -62,7 +62,10 @@ describe("IntentBlockBuilder", () => {
 
       expect(b).is.not.be.undefined;
 
-      let ctx: AlexaBuilderContext = { resources: { resourceMap: {} }, currentLocales: [Locale.en_CA, Locale.en_AU] };
+      let ctx: AlexaBuilderContext = {
+        resources: { resourceMap: {} },
+        currentLocales: [Locale.en_CA, Locale.en_AU],
+      };
       b.build(ctx);
 
       assertIntentNameAndSamplesAndSlots(ctx, Locale.en_CA, intentName, samples);
@@ -80,7 +83,9 @@ describe("IntentBlockBuilder", () => {
       let ctx: AlexaBuilderContext = {
         resources: {
           resourceMap: {
-            [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(resource_utils.getDefaultInteractionModel()),
+            [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(
+              resource_utils.getDefaultInteractionModel()
+            ),
           },
         },
       };
@@ -100,7 +105,9 @@ describe("IntentBlockBuilder", () => {
       let ctx: AlexaBuilderContext = {
         resources: {
           resourceMap: {
-            [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(resource_utils.getDefaultInteractionModel()),
+            [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(
+              resource_utils.getDefaultInteractionModel()
+            ),
           },
         },
         currentLocales: [Locale.en_US, Locale.en_IN],
@@ -119,7 +126,10 @@ describe("IntentBlockBuilder", () => {
       let slotName = "name";
       let slotTypeName = "AMAZON.FirstName";
 
-      let b = new IntentBlockBuilder(intentName).samples(samples).slot(slotName, slotTypeName).build();
+      let b = new IntentBlockBuilder(intentName)
+        .samples(samples)
+        .slot(slotName, slotTypeName)
+        .build();
 
       expect(b).is.not.be.undefined;
 
@@ -149,16 +159,16 @@ function assertIntentNameAndSamplesAndSlots(
   let intents = im?.interactionModel?.languageModel?.intents;
   expect(intents).to.not.be.undefined;
   if (intents) {
-    expect(intents.length).equals(6); // because 5 already available builtins
-    expect(intents[5].name).equals(expectedIntentName);
-    expect(intents[5].samples).is.not.undefined;
-    expect(JSON.stringify(intents[5].samples)).equals(JSON.stringify(expectedSamples));
+    expect(intents.length).equals(1); // because 5 already available builtins
+    expect(intents[0].name).equals(expectedIntentName);
+    expect(intents[0].samples).is.not.undefined;
+    expect(JSON.stringify(intents[0].samples)).equals(JSON.stringify(expectedSamples));
 
     if (expectedSlots) {
-      expect(intents[5].slots).to.not.be.undefined;
+      expect(intents[0].slots).to.not.be.undefined;
 
-      if (intents[5].slots) {
-        expect(intents[5].slots.length).equals(1);
+      if (intents[0].slots) {
+        expect(intents[0].slots.length).equals(1);
       }
     }
   }
