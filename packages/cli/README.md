@@ -1,8 +1,8 @@
-# `chitchat.js command line interface (cli)`
+# `@chitchatjs/cli`
 
 ![](./images/logo/logo-128x128.png)
 
-<strong>🤖 JavaScript framework for building voice user interfaces. </strong> | <a href="https://chitchat.js.org">📄 Read the documentation </a>
+<strong>🤖 JavaScript framework for building voice user interfaces for Alexa Skills. </strong> | <a href="https://chitchat.js.org">📄 Read the documentation </a>
 
 | Package                                                              | NPM                                                                                                                  | Build                                                                                                                                                                                                                                                                                                                 |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -18,9 +18,27 @@
 
 ## What is chitchat.js? <Badge text="beta" />
 
-Chitchat (or CJS) is a framework for building voice driven multi-modal user interfaces (a.k.a. VUI). Chitchat is designed to be incrementally adaptable. You can write a simple rule based voice user interface or as complex as a machine learnt model based VUI. Chitchat comes with three primary components - core library (`@chichatjs/core`), a CLI (`@chitchatjs/cli`) and the implementation strategies (dialog management) which may or may not be platform dependent. We offer `@chitchatjs/alexa` to seamlessly integrate your voice user interface with Alexa.
+Chitchat.js (or CJS) is a framework for building voice driven multi-modal user interfaces (a.k.a. VUI). Chitchat is designed to be incrementally adaptable. Chitchat comes with three primary components - core library (`@chichatjs/core`), a CLI (`@chitchatjs/cli`) and the implementation strategies (dialog management) which may or may not be platform dependent. It offers `@chitchatjs/alexa` to seamlessly integrate your voice user interface with Alexa.
 
 `@chichatjs/core` is a primitive base that defines core framework premitives that are voice-platform and dialog management strategy agnostic. `@chitchatjs/cli` provides an easy command access to create a project, build and deploy it (only supported for Alexa platform right now). `@chitchatjs/alexa` is a collection of VUI components designed on top of the core library specifically for Alexa Skill development.
+
+## Why use chitchat.js?
+
+### Simplicity
+
+Write your entire Alexa skill using Typescript or Javascript in a declarative style. Build on what you know already.
+
+### Pluggable Design
+
+Do more with fewer lines of code. Framework helps you design your experience using Building Blocks.
+
+### State Management
+
+Chitchat.js designs the entire skill into states and building blocks. Every state is linked to one building block, which handles a piece of conversation. For example - MovieRecommendation might be a state where we handle user's requests related to movie recommendations. Chitchat also makes it super easy to transition between states using builtin state transition building blocks.
+
+### Community
+
+Find and share reusable Building Blocks and enrich the experience even further.
 
 ## Prerequisites
 
@@ -40,13 +58,15 @@ npm i -g @chitchatjs/cli
 **2. Creating a new project**
 
 ```sh
-cjs new # then choose a starting template
+# then choose a starting template
+cjs new
 ```
 
 **3. Build the project**
 
 ```sh
-tsc && cjs build # tsc only if it is a typescript project
+# tsc only if it is a typescript project
+tsc && cjs build
 ```
 
 **4. Deploy**
@@ -78,7 +98,7 @@ let skill = ax.start().block(ax.say("Hello world")).build();
 exports = ax.dialogManager(skill).exports();
 ```
 
-Or may be ask user their name and greet them:
+Above would render "Hello world" speech for every request user makes. Let's add a dialog turn to ask user their name:
 
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
@@ -88,8 +108,10 @@ let skill = ax
   .block(
     ax
       .compound()
-      .add(ax.ask("Hello, what is your name?").build()) // welcome message
-      .add(ax.goto("AskName")) // move to the AskName state
+      // welcome message
+      .add(ax.ask("Hello, what is your name?").build())
+      // move to a new AskName state
+      .add(ax.goto("AskName"))
       .build()
   )
   .build();
@@ -97,9 +119,11 @@ let skill = ax
 let askName = ax
   .state("AskName")
   .block(
+    // simple!
     ax
       .whenUserSays(["my name is {name}", "{name}", "name is {name}"])
       .withSlotType("name", "AMAZON.FirstName")
+      // {name} allows automatic slot resolution
       .then(ax.say("Welcome, {name}! It's nice to talk to you."))
       .build()
   )
@@ -108,9 +132,9 @@ let askName = ax
 exports = ax.dialogManager(skill).exports();
 ```
 
-## Writing a reusable Block
+## Writing a reusable Building Block
 
-A block for greeting with name, that we implemented above in our skill.
+We can also turn "greeting with the name" a building block to componentize it better.
 
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
@@ -126,15 +150,11 @@ export namespace greetings {
 }
 ```
 
-Now, we can download and use this block in our skill:
-
-```sh
-npm i cjs-greetings --save # assuming we name package as "cjs-greetings"
-```
+Now, we can simply plug it into our skill:
 
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
-import { greetings as g } from "cjs-greetings";
+import { greetings as g } from "./greetings";
 
 let skill = ax
   .start()
@@ -149,7 +169,8 @@ let skill = ax
 
 let askName = ax
   .state("AskName")
-  .block(g.greetWithName()) // use the block from "cjs-greetings" package.
+  // use the block from "./greetings" file.
+  .block(g.greetWithName())
   .build();
 
 exports = ax.dialogManager(skill).exports();
