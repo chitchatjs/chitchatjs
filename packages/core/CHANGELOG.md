@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.2.4...@chitchatjs/core@0.3.0) (2020-10-22)
+
+
+### Features
+
+* adding agent.addAllStates(..) to add multiple states at once ([6d8dc15](https://github.com/chitchat/chitchatjs/commit/6d8dc15a06e54b889a6af6797e2b975d39b6fb91)), closes [#63](https://github.com/chitchat/chitchatjs/issues/63)
+
+
+
+
+
 ## [0.2.4](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.2.3...@chitchatjs/core@0.2.4) (2020-10-19)
 
 

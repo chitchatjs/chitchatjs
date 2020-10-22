@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/cli",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "chitchat.js CLI. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
   "keywords": [
     "voice",
@@ -65,8 +65,8 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "@chitchatjs/alexa": "^0.2.7",
-    "@chitchatjs/core": "^0.2.4",
+    "@chitchatjs/alexa": "^0.3.0",
+    "@chitchatjs/core": "^0.3.0",
     "ask-sdk-model": "^1.33.0",
     "ask-smapi-model": "^1.12.3",
     "chalk": "^4.1.0",

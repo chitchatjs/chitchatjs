@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.2.7...@chitchatjs/alexa@0.3.0) (2020-10-22)
+
+
+### Bug Fixes
+
+* allowing ax.ssml() to also accept ssml block, not just text string ([9b3913d](https://github.com/chitchatjs/chitchatjs/commit/9b3913db9574b8ece1eaccc58d53eb93c8fa05f8)), closes [#55](https://github.com/chitchatjs/chitchatjs/issues/55)
+
+
+### Features
+
+* adding agent.addAllStates(..) to add multiple states at once ([6d8dc15](https://github.com/chitchatjs/chitchatjs/commit/6d8dc15a06e54b889a6af6797e2b975d39b6fb91)), closes [#63](https://github.com/chitchatjs/chitchatjs/issues/63)
+* adding support for Directive building block ([5c1ac4a](https://github.com/chitchatjs/chitchatjs/commit/5c1ac4a02a6a73406831c7075259c9da00926a30)), closes [#52](https://github.com/chitchatjs/chitchatjs/issues/52)
+* full SSML support in both ax.say() and ax.ask() ([63d9647](https://github.com/chitchatjs/chitchatjs/commit/63d9647f2afeadd8d9c0eb500de58ff852bb1de0)), closes [#50](https://github.com/chitchatjs/chitchatjs/issues/50)
+* localized runtime presentation layer components such as ax.say(), ask() and directive() ([58137b3](https://github.com/chitchatjs/chitchatjs/commit/58137b3f3dc17dd30eba3979e2e83653d59a11d4)), closes [#48](https://github.com/chitchatjs/chitchatjs/issues/48)
+* starting @chitchatjs/ax-kit with few starter blocks ([caca62a](https://github.com/chitchatjs/chitchatjs/commit/caca62a1e07b52e3af251b4afe2dc0e97f77c2c0)), closes [#58](https://github.com/chitchatjs/chitchatjs/issues/58)
+
+
+
+
+
 ## [0.2.7](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.2.6...@chitchatjs/alexa@0.2.7) (2020-10-19)
 
 
