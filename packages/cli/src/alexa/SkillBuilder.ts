@@ -1,8 +1,8 @@
 import { AlexaBuilderContext, Skill } from "@chitchatjs/alexa";
 import { BuilderContext } from "@chitchatjs/core";
 
-import { BuildConfig } from "../builder/ProjectBuilder";
 import { logger } from "../components/Logger";
+import { ProjectConfig } from "../types";
 import { ProjectInitializer } from "./ProjectInitializer";
 
 /**
@@ -18,11 +18,11 @@ export class SkillBuilder {
   /**
    * Builds the skill into its original artifacts
    * @param skill AlexaSkill
-   * @param buildConfig BuildConfig
+   * @param projectConfig ProjectConfig
    */
-  build(skill: Skill, buildConfig: BuildConfig): BuilderContext {
-    if (!this.projectInitializer.isInitialized(buildConfig)) {
-      this.projectInitializer.initialize(buildConfig);
+  build(skill: Skill, projectConfig: ProjectConfig): BuilderContext {
+    if (!this.projectInitializer.isInitialized(projectConfig)) {
+      this.projectInitializer.initialize(projectConfig);
     }
 
     let builderContext: AlexaBuilderContext = this.initBuilderContext();

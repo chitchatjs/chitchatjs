@@ -1,10 +1,10 @@
-import { BuildConfig } from "../builder/ProjectBuilder";
 import * as fs from "fs";
 import * as path from "path";
 import { v1 } from "ask-smapi-model";
 import { logger } from "../components/Logger";
 import { INITIAL_ASK_RESOURCE, INITIAL_ASK_STATES, INITIAL_SKILL_MANIFEST } from "../util/util";
 import fse from "fs-extra";
+import { ProjectConfig } from "../types";
 
 interface CjsMetadata {
   askStates: any;
@@ -26,10 +26,10 @@ const DEFAULT_CJS_METADATA: CjsMetadata = {
 export class ProjectInitializer {
   /**
    * Checks if project is initialized already.
-   * @param buildConfig BuildConfig
+   * @param projectConfig ProjectConfig
    */
-  isInitialized(buildConfig: BuildConfig): boolean {
-    let outDir = buildConfig.outDir;
+  isInitialized(projectConfig: ProjectConfig): boolean {
+    let outDir = projectConfig.outDir;
     let currDir = process.cwd();
     let targetLocation = path.join(currDir, outDir);
 
@@ -39,10 +39,10 @@ export class ProjectInitializer {
 
   /**
    * Initializes the project for the first time
-   * @param buildConfig BuildConfig
+   * @param projectConfig ProjectConfig
    */
-  initialize(buildConfig: BuildConfig): void {
-    let outDir = buildConfig.outDir;
+  initialize(projectConfig: ProjectConfig): void {
+    let outDir = projectConfig.outDir;
     let currDir = process.cwd();
 
     this.initializeOutDir(outDir, currDir);

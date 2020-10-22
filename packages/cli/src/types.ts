@@ -21,3 +21,11 @@ export interface Url {
   type: string;
   value: string;
 }
+
+/**
+ * Project configuration
+ */
+export interface ProjectConfig {
+  outDir: string;
+  target: "Alexa";
+}

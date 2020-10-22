@@ -6,14 +6,14 @@ import * as shell from "shelljs";
 import { SkillManifestEnvelope } from "@chitchatjs/alexa";
 import { BuilderContext } from "@chitchatjs/core";
 
-import { BuildConfig } from "../builder/ProjectBuilder";
+import { ProjectConfig } from "../types";
 import { prettyJson } from "../util/util";
 import { logger } from "./Logger";
 
 export class ProjectWriter {
-  writeProject(builderContext: BuilderContext, buildConfig: BuildConfig) {
+  writeProject(builderContext: BuilderContext, projectConfig: ProjectConfig) {
     logger.info(`Saving compiled project on disk..`);
-    let outDir = buildConfig.outDir;
+    let outDir = projectConfig.outDir;
     let currDir = process.cwd();
 
     let skillPackageRoot = path.join(currDir, outDir, "/skill-package");
