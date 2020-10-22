@@ -4,17 +4,18 @@ import * as path from "path";
 import { v1 } from "ask-smapi-model";
 import { logger } from "../components/Logger";
 import { INITIAL_ASK_RESOURCE, INITIAL_ASK_STATES, INITIAL_SKILL_MANIFEST } from "../util/util";
+import fse from "fs-extra";
 
 interface CjsMetadata {
   askStates: any;
   askResources: any;
-  skillManifest: v1.skill.Manifest.SkillManifest;
+  skillManifestEnvelope: v1.skill.Manifest.SkillManifestEnvelope;
 }
 
 const DEFAULT_CJS_METADATA: CjsMetadata = {
   askResources: INITIAL_ASK_RESOURCE,
   askStates: INITIAL_ASK_STATES,
-  skillManifest: INITIAL_SKILL_MANIFEST,
+  skillManifestEnvelope: INITIAL_SKILL_MANIFEST,
 };
 
 /**
@@ -57,33 +58,13 @@ export class ProjectInitializer {
     let targetLocation = path.join(currDir, outDir);
 
     fs.mkdirSync(targetLocation, { recursive: true });
-
     logger.info(`Created ${targetLocation}`);
-    let skillPackageTargetLocation = path.join(currDir, outDir, "/skill-package");
 
-    if (!fs.existsSync(skillPackageTargetLocation)) {
-      fs.mkdirSync(skillPackageTargetLocation, { recursive: true });
-      logger.info(`Created ${skillPackageTargetLocation}`);
-    }
-
-    let deployerTargetLocation = path.join(currDir, outDir, "/infrastructure/lambda-deployer");
-    if (!fs.existsSync(deployerTargetLocation)) {
-      fs.mkdirSync(deployerTargetLocation, { recursive: true });
-      logger.info(`Created ${deployerTargetLocation}`);
-    }
-
-    let lambdaTargetLocation = path.join(currDir, outDir, "/lambda");
-    if (!fs.existsSync(lambdaTargetLocation)) {
-      fs.mkdirSync(lambdaTargetLocation, { recursive: true });
-      logger.info(`Created ${lambdaTargetLocation}`);
-    }
-
-    let askDirTargetLocation = path.join(currDir, outDir, "/.ask");
-    if (!fs.existsSync(askDirTargetLocation)) {
-      fs.mkdirSync(askDirTargetLocation, { recursive: true });
-      logger.info(`Created ${askDirTargetLocation}`);
-    }
-
+    ["/skill-package", "/infrastructure/lambda-deployer", "/lambda", "/.ask"].forEach((val) => {
+      let p = path.join(currDir, outDir, val);
+      fse.ensureDirSync(p);
+      logger.info(`Generated ${p}`);
+    });
     this.initializeData(outDir, currDir);
   }
 
@@ -93,7 +74,6 @@ export class ProjectInitializer {
   private initializeData(outDir: string, currDir: string): CjsMetadata | void {
     // Save default ask-resources.json
     let askResourcesTargetLocation = path.join(currDir, outDir, "/ask-resources.json");
-
     logger.info(`Writing ${askResourcesTargetLocation}`);
     fs.writeFileSync(
       askResourcesTargetLocation,
