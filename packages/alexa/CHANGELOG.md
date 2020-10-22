@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.1...@chitchatjs/alexa@0.3.2) (2020-10-22)
+
+
+### Bug Fixes
+
+* adding SSMLSpeechBlock as input to ax.say() & ax.ask() ([b3c489c](https://github.com/chitchatjs/chitchatjs/commit/b3c489c9f7670093b516accd0af27701b1025e4f)), closes [#77](https://github.com/chitchatjs/chitchatjs/issues/77)
+
+
+
+
+
 ## [0.3.1](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.0...@chitchatjs/alexa@0.3.1) (2020-10-22)
 
 
