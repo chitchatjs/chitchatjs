@@ -3,8 +3,9 @@ import { execSync } from "child_process";
 import commander from "commander";
 import * as shell from "shelljs";
 
-import { ProjectConfigReader } from "../components/ProjectConfigReader";
 import { logger } from "../components/Logger";
+import { ProjectConfigReader } from "../components/ProjectConfigReader";
+import { ProjectConfig } from "../types";
 import { CJS_CMD } from "../util/constants";
 import { BaseCommand } from "./base";
 
@@ -13,10 +14,10 @@ import { BaseCommand } from "./base";
  * $ cjs deploy
  */
 export class DeployCommand implements BaseCommand {
-  buildConfigReader: ProjectConfigReader;
+  projectConfigReader: ProjectConfigReader;
 
   constructor() {
-    this.buildConfigReader = new ProjectConfigReader();
+    this.projectConfigReader = new ProjectConfigReader();
   }
 
   register(program: commander.Command) {
@@ -25,12 +26,7 @@ export class DeployCommand implements BaseCommand {
   }
 
   _action = (command: commander.Command) => {
-    let buildConfig = this.buildConfigReader.read();
-
-    if (!buildConfig) {
-      logger.error("Build config is undefined.");
-      throw new Error("Build config is undefined.");
-    }
+    let projectConfig = this.projectConfigReader.read();
 
     let s = shell.which("ask");
     if (!s) {
@@ -42,10 +38,14 @@ export class DeployCommand implements BaseCommand {
     }
 
     // deploy using ask
-    execSync(`cd ${buildConfig.outDir} && ask deploy`, {
+    this._deploy(projectConfig);
+  };
+
+  _deploy(projectConfig: ProjectConfig) {
+    execSync(`cd ${projectConfig.outDir} && ask deploy`, {
       windowsHide: true,
       stdio: "inherit",
       cwd: process.cwd(),
     });
-  };
+  }
 }

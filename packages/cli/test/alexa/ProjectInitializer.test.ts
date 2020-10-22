@@ -3,12 +3,13 @@ import "mocha";
 import { expect } from "chai";
 import fs from "fs";
 import fse from "fs-extra";
-import * as sinon from "sinon";
 import path from "path";
-import { ProjectInitializer } from "../../src/alexa/ProjectInitializer";
-import { BuildConfig } from "../../src/builder/ProjectBuilder";
+import * as sinon from "sinon";
 
-const buildConfig: BuildConfig = {
+import { ProjectInitializer } from "../../src/alexa/ProjectInitializer";
+import { ProjectConfig } from "../../src/types";
+
+const projectConfig: ProjectConfig = {
   outDir: "/fake",
   target: "Alexa",
 };
@@ -25,7 +26,7 @@ describe("ProjectInitializer", () => {
         return true;
       });
 
-      expect(pi.isInitialized(buildConfig)).to.be.true;
+      expect(pi.isInitialized(projectConfig)).to.be.true;
     });
   });
 
@@ -38,9 +39,9 @@ describe("ProjectInitializer", () => {
       let ensureDir = sinon.stub(fse, "ensureDirSync").callsFake(() => {});
       let writeFile = sinon.stub(fs, "writeFileSync").callsFake(() => {});
 
-      pi.initialize(buildConfig);
+      pi.initialize(projectConfig);
 
-      expect(mkdir.args[0][0]).equals(path.join(process.cwd(), buildConfig.outDir));
+      expect(mkdir.args[0][0]).equals(path.join(process.cwd(), projectConfig.outDir));
       expect(ensureDir.callCount).equals(4);
       expect(writeFile.callCount).equals(2);
     });
