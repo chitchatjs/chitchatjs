@@ -1,20 +1,22 @@
-import { BaseCommand } from "./base";
-import * as shell from "shelljs";
-import { BuildConfigReader } from "../components/BuildConfigReader";
-import commander from "commander";
-import { logger } from "../components/Logger";
-import { CJS_CMD } from "../util/util";
+// import { CJS_CMD } from "../util/util";
 import { execSync } from "child_process";
+import commander from "commander";
+import * as shell from "shelljs";
+
+import { ProjectConfigReader } from "../components/ProjectConfigReader";
+import { logger } from "../components/Logger";
+import { CJS_CMD } from "../util/constants";
+import { BaseCommand } from "./base";
 
 /**
  * Command to deploy project.
  * $ cjs deploy
  */
 export class DeployCommand implements BaseCommand {
-  buildConfigReader: BuildConfigReader;
+  buildConfigReader: ProjectConfigReader;
 
   constructor() {
-    this.buildConfigReader = new BuildConfigReader();
+    this.buildConfigReader = new ProjectConfigReader();
   }
 
   register(program: commander.Command) {

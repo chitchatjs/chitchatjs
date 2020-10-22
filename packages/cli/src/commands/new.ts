@@ -1,16 +1,18 @@
+import { execSync } from "child_process";
 import * as fs from "fs";
-import { Config, ConfigInitializer, Template } from "../components/ConfigInitializer";
-import commander = require("commander");
-import inquirer = require("inquirer");
-import { TemplatesManager } from "../components/TemplatesManager";
-import { buildBanner, CJS_CMD } from "../util/util";
+import { join } from "path";
+
+import { ConfigInitializer } from "../components/ConfigInitializer";
+import { GitClient } from "../components/GitClient";
 import { logger } from "../components/Logger";
 import { initSpinner } from "../components/Spinner";
-import { GitClient } from "../components/GitClient";
-import { join } from "path";
-import { execSync } from "child_process";
+import { TemplatesManager } from "../components/TemplatesManager";
+import { CliConfig, Template } from "../types";
+import { CJS_CMD } from "../util/constants";
+import { buildBanner } from "../util/util";
 
-const CURR_DIR: string = process.cwd();
+import commander = require("commander");
+import inquirer = require("inquirer");
 
 interface Options {
   outputDir?: string;
@@ -24,12 +26,12 @@ interface Options {
 export class NewCommand {
   configReader: ConfigInitializer;
   templatesManager: TemplatesManager;
-  config: Config;
+  config: CliConfig;
   gitClient: GitClient;
 
-  constructor() {
+  constructor(config: CliConfig) {
     this.configReader = new ConfigInitializer();
-    this.config = this.configReader.init();
+    this.config = config;
     this.templatesManager = new TemplatesManager();
     this.gitClient = new GitClient();
   }
@@ -78,7 +80,7 @@ export class NewCommand {
       message: "Directory name: ",
       default: "my-bot",
       validate: (input: string) => {
-        if (!fs.existsSync(`${CURR_DIR}/${input}`)) return true;
+        if (!fs.existsSync(`${process.cwd()}/${input}`)) return true;
         return "Directory already exists.";
       },
     });
@@ -86,7 +88,7 @@ export class NewCommand {
     return questions;
   }
 
-  private _createProject(answers: inquirer.Answers, config: Config) {
+  private _createProject(answers: inquirer.Answers, config: CliConfig) {
     let dir = answers.dir;
     let templateName = answers.template;
 

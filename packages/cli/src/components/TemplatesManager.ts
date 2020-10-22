@@ -1,18 +1,18 @@
-import { Config, Template } from "./ConfigInitializer";
+import { CliConfig, Template } from "../types";
 
 export class TemplatesManager {
-  getTemplateNames(config: Config): string[] {
+  getTemplateNames(config: CliConfig): string[] {
     return config.templates.map((t) => {
       return t.name;
     });
   }
 
-  getTemplateByName(config: Config, templateName: string): Template {
+  getTemplateByName(config: CliConfig, templateName: string): Template {
     let templates = config.templates.filter((t) => {
       return t.name === templateName;
     });
 
-    if (!templates || templates.length == undefined) {
+    if (templates.length === 0) {
       throw new Error(
         "No templates defined in the cli configuration. Update the configuration and add the template."
       );

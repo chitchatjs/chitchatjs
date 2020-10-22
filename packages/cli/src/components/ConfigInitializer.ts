@@ -1,71 +1,24 @@
 import * as fs from "fs";
 import * as path from "path";
-import { CLI_CONFIG_DIRECTORY as CONFIG_DIR } from "../util/util";
-import { CLI_CONFIG_FILE_NAME as CONFIG_NAME } from "../util/util";
+
+import { CliConfig } from "../types";
+import { CLI_CONFIG_FILE_NAME, DEFAULT_CLI_CONFIG } from "../util/constants";
 import { logger } from "./Logger";
 
-const DEFAULT_CONFIG: Config = {
-  version: "1.0",
-  templates: [
-    {
-      name: "Hello Bot",
-      url: {
-        type: "GIT",
-        value: "https://github.com/chitchatjs/hello-bot-template.git",
-      },
-    },
-    {
-      name: "Dog Match",
-      url: {
-        type: "GIT",
-        value: "https://github.com/chitchatjs/pet-match-template.git",
-      },
-    },
-    {
-      name: "High Low Game",
-      url: {
-        type: "GIT",
-        value: "https://github.com/chitchatjs/high-low-game.git",
-      },
-    },
-    {
-      name: "Coffee Shop",
-      url: {
-        type: "GIT",
-        value: "https://github.com/chitchatjs/coffee-shop.git",
-      },
-    },
-  ],
-};
-
-export interface Template {
-  name: string;
-  url: Url;
-}
-
-export interface Config {
-  version: string;
-  templates: Template[];
-}
-export interface Url {
-  type: string;
-  value: string;
-}
-
 /**
- * Reads the user defined compiler config
+ * Initializes configuration
  */
 export class ConfigInitializer {
-  init(configDir: string = CONFIG_DIR): Config {
+  init(configDir: string): CliConfig {
     logger.debug(`Config directory: `, configDir);
     if (!this.exists(configDir)) {
       this.create(configDir);
     }
 
-    let cfg = fs.readFileSync(path.join(configDir, CONFIG_NAME), "utf8");
+    let cfg = fs.readFileSync(path.join(configDir, CLI_CONFIG_FILE_NAME), "utf8");
 
     // merge with default config to make sure we append new skills as we launch them
-    return Object.assign(DEFAULT_CONFIG, JSON.parse(cfg));
+    return Object.assign(DEFAULT_CLI_CONFIG, JSON.parse(cfg));
   }
 
   exists(configDir: string) {
@@ -75,8 +28,8 @@ export class ConfigInitializer {
   create(configDir: string) {
     fs.mkdirSync(configDir);
     fs.writeFileSync(
-      path.join(configDir, CONFIG_NAME),
-      JSON.stringify(DEFAULT_CONFIG, null, 2),
+      path.join(configDir, CLI_CONFIG_FILE_NAME),
+      JSON.stringify(DEFAULT_CLI_CONFIG, null, 2),
       "utf8"
     );
   }
