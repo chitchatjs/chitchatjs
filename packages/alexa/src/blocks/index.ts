@@ -136,11 +136,11 @@ export namespace alexa {
       .build();
   }
 
-  export function ask(msg: string) {
+  export function ask(msg: string | SSMLSpeechBlock) {
     return new AskSpeechBlockBuilder().say(msg);
   }
 
-  export function say(msg: string) {
+  export function say(msg: string | SSMLSpeechBlock) {
     return new TellSpeechBlockBuilder(msg).build();
   }
 
