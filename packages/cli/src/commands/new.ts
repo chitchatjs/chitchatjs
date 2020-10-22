@@ -41,7 +41,7 @@ export class NewCommand {
     logger.debug(`Registered ${CJS_CMD} new command.`);
   }
 
-  private _action = (command: commander.Command) => {
+  _action = (command: commander.Command) => {
     let options: Options = {
       outputDir: command.outputDir,
       sample: command.sample,
@@ -52,6 +52,10 @@ export class NewCommand {
     let questions = this._prepareQuestions(options);
     logger.debug("New command questions: " + JSON.stringify(questions));
 
+    this._launchInquirer(questions);
+  };
+
+  _launchInquirer(questions: inquirer.Question<inquirer.Answers>[]) {
     inquirer
       .prompt(questions)
       .then((answers) => {
@@ -61,7 +65,7 @@ export class NewCommand {
         logger.error(error.stack);
         process.exit(1);
       });
-  };
+  }
 
   private _prepareQuestions(options: Options): inquirer.Question[] {
     let templateNames = new TemplatesManager().getTemplateNames(this.config);

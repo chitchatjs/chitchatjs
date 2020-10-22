@@ -6,9 +6,9 @@ import * as sinon from "sinon";
 import { alexa } from "@chitchatjs/alexa";
 
 import { SkillBuilder } from "../../src/alexa/SkillBuilder";
-import { BuildConfig } from "../../src/builder/ProjectBuilder";
+import { ProjectConfig } from "../../src/types";
 
-const buildConfig: BuildConfig = {
+const projectConfig: ProjectConfig = {
   outDir: "/fake",
   target: "Alexa",
 };
@@ -30,7 +30,7 @@ describe("SkillBuilder", () => {
         .skill()
         .addState(alexa.state("foo").block(alexa.say("hello")).build())
         .build();
-      let ctx = sb.build(skill, buildConfig);
+      let ctx = sb.build(skill, projectConfig);
 
       expect(ctx).not.undefined;
     });
@@ -47,7 +47,7 @@ describe("SkillBuilder", () => {
         .skill()
         .addState(alexa.state("foo").block(alexa.say("hello")).build())
         .build();
-      let ctx = sb.build(skill, buildConfig);
+      let ctx = sb.build(skill, projectConfig);
 
       expect(ctx).not.undefined;
       expect(ini.callCount).eq(1);

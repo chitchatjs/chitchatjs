@@ -10,12 +10,11 @@ import * as sinon from "sinon";
 
 import { BuilderContext } from "@chitchatjs/core";
 
-import { BuildConfig } from "../../src/builder/ProjectBuilder";
 import { ProjectWriter } from "../../src/components/ProjectWriter";
+import { ProjectConfig } from "../../src/types";
 import { INITIAL_SKILL_MANIFEST, prettyJson } from "../../src/util/util";
-import { random } from "lodash";
 
-const buildConfig: BuildConfig = {
+const projectConfig: ProjectConfig = {
   outDir: "/fake",
   target: "Alexa",
 };
@@ -38,9 +37,9 @@ describe("ProjectWriter", () => {
         return JSON.parse("{}");
       });
 
-      f.writeProject(builderContext(), buildConfig);
+      f.writeProject(builderContext(), projectConfig);
 
-      let outRoot = path.join(process.cwd(), buildConfig.outDir);
+      let outRoot = path.join(process.cwd(), projectConfig.outDir);
       let manifestPath = path.join(outRoot, "/skill-package", "/skill.json");
       let randomResourcePath = path.join(outRoot, "/skill-package", "/random.json");
       expect(fseEnsureFileSync.callCount).equals(2);
@@ -91,9 +90,9 @@ describe("ProjectWriter", () => {
         return JSON.stringify(existingManifest);
       });
 
-      f.writeProject(builderContext(), buildConfig);
+      f.writeProject(builderContext(), projectConfig);
 
-      let outRoot = path.join(process.cwd(), buildConfig.outDir);
+      let outRoot = path.join(process.cwd(), projectConfig.outDir);
       let manifestPath = path.join(outRoot, "/skill-package", "/skill.json");
       let randomResourcePath = path.join(outRoot, "/skill-package", "/random.json");
       // doesn't create the blank manifest file on disk
@@ -148,9 +147,9 @@ describe("ProjectWriter", () => {
         return JSON.stringify(existingManifest);
       });
 
-      f.writeProject(builderContextWithManifestEndpoint(), buildConfig);
+      f.writeProject(builderContextWithManifestEndpoint(), projectConfig);
 
-      let outRoot = path.join(process.cwd(), buildConfig.outDir);
+      let outRoot = path.join(process.cwd(), projectConfig.outDir);
       let manifestPath = path.join(outRoot, "/skill-package", "/skill.json");
       // doesn't create the blank manifest file on disk
       expect(fseEnsureFileSync.callCount).equals(0);

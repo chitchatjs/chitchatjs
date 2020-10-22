@@ -1,8 +1,8 @@
 import commander from "commander";
 
-import { AlexaProjectBuilder } from "../builder/AlexaProjectBuilder";
-import { ProjectConfigReader } from "../components/ProjectConfigReader";
+import { AlexaProjectBuilder } from "../alexa/AlexaProjectBuilder";
 import { logger } from "../components/Logger";
+import { ProjectConfigReader } from "../components/ProjectConfigReader";
 import { CJS_CMD } from "../util/constants";
 import { BaseCommand } from "./base";
 
@@ -11,10 +11,12 @@ import { BaseCommand } from "./base";
  * $ cjs build
  */
 export class BuildCommand implements BaseCommand {
-  buildConfigReader: ProjectConfigReader;
+  projectConfigReader: ProjectConfigReader;
+  projectBuilder: AlexaProjectBuilder;
 
   constructor() {
-    this.buildConfigReader = new ProjectConfigReader();
+    this.projectConfigReader = new ProjectConfigReader();
+    this.projectBuilder = new AlexaProjectBuilder();
   }
 
   register(program: commander.Command) {
@@ -23,14 +25,7 @@ export class BuildCommand implements BaseCommand {
   }
 
   _action = (command: commander.Command) => {
-    const buildConfig = this.buildConfigReader.read();
-
-    if (buildConfig?.target === "Alexa") {
-      let builder = new AlexaProjectBuilder();
-      builder.build(buildConfig);
-    } else {
-      logger.error("Dialogflow is not yet supported");
-      process.exit(0);
-    }
+    const projectConfig = this.projectConfigReader.read();
+    this.projectBuilder.build(projectConfig);
   };
 }
