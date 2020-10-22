@@ -1,10 +1,10 @@
 {
-  "packages": ["packages/*"],
+  "packages": ["packages/alexa", "packages/core", "packages/cli", "packages/plugin-ax-kit"],
   "version": "independent",
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "message": "chore(release): npm release"
+      "message": "chore(release): 🎉 npm release 🎉"
     }
   }
 }
