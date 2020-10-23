@@ -1,8 +1,10 @@
 import { ResponseFactory } from "ask-sdk-core";
+
 import { AskSpeechBlock } from "@chitchatjs/core";
-import { interpolateString } from "../../util/StringUtils";
+
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, SSMLSpeechBlock } from "../../models";
 import { context_util } from "../../util/ContextUtil";
+import { interpolateString } from "../../util/StringUtils";
 
 /**
  * An Alexa Platform implementation of AskSpeechBlock

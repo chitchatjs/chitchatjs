@@ -1,19 +1,14 @@
-import { TellSpeechBlock } from "@chitchatjs/core";
-import { ResponseFactory } from "ask-sdk-core";
 import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
-  DEFAULT_LOCALE,
   InteractionModel,
   Locale,
-  Slot,
   SlotType,
   SlotTypeBlock,
   SlotTypeValue,
 } from "../../models";
 import { paths, resource_utils } from "../../util/ResourceUtil";
-import { interpolateString } from "../../util/StringUtils";
 
 /**
  * Adds a slot type
@@ -23,7 +18,6 @@ export class SlotTypeBlockBuilder {
   private _values?: SlotTypeValue[];
 
   private _slotType?: SlotType;
-  private _importFunc?: (c: AlexaBuilderContext) => SlotType;
 
   constructor(name?: string) {
     this._name = name;
@@ -77,11 +71,29 @@ export class SlotTypeBlockBuilder {
   };
 
   private _updateInteractionModel = (context: AlexaBuilderContext, locale: Locale): void => {
-    let im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
-
-    if (this._slotType) {
-      im.interactionModel?.languageModel?.types?.push(this._slotType);
-      context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
+    if (!this._slotType) {
+      return;
     }
+
+    let im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
+    let slotTypes = im.interactionModel?.languageModel?.types;
+    let slotTypeToAdd = this._slotType;
+
+    let duplicateSlotTypes = slotTypes?.filter((slotType: SlotType) => {
+      return slotType.name === slotTypeToAdd.name;
+    });
+
+    // if we find a slot type with same name
+    // replace the old definition
+    if (duplicateSlotTypes && duplicateSlotTypes.length > 0) {
+      let updatedSlotTypes = slotTypes?.map((slotType) =>
+        slotType.name === slotTypeToAdd.name ? slotTypeToAdd : slotType
+      );
+      im.interactionModel!.languageModel!.types = updatedSlotTypes;
+    } else {
+      // otherwise add it to the list
+      im.interactionModel?.languageModel?.types?.push(this._slotType);
+    }
+    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
   };
 }
