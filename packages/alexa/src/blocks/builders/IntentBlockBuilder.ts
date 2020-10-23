@@ -1,21 +1,14 @@
-import { TellSpeechBlock } from "@chitchatjs/core";
-import { ResponseFactory } from "ask-sdk-core";
 import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
-  DEFAULT_LOCALE,
   Intent,
   IntentBlock,
   InteractionModel,
   Locale,
   Slot,
-  SlotType,
-  SlotTypeBlock,
-  SlotTypeValue,
 } from "../../models";
 import { paths, resource_utils } from "../../util/ResourceUtil";
-import { interpolateString } from "../../util/StringUtils";
 
 /**
  * Adds a slot type
@@ -50,8 +43,9 @@ export class IntentBlockBuilder {
     if (!this._name) {
       throw new Error("name is missing in the intent block.");
     }
-    if (!this._samples || this._samples.length == 0) {
-      throw new Error("samples are not defined in the intent block.");
+
+    if (!this._samples) {
+      this._samples = [];
     }
 
     return {
@@ -65,6 +59,7 @@ export class IntentBlockBuilder {
   }
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {};
+
   private _builder = (context: AlexaBuilderContext) => {
     // add slot type to the interaction model in the locale specified
     resource_utils.invokePerLocale(context, this._updateInteractionModel);

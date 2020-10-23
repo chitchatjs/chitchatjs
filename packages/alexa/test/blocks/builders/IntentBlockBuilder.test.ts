@@ -18,14 +18,16 @@ describe("IntentBlockBuilder", () => {
       expect(err.message).to.be.equal("name is missing in the intent block.");
     });
 
-    it("should throw validation error if samples are missing", async () => {
-      let err: Error = new Error();
+    it("should not throw validation error if samples are missing", async () => {
+      let err: Error | undefined = undefined;
+
       try {
         new IntentBlockBuilder().name("HelloIntent").build();
       } catch (e) {
         err = e;
       }
-      expect(err.message).to.be.equal("samples are not defined in the intent block.");
+
+      expect(err).to.be.undefined;
     });
 
     it("should not throw validation error if slots are missing", async () => {
