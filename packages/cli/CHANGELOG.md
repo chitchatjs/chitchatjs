@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.12](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.11...@chitchatjs/cli@0.3.12) (2020-10-23)
+
+
+### Bug Fixes
+
+* cjs build will now cleanup first and then copy resources (except manifest) ([a3b14dc](https://github.com/chitchatjs/chitchatjs/commit/a3b14dcbfb68ccf01a412682d8637a18092b65c5)), closes [#76](https://github.com/chitchatjs/chitchatjs/issues/76)
+
+
+
+
+
 ## [0.3.11](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.10...@chitchatjs/cli@0.3.11) (2020-10-23)
 
 **Note:** Version bump only for package @chitchatjs/cli
