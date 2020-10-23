@@ -36,6 +36,9 @@ describe("ProjectWriter", () => {
       let shellStub = sinon.stub(shell, "cp").callsFake(() => {
         return JSON.parse("{}");
       });
+      let readDirSync = sinon.stub(fs, "readdirSync").callsFake(() => {
+        return [];
+      });
 
       f.writeProject(builderContext(), projectConfig);
 
@@ -62,6 +65,7 @@ describe("ProjectWriter", () => {
       expect(JSON.stringify(shellStub.args[0])).equals(
         JSON.stringify(["-R", ["*.json", "./dist", "./node_modules"], lambdaRoot])
       );
+      expect(readDirSync.callCount).equals(2);
     });
 
     it("should write project when manifest doesn't exist on disk but input manifest doesn't have endpoint", () => {
@@ -75,6 +79,10 @@ describe("ProjectWriter", () => {
       let shellStub = sinon.stub(shell, "cp").callsFake(() => {
         return JSON.parse("{}");
       });
+      let readDirSync = sinon.stub(fs, "readdirSync").callsFake(() => {
+        return [];
+      });
+
       let existingManifest = _.cloneDeep(INITIAL_SKILL_MANIFEST);
 
       if (
@@ -119,6 +127,7 @@ describe("ProjectWriter", () => {
       expect(JSON.stringify(shellStub.args[0])).equals(
         JSON.stringify(["-R", ["*.json", "./dist", "./node_modules"], lambdaRoot])
       );
+      expect(readDirSync.callCount).equals(2);
     });
 
     it("should write project when manifest doesn't exist on disk but input manifest does have endpoint", () => {
@@ -132,6 +141,10 @@ describe("ProjectWriter", () => {
       let shellStub = sinon.stub(shell, "cp").callsFake(() => {
         return JSON.parse("{}");
       });
+      let readDirSync = sinon.stub(fs, "readdirSync").callsFake(() => {
+        return [];
+      });
+
       let existingManifest = _.cloneDeep(INITIAL_SKILL_MANIFEST);
       if (
         existingManifest.manifest &&
@@ -169,6 +182,7 @@ describe("ProjectWriter", () => {
       expect(JSON.stringify(shellStub.args[0])).equals(
         JSON.stringify(["-R", ["*.json", "./dist", "./node_modules"], lambdaRoot])
       );
+      expect(readDirSync.callCount).equals(2);
     });
   });
 });

@@ -9,6 +9,7 @@ import { BuilderContext } from "@chitchatjs/core";
 import { ProjectConfig } from "../types";
 import { prettyJson } from "../util/util";
 import { logger } from "./Logger";
+import rimraf from "rimraf";
 
 export class ProjectWriter {
   writeProject(builderContext: BuilderContext, projectConfig: ProjectConfig) {
@@ -18,6 +19,12 @@ export class ProjectWriter {
 
     let skillPackageRoot = path.join(currDir, outDir, "/skill-package");
     let resourceMap = builderContext.resources.resourceMap;
+    let skillManifestPath = path.join(skillPackageRoot, "/skill.json");
+    let lambdaPath = path.join(currDir, outDir, "/lambda");
+
+    // first, clean up the project
+    this.cleanupDirectory(skillPackageRoot, [skillManifestPath]);
+    this.cleanupDirectory(lambdaPath, []);
 
     Object.keys(resourceMap).forEach((p: string) => {
       let resourcePath = path.join(skillPackageRoot, p);
@@ -32,7 +39,6 @@ export class ProjectWriter {
       }
     });
 
-    let lambdaPath = path.join(currDir, outDir, "/lambda");
     this.writeLambda(lambdaPath);
 
     logger.success("Done building.");
@@ -69,5 +75,22 @@ export class ProjectWriter {
     // Only copy package(-lock).json, dist and node_modules dependencies
     fse.ensureDirSync(targetDir);
     shell.cp("-R", ["*.json", "./dist", "./node_modules"], targetDir);
+  }
+
+  /**
+   * Cleans up a directory
+   * @param root Root directory path
+   * @param exceptPaths will not clean up these paths
+   */
+  cleanupDirectory(root: string, exceptPaths: string[]) {
+    console.log("ROOT: ", root);
+    let files = fs.readdirSync(root);
+    files.forEach((file) => {
+      const filePath = path.join(root, file);
+      console.log(filePath);
+      if (!exceptPaths.includes(filePath)) {
+        rimraf.sync(filePath);
+      }
+    });
   }
 }
