@@ -1,7 +1,7 @@
 {
   "name": "@chitchatjs/plugin-ax-kit",
   "version": "0.1.2",
-  "description": "Alexa starter building blocks using @chitchatjs/alexa.",
+  "description": "Alexa starter building blocks plugin library using @chitchatjs/alexa.",
   "keywords": [
     "voice",
     "framework",
