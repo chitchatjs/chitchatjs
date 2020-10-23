@@ -16,7 +16,11 @@
 
 [![gitter](https://badges.gitter.im/chitchat-js/community.png)](https://gitter.im/chitchat-js/community)
 
-## What is chitchat.js? <Badge text="beta" />
+## Demo
+
+![](./images/gifs/create-project.gif)
+
+## What is chitchat.js?
 
 Chitchat.js (or CJS) is a framework for building voice driven multi-modal user interfaces (a.k.a. VUI). Chitchat is designed to be incrementally adaptable. Chitchat comes with three primary components - core library (`@chichatjs/core`), a CLI (`@chitchatjs/cli`) and the implementation strategies (dialog management) which may or may not be platform dependent. It offers `@chitchatjs/alexa` to seamlessly integrate your voice user interface with Alexa.
 
@@ -94,7 +98,11 @@ To get started, simply write this in your index.ts
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
 
-let skill = ax.start().block(ax.say("Hello world")).build();
+let state = ax.start().block(ax.say("Hello world")).build();
+
+// create our skill using the state above
+let skill = ax.skill().addState(state).build();
+
 exports = ax.dialogManager(skill).exports();
 ```
 
@@ -103,33 +111,27 @@ Above would render "Hello world" speech for every request user makes. Let's add 
 ```ts
 import { alexa as ax } from "@chitchatjs/alexa";
 
-let skill = ax
+let state = ax
   .start()
   .block(
     ax
       .compound()
       // welcome message
       .add(ax.ask("Hello, what is your name?").build())
-      // move to a new AskName state
-      .add(ax.goto("AskName"))
+      .add(
+        // simple!
+        ax
+          .whenUserSays(["my name is {name}", "{name}", "name is {name}"])
+          .withSlotType("name", "AMAZON.FirstName")
+          // {name} allows automatic slot resolution
+          .then(ax.say("Welcome, {name}! It's nice to talk to you."))
+          .build()
+      )
       .build()
   )
   .build();
 
-let askName = ax
-  .state("AskName")
-  .block(
-    // simple!
-    ax
-      .whenUserSays(["my name is {name}", "{name}", "name is {name}"])
-      .withSlotType("name", "AMAZON.FirstName")
-      // {name} allows automatic slot resolution
-      .then(ax.say("Welcome, {name}! It's nice to talk to you."))
-      .build()
-  )
-  .build();
-
-exports = ax.dialogManager(skill).exports();
+...
 ```
 
 ## Writing a reusable Building Block
@@ -156,25 +158,31 @@ Now, we can simply plug it into our skill:
 import { alexa as ax } from "@chitchatjs/alexa";
 import { greetings as g } from "./greetings";
 
-let skill = ax
+let state = ax
   .start()
   .block(
     ax
       .compound()
-      .add(ax.ask("Hello, what is your name?").build()) // welcome message
-      .add(ax.goto("AskName")) // move to the AskName state
+      // welcome message
+      .add(ax.ask("Hello, what is your name?").build())
+      // plugin our component here
+      .add(g.greetWithName())
       .build()
   )
   .build();
 
-let askName = ax
-  .state("AskName")
-  // use the block from "./greetings" file.
-  .block(g.greetWithName())
-  .build();
-
-exports = ax.dialogManager(skill).exports();
+...
 ```
+
+Then,
+
+```sh
+> tsc
+> cjs build
+> cjs deploy
+```
+
+That's it!
 
 ## Packages
 
@@ -188,5 +196,9 @@ exports = ax.dialogManager(skill).exports();
 2. [Dog Matcher](https://github.com/chitchatjs/pet-match-template)
 3. [High log game](https://github.com/chitchatjs/high-low-game)
 4. [Coffee shop](https://github.com/chitchatjs/coffee-shop)
+
+**Plugins**
+
+1. [@chitchatjs/plugin-ax-kit](https://www.npmjs.com/package/@chitchatjs/plugin-ax-kit)
 
 Check the official documentation of available Blocks and much more here - https://chitchat.js.org/

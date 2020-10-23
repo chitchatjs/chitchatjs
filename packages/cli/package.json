@@ -1,7 +1,7 @@
 {
   "name": "@chitchatjs/cli",
   "version": "0.3.10",
-  "description": "chitchat.js CLI. chitchat.js is a framework for building voice driven multi-modal experiences easily.",
+  "description": "chitchat.js CLI. A Javascript framework to build Alexa Skills expriences easily.",
   "keywords": [
     "voice",
     "framework",
