@@ -1,5 +1,6 @@
 import { ResponseFactory } from "ask-sdk-core";
 import { Directive } from "ask-sdk-model";
+
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, DirectiveBlock } from "../../models";
 import { context_util } from "../../util/ContextUtil";
 

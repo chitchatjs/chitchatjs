@@ -146,6 +146,34 @@ describe("IntentBlockBuilder", () => {
       ]);
     });
   });
+
+  describe("duplicate intents tests", () => {
+    it("should overwrite intent if intent name is already present in the IM", async () => {
+      let intentName = "HelloIntent";
+      let samples = ["hello world"];
+
+      let b = new IntentBlockBuilder(intentName).samples(samples).build();
+
+      expect(b).is.not.be.undefined;
+
+      let existingIM = resource_utils.getDefaultInteractionModel();
+      existingIM.interactionModel?.languageModel?.intents?.push({
+        name: "HelloIntent",
+      });
+
+      let ctx: AlexaBuilderContext = {
+        resources: {
+          resourceMap: {
+            [paths.getInteractionModelPath(Locale.en_US)]: JSON.stringify(existingIM),
+          },
+        },
+        currentLocales: [Locale.en_US],
+      };
+      b.build(ctx);
+
+      assertIntentNameAndSamplesAndSlots(ctx, Locale.en_US, intentName, samples);
+    });
+  });
 });
 
 function assertIntentNameAndSamplesAndSlots(

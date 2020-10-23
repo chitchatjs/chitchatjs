@@ -44,14 +44,10 @@ export class IntentBlockBuilder {
       throw new Error("name is missing in the intent block.");
     }
 
-    if (!this._samples) {
-      this._samples = [];
-    }
-
     return {
       type: "IntentBlock",
       name: this._name,
-      samples: this._samples,
+      samples: this._samples || [],
       slots: this._slots || [],
       execute: this._executor,
       build: this._builder,
@@ -67,13 +63,28 @@ export class IntentBlockBuilder {
 
   private _updateInteractionModel = (context: AlexaBuilderContext, locale: Locale): void => {
     let im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
-
-    let intent: Intent = {
+    let intents = im.interactionModel?.languageModel?.intents;
+    let intentToAdd: Intent = {
       name: this._name,
       samples: this._samples,
       slots: this._slots,
     };
-    im.interactionModel?.languageModel?.intents?.push(intent);
+
+    let duplicateIntents = intents?.filter((intent: Intent) => {
+      return intent.name === intentToAdd.name;
+    });
+
+    // if we find intent with same name.
+    // replace the old definition
+    if (duplicateIntents && duplicateIntents.length > 0) {
+      let updatedIntents = intents?.map((intent) =>
+        intent.name === intentToAdd.name ? intentToAdd : intent
+      );
+      im.interactionModel!.languageModel!.intents = updatedIntents;
+    } else {
+      // otherwise add it to the list
+      im.interactionModel?.languageModel?.intents?.push(intentToAdd);
+    }
     context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
   };
 }
