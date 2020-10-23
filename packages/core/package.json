@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Core chitchat.js library. A Javascript framework to build Alexa Skills expriences easily.",
   "author": "Kevindra Singh <kevindra.singh@gmail.com>",
   "homepage": "https://chitchat.js.org",
