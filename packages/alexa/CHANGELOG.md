@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.3...@chitchatjs/alexa@0.3.4) (2020-10-23)
+
+
+### Bug Fixes
+
+* adding de-dupe logic to ax.intent() and ax.slotType() blocks ([a069678](https://github.com/chitchatjs/chitchatjs/commit/a069678f5ff251781d45cfacc199f507e795cec8)), closes [#75](https://github.com/chitchatjs/chitchatjs/issues/75)
+* removing null or empty samples restriction from ax.intent() ([4c1e7ce](https://github.com/chitchatjs/chitchatjs/commit/4c1e7ced35b516f04a260629654f0bee4732fcbf)), closes [#81](https://github.com/chitchatjs/chitchatjs/issues/81)
+
+
+
+
+
 ## [0.3.3](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.2...@chitchatjs/alexa@0.3.3) (2020-10-23)
 
 **Note:** Version bump only for package @chitchatjs/alexa
