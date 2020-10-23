@@ -52,6 +52,7 @@
     "@types/mustache": "^4.0.1",
     "@types/node": "^14.11.5",
     "@types/randomstring": "^1.1.6",
+    "@types/rimraf": "^3.0.0",
     "@types/shelljs": "^0.8.8",
     "@types/sinon": "^9.0.8",
     "@types/yup": "^0.29.8",
@@ -79,6 +80,7 @@
     "ora": "^5.1.0",
     "os": "^0.1.1",
     "randomstring": "^1.1.5",
+    "rimraf": "^3.0.2",
     "shelljs": "^0.8.4",
     "tslog": "^2.9.1"
   },
