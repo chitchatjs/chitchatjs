@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import fse from "fs-extra";
 import path from "path";
+import rimraf from "rimraf";
 import * as shell from "shelljs";
 
 import { SkillManifestEnvelope } from "@chitchatjs/alexa";
@@ -9,25 +10,24 @@ import { BuilderContext } from "@chitchatjs/core";
 import { ProjectConfig } from "../types";
 import { prettyJson } from "../util/util";
 import { logger } from "./Logger";
-import rimraf from "rimraf";
 
 export class ProjectWriter {
   writeProject(builderContext: BuilderContext, projectConfig: ProjectConfig) {
     logger.info(`Saving compiled project on disk..`);
-    let outDir = projectConfig.outDir;
-    let currDir = process.cwd();
+    const outDir = projectConfig.outDir;
+    const currDir = process.cwd();
 
-    let skillPackageRoot = path.join(currDir, outDir, "/skill-package");
-    let resourceMap = builderContext.resources.resourceMap;
-    let skillManifestPath = path.join(skillPackageRoot, "/skill.json");
-    let lambdaPath = path.join(currDir, outDir, "/lambda");
+    const skillPackageRoot = path.join(currDir, outDir, "/skill-package");
+    const resourceMap = builderContext.resources.resourceMap;
+    const skillManifestPath = path.join(skillPackageRoot, "/skill.json");
+    const lambdaPath = path.join(currDir, outDir, "/lambda");
 
     // first, clean up the project
     this.cleanupDirectory(skillPackageRoot, [skillManifestPath]);
     this.cleanupDirectory(lambdaPath, []);
 
     Object.keys(resourceMap).forEach((p: string) => {
-      let resourcePath = path.join(skillPackageRoot, p);
+      const resourcePath = path.join(skillPackageRoot, p);
 
       if (p === "/skill.json") {
         this.writeManifest(resourcePath, prettyJson(resourceMap[p]));
@@ -52,12 +52,14 @@ export class ProjectWriter {
       fs.writeFileSync(manifestPath, prettyJson(manifestStr));
       logger.info(`Created ${manifestPath}`);
     } else {
-      let manifestOnDisk: SkillManifestEnvelope = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+      const manifestOnDisk: SkillManifestEnvelope = JSON.parse(
+        fs.readFileSync(manifestPath, "utf8")
+      );
 
-      let endpointOnDisk = manifestOnDisk.manifest?.apis?.custom?.endpoint;
-      let resourceMapManifest: SkillManifestEnvelope = JSON.parse(manifestStr);
+      const endpointOnDisk = manifestOnDisk.manifest?.apis?.custom?.endpoint;
+      const resourceMapManifest: SkillManifestEnvelope = JSON.parse(manifestStr);
 
-      let endpointOnGeneratedResource = resourceMapManifest.manifest!.apis!.custom!.endpoint;
+      const endpointOnGeneratedResource = resourceMapManifest.manifest!.apis!.custom!.endpoint;
       // if there is no endpoint in the generated resource
       // keep the endpoint from the disk manifest
       if (!endpointOnGeneratedResource) {
@@ -83,11 +85,9 @@ export class ProjectWriter {
    * @param exceptPaths will not clean up these paths
    */
   cleanupDirectory(root: string, exceptPaths: string[]) {
-    console.log("ROOT: ", root);
-    let files = fs.readdirSync(root);
+    const files = fs.readdirSync(root);
     files.forEach((file) => {
       const filePath = path.join(root, file);
-      console.log(filePath);
       if (!exceptPaths.includes(filePath)) {
         rimraf.sync(filePath);
       }

@@ -1,5 +1,6 @@
-import { v1 } from "ask-smapi-model";
 import chalk from "chalk";
+
+import { SkillManifestEnvelope } from "@chitchatjs/alexa";
 
 /**
  * Builds a Figlet banner using ASCII letters.
@@ -7,7 +8,7 @@ import chalk from "chalk";
  * @param text Banner Text
  */
 export let buildBanner = () => {
-  let banner =
+  const banner =
     chalk.red("===========\n") +
     chalk.bold(chalk.white("Chit") + chalk.green("chat") + chalk.white(".js\n")) +
     chalk.red("===========\n") +
@@ -53,7 +54,7 @@ export const INITIAL_ASK_STATES = {
   },
 };
 
-export const INITIAL_SKILL_MANIFEST = <v1.skill.Manifest.SkillManifestEnvelope>{
+export const INITIAL_SKILL_MANIFEST: SkillManifestEnvelope = {
   manifest: {
     manifestVersion: "1.0",
     apis: {

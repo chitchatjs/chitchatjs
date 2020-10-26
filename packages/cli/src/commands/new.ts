@@ -42,14 +42,15 @@ export class NewCommand {
   }
 
   _action = (command: commander.Command) => {
-    let options: Options = {
+    const options: Options = {
       outputDir: command.outputDir,
       sample: command.sample,
     };
 
+    // tslint:disable-next-line:no-console
     console.log(buildBanner());
 
-    let questions = this._prepareQuestions(options);
+    const questions = this._prepareQuestions(options);
     logger.debug("New command questions: " + JSON.stringify(questions));
 
     this._launchInquirer(questions);
@@ -68,8 +69,8 @@ export class NewCommand {
   }
 
   private _prepareQuestions(options: Options): inquirer.Question[] {
-    let templateNames = new TemplatesManager().getTemplateNames(this.config);
-    let questions: inquirer.Question[] = [];
+    const templateNames = new TemplatesManager().getTemplateNames(this.config);
+    const questions: inquirer.Question[] = [];
 
     questions.push({
       type: "list",
@@ -93,13 +94,13 @@ export class NewCommand {
   }
 
   private _createProject(answers: inquirer.Answers, config: CliConfig) {
-    let dir = answers.dir;
-    let templateName = answers.template;
+    const dir = answers.dir;
+    const templateName = answers.template;
 
-    let template: Template = this.templatesManager.getTemplateByName(config, templateName);
+    const template: Template = this.templatesManager.getTemplateByName(config, templateName);
 
-    let spinner = initSpinner("🚧 Creating your project..").start();
-    let projectLocation = join(process.cwd(), dir);
+    const spinner = initSpinner("🚧 Creating your project..").start();
+    const projectLocation = join(process.cwd(), dir);
     setTimeout(() => {
       spinner.color = "yellow";
       spinner.text = "🚧 Cloning the sample..";

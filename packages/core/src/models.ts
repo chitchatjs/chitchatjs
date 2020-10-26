@@ -22,7 +22,11 @@ export interface State<B extends BuilderContext, D extends DialogContext, E exte
   name: string;
   block: Block<B, D, E>;
   fallback?: Block<B, D, E>;
-  errorHandler?: (dialogContext: D, event: E, err: Error) => Block<B, D, E>;
+  errorHandler?: (
+    dialogContext: D,
+    event: E,
+    err: Error
+  ) => Promise<Block<B, D, E>> | Block<B, D, E>;
 }
 
 /**
@@ -63,12 +67,12 @@ export interface Block<B extends BuilderContext, D extends DialogContext, E exte
   /**
    * Using this interface a block can define what to build.
    */
-  build: (context: B) => void;
+  build: (context: B) => Promise<void> | void;
 
   /**
    * Actionable interface for each block. Invoked in runtime.
    */
-  execute: (context: D, event: E) => void;
+  execute: (context: D, event: E) => Promise<void> | void;
 }
 
 /**
@@ -86,7 +90,7 @@ export interface CompoundBlock<B extends BuilderContext, D extends DialogContext
 export interface WhenBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
   extends Block<B, D, E> {
   type: "WhenBlock";
-  condition: (context: D, event: E) => boolean;
+  condition: (context: D, event: E) => Promise<boolean> | boolean;
   then: Block<B, D, E>;
   otherwise?: Block<B, D, E>;
 }
@@ -134,7 +138,7 @@ export interface SetGlobalStateBlock<
   E extends Event
 > extends Block<B, D, E> {
   type: "SetGlobalStateBlock";
-  evaluate: (context: D, event: E) => { [name: string]: any };
+  evaluate: (context: D, event: E) => Promise<{ [name: string]: any }> | { [name: string]: any };
 }
 
 /**
@@ -146,7 +150,7 @@ export interface RemoveGlobalStateBlock<
   E extends Event
 > extends Block<B, D, E> {
   type: "RemoveGlobalStateBlock";
-  evaluate: (context: D, event: E) => { [name: string]: any };
+  evaluate: (context: D, event: E) => Promise<{ [name: string]: any }> | { [name: string]: any };
 }
 
 /**
@@ -176,5 +180,5 @@ export interface RawResourceBlock<
  * Dialog Engine interface
  */
 export interface DialogEngine<B extends BuilderContext, D extends DialogContext, E extends Event> {
-  execute(agent: Agent<B, D, E>, event: E): ResponseEnvelope;
+  execute(agent: Agent<B, D, E>, event: E): Promise<ResponseEnvelope> | ResponseEnvelope;
 }

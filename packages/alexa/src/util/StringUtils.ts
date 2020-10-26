@@ -5,9 +5,9 @@ export let interpolateString = (msg: string, state: { [name: string]: any }) => 
 };
 
 export let extractVariables = (msg: string): string[] => {
-  let regex = /{([a-zA-Z_][a-zA-Z0-9]+[|[a-zA-Z_]+[a-zA-Z0-9_.]*]*)?}/g;
+  const regex = /{([a-zA-Z_][a-zA-Z0-9]+[|[a-zA-Z_]+[a-zA-Z0-9_.]*]*)?}/g;
 
-  let tokens: string[] = [];
+  const tokens: string[] = [];
   let match: RegExpExecArray | null;
   while ((match = regex.exec(msg))) {
     tokens.push(match[1]);
@@ -21,12 +21,12 @@ export let getSlotTypeFromSlotName = (varName: string) => {
   }
 
   if (varName.includes("|")) {
-    let tokens = varName.split("|");
+    const tokens = varName.split("|");
     if (tokens.length > 2) {
       throw new Error("Looks like you are using | more than once within single {} expression.");
     }
-    let slotName = tokens[0];
-    let slotType = tokens[1];
+    const slotName = tokens[0];
+    const slotType = tokens[1];
     return { name: slotName, type: slotType };
   }
   return undefined;
@@ -42,7 +42,7 @@ export let listEquals = (a: any[], b: any[]) => {
   // Please note that calling sort on an array will modify that array.
   // you might want to clone your array first.
 
-  for (var i = 0; i < a.length; ++i) {
+  for (let i = 0; i < a.length; ++i) {
     if (a[i] !== b[i]) return false;
   }
   return true;

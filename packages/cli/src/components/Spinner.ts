@@ -12,7 +12,7 @@ import ora from "ora";
  */
 export let initSpinner = (text: string) => {
   return ora({
-    text: text,
+    text,
     color: "cyan",
   });
 };

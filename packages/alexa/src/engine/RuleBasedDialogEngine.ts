@@ -40,24 +40,24 @@ export class RuleBasedDialogEngine implements AlexaDialogEngine {
    * @param event AlexaEvent object
    * @returns ResponseEnvelope
    */
-  execute(skill: Skill, event: AlexaEvent): ResponseEnvelope {
+  async execute(skill: Skill, event: AlexaEvent): Promise<ResponseEnvelope> {
     let context: AlexaDialogContext = this._initContext(event.currentRequest);
 
-    let currentStateName = context.platformState.currentStateName;
-    let currentState = skill.states[currentStateName];
-    let currentStateBlock = currentState.block;
+    const currentStateName = context.platformState.currentStateName;
+    const currentState = skill.states[currentStateName];
+    const currentStateBlock = currentState.block;
 
     try {
-      currentStateBlock.execute(context, event);
+      await currentStateBlock.execute(context, event);
 
       // if nothing changed in the response fallback to the fallbackBlock
       if (_.isEqual(context.currentResponse, INITIAL_EMPTY_RESPONSE)) {
-        this._executeFallbackBlock(currentState, context, event);
+        await this._executeFallbackBlock(currentState, context, event);
       }
     } catch (err) {
-      console.log(`Error occurred: ${err.name} ${err.message}`);
-      console.log(`${err.stack}`);
-      this._executeCatchBlock(currentState, context, event, err);
+      // tslint:disable-next-line:no-console
+      console.log(`Error occurred: ${err.name} ${err.message} ${err.stack}`);
+      await this._executeCatchBlock(currentState, context, event, err);
     }
 
     context = this._updateContext(context);
@@ -71,16 +71,14 @@ export class RuleBasedDialogEngine implements AlexaDialogEngine {
    * @param request RequestEnvelope
    */
   private _initContext(request: RequestEnvelope): AlexaDialogContext {
-    let platformState =
-      this._getPlatformState(request) ||
-      <PlatformState>{
-        currentStateName: INITIAL_STATE_NAME,
-        globalState: {},
-      };
+    const platformState: PlatformState = this._getPlatformState(request) || {
+      currentStateName: INITIAL_STATE_NAME,
+      globalState: {},
+    };
 
     return {
       currentResponse: _.cloneDeep(INITIAL_EMPTY_RESPONSE),
-      platformState: platformState,
+      platformState,
     };
   }
 
@@ -114,15 +112,15 @@ export class RuleBasedDialogEngine implements AlexaDialogEngine {
    * @param context AlexaDialogContext
    * @param event AlexaEvent
    */
-  private _executeFallbackBlock(
+  private async _executeFallbackBlock(
     state: State<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>,
     context: AlexaDialogContext,
     event: AlexaEvent
   ) {
     if (state.fallback) {
-      state.fallback.execute(context, event);
+      await state.fallback.execute(context, event);
     } else {
-      alexa
+      await alexa
         .ask("Sorry I don't understand, please try again.")
         .reprompt("Please try again.")
         .build()
@@ -138,7 +136,7 @@ export class RuleBasedDialogEngine implements AlexaDialogEngine {
    * @param event AlexaEvent
    * @param err Error
    */
-  private _executeCatchBlock(
+  private async _executeCatchBlock(
     state: State<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>,
     context: AlexaDialogContext,
     event: AlexaEvent,
@@ -147,9 +145,9 @@ export class RuleBasedDialogEngine implements AlexaDialogEngine {
     // first, reset the response to empty
     context.currentResponse = _.cloneDeep(INITIAL_EMPTY_RESPONSE);
     if (state.errorHandler) {
-      state.errorHandler(context, event, err).execute(context, event);
+      await (await state.errorHandler(context, event, err)).execute(context, event);
     } else {
-      alexa
+      await alexa
         .ask("Sorry something went wrong, please try again.")
         .reprompt("Please try again.")
         .build()

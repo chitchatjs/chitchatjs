@@ -18,7 +18,7 @@ describe("AlexaProjectBuilder", () => {
     sinon.restore();
   });
 
-  it("should build successfully", () => {
+  it("should build successfully", async () => {
     let pb = new AlexaProjectBuilder();
     let sb = new SkillBuilder();
     let pw = new ProjectWriter();
@@ -34,7 +34,7 @@ describe("AlexaProjectBuilder", () => {
     pb.skillBuilder = sb;
     pb.projectWriter = pw;
 
-    pb.build(projectConfig);
+    await pb.build(projectConfig);
 
     expect(loadProject.callCount).equals(1);
     expect(JSON.stringify(loadProject.args[0][0])).equals(JSON.stringify(projectConfig));

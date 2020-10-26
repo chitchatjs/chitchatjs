@@ -1,7 +1,6 @@
 import chalk from "chalk";
-import cliSpinners from "cli-spinners";
-import ora from "ora";
 
+/* tslint:disable:no-console */
 class Logger {
   isDebug: boolean;
 

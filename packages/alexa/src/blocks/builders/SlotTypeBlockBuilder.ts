@@ -75,18 +75,18 @@ export class SlotTypeBlockBuilder {
       return;
     }
 
-    let im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
-    let slotTypes = im.interactionModel?.languageModel?.types;
-    let slotTypeToAdd = this._slotType;
+    const im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
+    const slotTypes = im.interactionModel?.languageModel?.types;
+    const slotTypeToAdd = this._slotType;
 
-    let duplicateSlotTypes = slotTypes?.filter((slotType: SlotType) => {
+    const duplicateSlotTypes = slotTypes?.filter((slotType: SlotType) => {
       return slotType.name === slotTypeToAdd.name;
     });
 
     // if we find a slot type with same name
     // replace the old definition
     if (duplicateSlotTypes && duplicateSlotTypes.length > 0) {
-      let updatedSlotTypes = slotTypes?.map((slotType) =>
+      const updatedSlotTypes = slotTypes?.map((slotType) =>
         slotType.name === slotTypeToAdd.name ? slotTypeToAdd : slotType
       );
       im.interactionModel!.languageModel!.types = updatedSlotTypes;

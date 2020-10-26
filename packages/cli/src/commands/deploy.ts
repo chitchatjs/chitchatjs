@@ -26,9 +26,9 @@ export class DeployCommand implements BaseCommand {
   }
 
   _action = (command: commander.Command) => {
-    let projectConfig = this.projectConfigReader.read();
+    const projectConfig = this.projectConfigReader.read();
 
-    let s = shell.which("ask");
+    const s = shell.which("ask");
     if (!s) {
       logger.error(
         "cjs requires 'ask' command to deploy your Alexa Skill. \nASK-CLI quick start guide: " +

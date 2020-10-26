@@ -20,26 +20,28 @@ export class SkillBuilder {
    * @param skill AlexaSkill
    * @param projectConfig ProjectConfig
    */
-  build(skill: Skill, projectConfig: ProjectConfig): BuilderContext {
+  async build(skill: Skill, projectConfig: ProjectConfig): Promise<BuilderContext> {
     if (!this.projectInitializer.isInitialized(projectConfig)) {
       this.projectInitializer.initialize(projectConfig);
     }
 
-    let builderContext: AlexaBuilderContext = this.initBuilderContext();
+    const builderContext: AlexaBuilderContext = this.initBuilderContext();
     logger.debug(`Initialized builder context: ${JSON.stringify(builderContext)}`);
 
-    let states = skill.states;
-    Object.keys(states).forEach((stateName: string) => {
-      logger.debug(`Compiling state ${stateName}`);
-      states[stateName].block.build(builderContext);
-    });
+    const states = skill.states;
+    for (const stateName in states) {
+      if (states.hasOwnProperty(stateName)) {
+        logger.debug(`Compiling state ${stateName}`);
+        await states[stateName].block.build(builderContext);
+      }
+    }
 
     logger.debug(`Final builder context: ${JSON.stringify(builderContext)}`);
     return builderContext;
   }
 
   initBuilderContext(): AlexaBuilderContext {
-    let builderContext: AlexaBuilderContext = {
+    const builderContext: AlexaBuilderContext = {
       resources: {
         resourceMap: {},
       },

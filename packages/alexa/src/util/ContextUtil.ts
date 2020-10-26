@@ -14,7 +14,7 @@ export namespace context_util {
   };
 
   export let getIMString = (context: AlexaBuilderContext, locale: Locale): string => {
-    let im = context.resources.resourceMap[paths.getInteractionModelPath(locale)];
+    const im = context.resources.resourceMap[paths.getInteractionModelPath(locale)];
 
     if (!im) {
       throw new Error(
@@ -29,7 +29,7 @@ export namespace context_util {
   };
 
   export let getSkillManifestString = (context: AlexaBuilderContext): string => {
-    let m = context.resources.resourceMap[paths.getSkillManifestPath()];
+    const m = context.resources.resourceMap[paths.getSkillManifestPath()];
 
     if (!m) {
       throw new Error(`Skill Manifest does not exist in the AlexaBuilderContext resourceMap`);
@@ -38,9 +38,11 @@ export namespace context_util {
   };
 
   export let shouldRender = (context: AlexaDialogContext, event: AlexaEvent): boolean => {
-    let eventLocaleStr = (event.currentRequest.request.locale || "en_US").replace("-", "_");
-    let eventLocale = <Locale>(<any>Locale)[eventLocaleStr];
-    let configuredLocales = context.currentLocales;
+    const eventLocaleStr = (event.currentRequest.request.locale || "en_US").replace("-", "_");
+
+    // tslint:disable-next-line:no-angle-bracket-type-assertion
+    const eventLocale: Locale = (<any>Locale)[eventLocaleStr];
+    const configuredLocales = context.currentLocales;
 
     // if no locales are configured, we render
     if (!configuredLocales || configuredLocales.length === 0) {

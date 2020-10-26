@@ -129,8 +129,8 @@ export class SSMLSpeechBlockBuilder {
     return this;
   }
 
-  append(ssml: SSMLSpeechBlock) {
-    this._speech += " " + ssml.speech;
+  append(_ssml: SSMLSpeechBlock) {
+    this._speech += " " + _ssml.speech;
     return this;
   }
 

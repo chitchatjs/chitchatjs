@@ -1,5 +1,11 @@
 import { IntentRequest } from "ask-sdk-model";
-import { AlexaBlock, AlexaBuilderContext, AlexaDialogContext, AlexaEvent, WhenSlotNotFilledBlock } from "../../models";
+import {
+  AlexaBlock,
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent,
+  WhenSlotNotFilledBlock,
+} from "../../models";
 
 export class WhenSlotNotFilledBlockBuilder {
   private _slotName: string;
@@ -40,9 +46,9 @@ export class WhenSlotNotFilledBlockBuilder {
   }
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent) => {
-    let request = <IntentRequest>event.currentRequest.request;
-    if (request.type !== "IntentRequest") return;
+    if (event.currentRequest.request.type !== "IntentRequest") return;
 
+    const request: IntentRequest = event.currentRequest.request;
     if (!context.platformState.globalState[this._slotName]) {
       this._thenBlock?.execute(context, event);
     } else {

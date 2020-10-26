@@ -35,7 +35,7 @@ export class IntentBlockBuilder {
   }
 
   slot(name: string, typeName: string) {
-    this._slots?.push({ name: name, type: typeName });
+    this._slots?.push({ name, type: typeName });
     return this;
   }
 
@@ -62,22 +62,22 @@ export class IntentBlockBuilder {
   };
 
   private _updateInteractionModel = (context: AlexaBuilderContext, locale: Locale): void => {
-    let im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
-    let intents = im.interactionModel?.languageModel?.intents;
-    let intentToAdd: Intent = {
+    const im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
+    const intents = im.interactionModel?.languageModel?.intents;
+    const intentToAdd: Intent = {
       name: this._name,
       samples: this._samples,
       slots: this._slots,
     };
 
-    let duplicateIntents = intents?.filter((intent: Intent) => {
+    const duplicateIntents = intents?.filter((intent: Intent) => {
       return intent.name === intentToAdd.name;
     });
 
     // if we find intent with same name.
     // replace the old definition
     if (duplicateIntents && duplicateIntents.length > 0) {
-      let updatedIntents = intents?.map((intent) =>
+      const updatedIntents = intents?.map((intent) =>
         intent.name === intentToAdd.name ? intentToAdd : intent
       );
       im.interactionModel!.languageModel!.intents = updatedIntents;

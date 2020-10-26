@@ -24,7 +24,7 @@ export class DirectiveBlockBuilder {
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
     if (context_util.shouldRender(context, event)) {
-      let responseBuilder = ResponseFactory.init();
+      const responseBuilder = ResponseFactory.init();
       responseBuilder.addDirective(this._directive);
 
       if (!context.currentResponse.response.directives) {
