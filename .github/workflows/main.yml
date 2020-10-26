@@ -1,3 +1,4 @@
+name: build_test_main
 on:
   push:
     branches:
@@ -17,5 +18,6 @@ jobs:
           node-version: 12
       - run: npx lerna bootstrap
       - run: npm run build
+      - run: npm run lint
       - run: npm run coverage
       - run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
