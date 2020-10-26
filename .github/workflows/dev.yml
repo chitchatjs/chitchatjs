@@ -18,6 +18,10 @@ jobs:
           node-version: 12
       - run: npx lerna bootstrap
       - run: npm run build
-      - run: npm run lint
+      - name: Lint
+        uses: mooyoul/tslint-actions@v1.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: "packages/core/src/**/*.ts packages/alexa/src/**/*.ts packages/cli/src/**/*.ts packages/plugin-ax-kit/src/**/*.ts"
       - run: npm run coverage
       - run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
