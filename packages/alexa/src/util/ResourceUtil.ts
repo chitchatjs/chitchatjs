@@ -9,7 +9,7 @@ import {
 
 export namespace resource_utils {
   export let getDefaultInteractionModel = (): InteractionModel => {
-    return <InteractionModel>{
+    return {
       interactionModel: {
         languageModel: {
           invocationName: "chitchat bot",
@@ -29,9 +29,9 @@ export namespace resource_utils {
     context: AlexaBuilderContext,
     locale: Locale
   ): InteractionModel => {
-    let imPath = paths.getInteractionModelPath(locale);
+    const imPath = paths.getInteractionModelPath(locale);
 
-    let im: InteractionModel | undefined = undefined;
+    let im: InteractionModel | undefined;
     if (!context.resources.resourceMap[imPath]) {
       im = getDefaultInteractionModel();
     } else {
@@ -43,7 +43,7 @@ export namespace resource_utils {
   };
 
   export let getDefaultSkillManifest = (): SkillManifestEnvelope => {
-    return <SkillManifestEnvelope>{
+    return {
       manifest: {
         manifestVersion: "1.0",
         apis: {
@@ -71,7 +71,7 @@ export namespace resource_utils {
     context: AlexaBuilderContext,
     f: (context: AlexaBuilderContext, locale: Locale) => void
   ) => {
-    let locales = context.currentLocales;
+    const locales = context.currentLocales;
     if (!locales || locales.length === 0) {
       f(context, DEFAULT_LOCALE);
     } else {

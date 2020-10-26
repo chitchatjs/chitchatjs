@@ -22,7 +22,8 @@ export class AskSpeechBlockBuilder {
     if (typeof msg === "string") {
       this._say = msg;
     } else {
-      this._say = (<SSMLSpeechBlock>msg).speech;
+      const ssmlMsg: SSMLSpeechBlock = msg;
+      this._say = msg.speech;
     }
     return this;
   }
@@ -31,7 +32,8 @@ export class AskSpeechBlockBuilder {
     if (typeof msg === "string") {
       this._reprompt = msg;
     } else {
-      this._reprompt = (<SSMLSpeechBlock>msg).speech;
+      const ssmlMsg: SSMLSpeechBlock = msg;
+      this._reprompt = ssmlMsg.speech;
     }
     return this;
   }
@@ -48,7 +50,7 @@ export class AskSpeechBlockBuilder {
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
     if (context_util.shouldRender(context, event)) {
-      let responseBuilder = ResponseFactory.init();
+      const responseBuilder = ResponseFactory.init();
       responseBuilder
         .speak(interpolateString(this._say, context.platformState.globalState))
         .reprompt(interpolateString(this._reprompt, context.platformState.globalState));

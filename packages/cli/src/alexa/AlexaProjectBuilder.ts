@@ -17,9 +17,9 @@ export class AlexaProjectBuilder {
     this.projectWriter = new ProjectWriter();
   }
 
-  build(projectConfig: ProjectConfig): void {
-    let skill: Skill = this.loadProject(projectConfig);
-    let builderContext: AlexaBuilderContext = this.skillBuilder.build(skill, projectConfig);
+  async build(projectConfig: ProjectConfig): Promise<void> {
+    const skill: Skill = this.loadProject(projectConfig);
+    const builderContext: AlexaBuilderContext = await this.skillBuilder.build(skill, projectConfig);
 
     this.projectWriter.writeProject(builderContext, projectConfig);
   }

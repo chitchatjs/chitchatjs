@@ -24,8 +24,8 @@ export class BuildCommand implements BaseCommand {
     logger.debug(`Registered ${CJS_CMD} build command.`);
   }
 
-  _action = (command: commander.Command) => {
+  _action = async (command: commander.Command) => {
     const projectConfig = this.projectConfigReader.read();
-    this.projectBuilder.build(projectConfig);
+    await this.projectBuilder.build(projectConfig);
   };
 }

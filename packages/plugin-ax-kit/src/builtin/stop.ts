@@ -14,9 +14,9 @@ export default (byeMessage?: string, locales?: Locale[]) => {
             .when()
             .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
               return (
-                event.currentRequest.request.type == "IntentRequest" &&
-                (event.currentRequest.request.intent.name == "AMAZON.StopIntent" ||
-                  event.currentRequest.request.intent.name == "AMAZON.CancelIntent")
+                event.currentRequest.request.type === "IntentRequest" &&
+                (event.currentRequest.request.intent.name === "AMAZON.StopIntent" ||
+                  event.currentRequest.request.intent.name === "AMAZON.CancelIntent")
               );
             })
             .then(ax.say(byeMessage || "Good bye."))

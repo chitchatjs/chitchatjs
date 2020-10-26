@@ -37,8 +37,8 @@ import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlock
 import { WhenUserSaysBlockBuilder } from "./builders/WhenUserSaysBuilder";
 
 export namespace alexa {
-  export function dialogManager(skill: Skill) {
-    return new AlexaDialogManager(skill, new RuleBasedDialogEngine());
+  export function dialogManager(s: Skill) {
+    return new AlexaDialogManager(s, new RuleBasedDialogEngine());
   }
 
   export function skill() {
@@ -73,12 +73,12 @@ export namespace alexa {
     return alexa.when().true((c: AlexaDialogContext, e: AlexaEvent) => {
       let isIntentRequest = false;
       if (e.currentRequest.request.type === "IntentRequest") {
-        let req = <IntentRequest>e.currentRequest.request;
+        const req: IntentRequest = e.currentRequest.request;
         if ((isIntentRequest = req.intent.name === intentName)) {
           // update state to capture slots
-          let state = c.platformState.globalState;
-          let flattenSlots = intent_utils.flattenSlotValues(req);
-          c.platformState.globalState = Object.assign(state, flattenSlots);
+          const _state = c.platformState.globalState;
+          const flattenSlots = intent_utils.flattenSlotValues(req);
+          c.platformState.globalState = Object.assign(_state, flattenSlots);
           return true;
         }
       }
@@ -88,16 +88,25 @@ export namespace alexa {
   }
 
   export function setStateVar(
-    f: string | { (ctx: AlexaDialogContext, event: AlexaEvent): { [name: string]: any } },
+    f:
+      | string
+      | ((
+          ctx: AlexaDialogContext,
+          event: AlexaEvent
+        ) => Promise<{ [name: string]: any }> | { [name: string]: any }),
     value?: any
   ) {
-    let func: (ctx: AlexaDialogContext, event: AlexaEvent) => { [name: string]: any };
+    let func: (
+      ctx: AlexaDialogContext,
+      event: AlexaEvent
+    ) => Promise<{ [name: string]: any }> | { [name: string]: any };
 
     if (typeof f === "string") {
-      func = (ctx: AlexaDialogContext, event: AlexaEvent): { [name: string]: any } => {
+      func = () => {
         return { [f]: value };
       };
     } else {
+      // tslint:disable-next-line:no-angle-bracket-type-assertion
       func = <typeof func>f;
     }
 
@@ -107,21 +116,25 @@ export namespace alexa {
   }
 
   export function removeStateVar(
-    f: string | string[] | { (ctx: AlexaDialogContext, event: AlexaEvent): string[] }
+    f:
+      | string
+      | string[]
+      | ((ctx: AlexaDialogContext, event: AlexaEvent) => Promise<string[]> | string[])
   ) {
-    let func: (ctx: AlexaDialogContext, event: AlexaEvent) => string[];
+    let func: (ctx: AlexaDialogContext, event: AlexaEvent) => Promise<string[]> | string[];
 
     if (typeof f === "string") {
-      let varName = f;
-      func = (ctx: AlexaDialogContext, event: AlexaEvent): string[] => {
+      const varName = f;
+      func = () => {
         return [varName];
       };
     } else if (Array.isArray(f)) {
-      let varNames = f;
-      func = (ctx: AlexaDialogContext, event: AlexaEvent): string[] => {
+      const varNames = f;
+      func = () => {
         return varNames;
       };
     } else {
+      // tslint:disable-next-line:no-angle-bracket-type-assertion
       func = <typeof func>f;
     }
 
@@ -152,7 +165,7 @@ export namespace alexa {
     return alexa
       .when()
       .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
-        return event.currentRequest.request.type == "SessionEndedRequest";
+        return event.currentRequest.request.type === "SessionEndedRequest";
       })
       .then(empty())
       .build();
@@ -197,9 +210,9 @@ export namespace alexa {
 
   /**
    * Adds the specified directive to the response.
-   * @param directive Directive
+   * @param _directive Directive
    */
-  export function directive(directive: Directive) {
-    return new DirectiveBlockBuilder(directive).build();
+  export function directive(_directive: Directive) {
+    return new DirectiveBlockBuilder(_directive).build();
   }
 }

@@ -11,8 +11,8 @@ import { logger } from "./Logger";
 export class ProjectConfigReader {
   read(): ProjectConfig {
     try {
-      let cfgPath = path.join(process.cwd(), PROJECT_CONFIG_FILE_NAME);
-      let cfg = fs.readFileSync(cfgPath, "utf8");
+      const cfgPath = path.join(process.cwd(), PROJECT_CONFIG_FILE_NAME);
+      const cfg = fs.readFileSync(cfgPath, "utf8");
       return JSON.parse(cfg) as ProjectConfig;
     } catch (err) {
       logger.error("Can't find cjs.json. Are you in the root of the project?");

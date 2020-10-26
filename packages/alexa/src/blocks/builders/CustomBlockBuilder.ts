@@ -41,12 +41,12 @@ export class CustomBlockBuilder {
   }
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
-    let response = this._requestHandler(context, event);
+    const response = this._requestHandler(context, event);
     context.currentResponse.response = Object.assign(context.currentResponse.response, response);
   };
 
   private _builder = (context: AlexaBuilderContext) => {
-    let resources = this._resourceUpdater(context);
+    const resources = this._resourceUpdater(context);
     context.resources = Object.assign(context.resources, resources);
   };
 }

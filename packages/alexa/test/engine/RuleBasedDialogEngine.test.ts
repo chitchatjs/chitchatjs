@@ -9,7 +9,7 @@ import { intentRequestWithPlatformState } from "../data/intentRequestWithPlatfor
 
 describe("RuleBasedDialogEngine", () => {
   describe(".execute()", () => {
-    it("should execute the user defined block", () => {
+    it("should execute the user defined block", async () => {
       let engine = new RuleBasedDialogEngine();
       let skill: Skill = ax
         .skill()
@@ -19,12 +19,12 @@ describe("RuleBasedDialogEngine", () => {
         currentRequest: launchRequest,
       };
 
-      let res = engine.execute(skill, e);
+      let res = await engine.execute(skill, e);
       outputMessageEquals(res, "Welcome");
     });
 
     describe("on fallback", () => {
-      it("should execute the fallback user defined block", () => {
+      it("should execute the fallback user defined block", async () => {
         let engine = new RuleBasedDialogEngine();
         let fallbackMessage = "This is user defined fallback message.";
         let state = ax.start().block(ax.empty()).fallback(ax.say(fallbackMessage)).build();
@@ -33,11 +33,11 @@ describe("RuleBasedDialogEngine", () => {
           currentRequest: launchRequest,
         };
 
-        let res = engine.execute(skill, e);
+        let res = await engine.execute(skill, e);
         outputMessageEquals(res, fallbackMessage);
       });
 
-      it("should execute the default fallback block", () => {
+      it("should execute the default fallback block", async () => {
         let engine = new RuleBasedDialogEngine();
         let fallbackMessage = "Sorry I don't understand, please try again.";
         let state = ax.start().block(ax.empty()).build();
@@ -46,13 +46,13 @@ describe("RuleBasedDialogEngine", () => {
           currentRequest: launchRequest,
         };
 
-        let res = engine.execute(skill, e);
+        let res = await engine.execute(skill, e);
         outputMessageEquals(res, fallbackMessage);
       });
     });
 
     describe("on error", () => {
-      it("should execute the user defined catch block", () => {
+      it("should execute the user defined catch block", async () => {
         let engine = new RuleBasedDialogEngine();
         let errorMessage = "Error occurred";
         let state = ax
@@ -74,11 +74,11 @@ describe("RuleBasedDialogEngine", () => {
           currentRequest: launchRequest,
         };
 
-        let res = engine.execute(skill, e);
+        let res = await engine.execute(skill, e);
         outputMessageEquals(res, errorMessage);
       });
 
-      it("should execute the default catch block", () => {
+      it("should execute the default catch block", async () => {
         let engine = new RuleBasedDialogEngine();
         let errorMessage = "Sorry something went wrong, please try again.";
         let state = ax
@@ -97,12 +97,12 @@ describe("RuleBasedDialogEngine", () => {
           currentRequest: launchRequest,
         };
 
-        let res = engine.execute(skill, e);
+        let res = await engine.execute(skill, e);
         outputMessageEquals(res, errorMessage);
       });
     });
 
-    describe("platform state", () => {
+    describe("platform state", async () => {
       let engine = new RuleBasedDialogEngine();
       let expectedMsg = "This is state 2";
       let state1 = ax.start().block(ax.say("Welcome")).build();
@@ -113,7 +113,7 @@ describe("RuleBasedDialogEngine", () => {
         currentRequest: intentRequestWithPlatformState,
       };
 
-      let res = engine.execute(skill, e);
+      let res = await engine.execute(skill, e);
       outputMessageEquals(res, expectedMsg);
     });
   });

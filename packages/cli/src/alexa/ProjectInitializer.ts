@@ -29,9 +29,9 @@ export class ProjectInitializer {
    * @param projectConfig ProjectConfig
    */
   isInitialized(projectConfig: ProjectConfig): boolean {
-    let outDir = projectConfig.outDir;
-    let currDir = process.cwd();
-    let targetLocation = path.join(currDir, outDir);
+    const outDir = projectConfig.outDir;
+    const currDir = process.cwd();
+    const targetLocation = path.join(currDir, outDir);
 
     logger.info(`Output directory already exists. Skipping the bootstrapping.`);
     return fs.existsSync(targetLocation);
@@ -42,8 +42,8 @@ export class ProjectInitializer {
    * @param projectConfig ProjectConfig
    */
   initialize(projectConfig: ProjectConfig): void {
-    let outDir = projectConfig.outDir;
-    let currDir = process.cwd();
+    const outDir = projectConfig.outDir;
+    const currDir = process.cwd();
 
     this.initializeOutDir(outDir, currDir);
   }
@@ -55,13 +55,13 @@ export class ProjectInitializer {
    * @param currDir Current directory
    */
   private initializeOutDir(outDir: string, currDir: string) {
-    let targetLocation = path.join(currDir, outDir);
+    const targetLocation = path.join(currDir, outDir);
 
     fs.mkdirSync(targetLocation, { recursive: true });
     logger.info(`Created ${targetLocation}`);
 
     ["/skill-package", "/infrastructure/lambda-deployer", "/lambda", "/.ask"].forEach((val) => {
-      let p = path.join(currDir, outDir, val);
+      const p = path.join(currDir, outDir, val);
       fse.ensureDirSync(p);
       logger.info(`Generated ${p}`);
     });
@@ -73,7 +73,7 @@ export class ProjectInitializer {
    */
   private initializeData(outDir: string, currDir: string): CjsMetadata | void {
     // Save default ask-resources.json
-    let askResourcesTargetLocation = path.join(currDir, outDir, "/ask-resources.json");
+    const askResourcesTargetLocation = path.join(currDir, outDir, "/ask-resources.json");
     logger.info(`Writing ${askResourcesTargetLocation}`);
     fs.writeFileSync(
       askResourcesTargetLocation,
@@ -82,7 +82,7 @@ export class ProjectInitializer {
     );
 
     // Save default ask-states.json
-    let askStatesTargetLocation = path.join(currDir, outDir, "/.ask/ask-states.json");
+    const askStatesTargetLocation = path.join(currDir, outDir, "/.ask/ask-states.json");
     logger.info(`Writing ${askStatesTargetLocation}`);
     fs.writeFileSync(
       askStatesTargetLocation,

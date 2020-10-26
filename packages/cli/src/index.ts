@@ -12,7 +12,7 @@ import { CLI_CONFIG_DIRECTORY } from "./util/constants";
 /**
  * Initialize configuration
  */
-let config: CliConfig = new ConfigInitializer().init(CLI_CONFIG_DIRECTORY);
+const config: CliConfig = new ConfigInitializer().init(CLI_CONFIG_DIRECTORY);
 
 new RootCommand().register(program);
 new NewCommand(config).register(program);

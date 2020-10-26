@@ -56,7 +56,7 @@ export class WhenUserSaysBlockBuilder {
   }
 
   build(): WhenUserSaysBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> {
-    if (this._sampleUtterances === undefined || this._sampleUtterances.length == 0) {
+    if (this._sampleUtterances === undefined || this._sampleUtterances.length === 0) {
       throw new Error("WhenUserSays block is missing sample utterances.");
     }
 
@@ -81,14 +81,15 @@ export class WhenUserSaysBlockBuilder {
 
   private _isIntentMatching = (event: AlexaEvent, intentName: string): boolean => {
     if (event.currentRequest.request.type === "IntentRequest") {
-      return (<IntentRequest>event.currentRequest.request).intent.name === intentName;
+      const intentRequest: IntentRequest = event.currentRequest.request;
+      return intentRequest.intent.name === intentName;
     } else {
       return false;
     }
   };
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent) => {
-    let intentName = this._generateIntentName(this._sampleUtterances);
+    const intentName = this._generateIntentName(this._sampleUtterances);
 
     if (this._isIntentMatching(event, intentName) === true) {
       this._addSlotsToGlobalState(context, event);
@@ -99,7 +100,7 @@ export class WhenUserSaysBlockBuilder {
   };
 
   private _builder = (context: AlexaBuilderContext) => {
-    let locales = context.currentLocales;
+    const locales = context.currentLocales;
     if (!locales || locales.length === 0) {
       this._updateArtifacts(context, DEFAULT_LOCALE);
     } else {
@@ -108,11 +109,13 @@ export class WhenUserSaysBlockBuilder {
   };
 
   private _addSlotsToGlobalState(context: AlexaDialogContext, event: AlexaEvent) {
-    let req = <IntentRequest>event.currentRequest.request;
-    // update state to capture slots
-    let state = context.platformState.globalState;
-    let flattenSlots = intent_utils.flattenSlotValues(req);
-    context.platformState.globalState = Object.assign(state, flattenSlots);
+    if (event.currentRequest.request.type === "IntentRequest") {
+      const intentRequest: IntentRequest = event.currentRequest.request;
+      // update state to capture slots
+      const state = context.platformState.globalState;
+      const flattenSlots = intent_utils.flattenSlotValues(intentRequest);
+      context.platformState.globalState = Object.assign(state, flattenSlots);
+    }
   }
 
   private _updateArtifacts = (context: AlexaBuilderContext, locale: Locale) => {
@@ -122,17 +125,17 @@ export class WhenUserSaysBlockBuilder {
     });
     vars = [...new Set(vars)];
 
-    let slots = vars.map((v: string) => {
+    const slots = vars.map((v: string) => {
       return this._buildSlot(v);
     });
 
-    let intent: Intent = {
+    const intent: Intent = {
       name: this._generateIntentName(this._sampleUtterances),
       samples: this._sampleUtterances,
-      slots: slots,
+      slots,
     };
 
-    let duplicateSamples = this._utterancesAlreadyExist(context, intent, locale);
+    const duplicateSamples = this._utterancesAlreadyExist(context, intent, locale);
 
     // only add if interaction model doesn't already have this list
     if (!duplicateSamples) {
@@ -141,17 +144,19 @@ export class WhenUserSaysBlockBuilder {
   };
 
   private _utterancesAlreadyExist(context: AlexaBuilderContext, intent: Intent, locale: Locale) {
-    let intentSamples = intent.samples || [];
+    const intentSamples = intent.samples || [];
 
-    let im = context_util.getIM(context, locale);
-    let imIntents: Intent[] = im.interactionModel?.languageModel?.intents || [];
+    const im = context_util.getIM(context, locale);
+    const imIntents: Intent[] = im.interactionModel?.languageModel?.intents || [];
 
-    for (let k in imIntents) {
-      let imIntent = imIntents[k];
-      let imIntentSamples = imIntent.samples || [];
+    for (const k in imIntents) {
+      if (imIntents.hasOwnProperty(k)) {
+        const imIntent = imIntents[k];
+        const imIntentSamples = imIntent.samples || [];
 
-      if (listEquals(intentSamples, imIntentSamples)) {
-        return true;
+        if (listEquals(intentSamples, imIntentSamples)) {
+          return true;
+        }
       }
     }
     return false;
@@ -163,9 +168,9 @@ export class WhenUserSaysBlockBuilder {
     slots: Slot[],
     locale: Locale
   ) => {
-    let imPath = paths.getInteractionModelPath(locale);
+    const imPath = paths.getInteractionModelPath(locale);
 
-    let im: InteractionModel | undefined = undefined;
+    let im: InteractionModel | undefined;
     if (!context.resources.resourceMap[imPath]) {
       im = resource_utils.getDefaultInteractionModel();
     } else {
@@ -176,7 +181,7 @@ export class WhenUserSaysBlockBuilder {
 
     im.interactionModel?.languageModel?.intents?.push(intent);
 
-    let proposedSlotTypeNames = slots.map((s) => {
+    const proposedSlotTypeNames = slots.map((s) => {
       return s.type;
     });
 
@@ -185,7 +190,7 @@ export class WhenUserSaysBlockBuilder {
     });
     existingSlotTypeNames = existingSlotTypeNames || [];
 
-    let allSlotTypeNames = [...new Set([...proposedSlotTypeNames, ...existingSlotTypeNames])];
+    const allSlotTypeNames = [...new Set([...proposedSlotTypeNames, ...existingSlotTypeNames])];
 
     allSlotTypeNames.forEach((t) => {
       if (!existingSlotTypeNames?.includes(t) && t?.startsWith("AMAZON.") === false) {
@@ -199,7 +204,7 @@ export class WhenUserSaysBlockBuilder {
   };
 
   private _buildSlot(slotName: string): v1.skill.interactionModel.SlotDefinition {
-    let slot: { name: string; type: string } | undefined = getSlotTypeFromSlotName(slotName);
+    const slot: { name: string; type: string } | undefined = getSlotTypeFromSlotName(slotName);
 
     if (slot) {
       return {

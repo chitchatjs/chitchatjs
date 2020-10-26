@@ -8,7 +8,7 @@ export class TemplatesManager {
   }
 
   getTemplateByName(config: CliConfig, templateName: string): Template {
-    let templates = config.templates.filter((t) => {
+    const templates = config.templates.filter((t) => {
       return t.name === templateName;
     });
 

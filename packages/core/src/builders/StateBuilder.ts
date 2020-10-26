@@ -8,7 +8,11 @@ export class StateBuilder<B extends BuilderContext, D extends DialogContext, E e
   private _block?: Block<B, D, E>;
   private _name: string;
   private _fallback?: Block<B, D, E>;
-  private _errorHandler?: (dialogContext: D, event: E, err: Error) => Block<B, D, E>;
+  private _errorHandler?: (
+    dialogContext: D,
+    event: E,
+    err: Error
+  ) => Promise<Block<B, D, E>> | Block<B, D, E>;
 
   private _stateSchema = yup.object().shape({
     name: yup.string().required(),
@@ -29,7 +33,13 @@ export class StateBuilder<B extends BuilderContext, D extends DialogContext, E e
     return this;
   }
 
-  catch(errorHandler: (dialogContext: D, event: E, err: Error) => Block<B, D, E>) {
+  catch(
+    errorHandler: (
+      dialogContext: D,
+      event: E,
+      err: Error
+    ) => Promise<Block<B, D, E>> | Block<B, D, E>
+  ) {
     this._errorHandler = errorHandler;
     return this;
   }

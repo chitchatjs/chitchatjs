@@ -13,8 +13,8 @@ export default (fallbackMessage?: string, locales?: Locale[]) => {
             .when()
             .true((ctx: AlexaDialogContext, event: AlexaEvent) => {
               return (
-                event.currentRequest.request.type == "IntentRequest" &&
-                event.currentRequest.request.intent.name == "AMAZON.FallbackIntent"
+                event.currentRequest.request.type === "IntentRequest" &&
+                event.currentRequest.request.intent.name === "AMAZON.FallbackIntent"
               );
             })
             .then(

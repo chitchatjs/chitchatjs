@@ -42,7 +42,7 @@ export class SkillInfoBlockBuilder {
   }
 
   private _builder = (context: AlexaBuilderContext): void => {
-    let locales = context.currentLocales;
+    const locales = context.currentLocales;
     if (!locales || locales.length === 0) {
       this._updateArtifacts(context, DEFAULT_LOCALE);
     } else {
@@ -61,9 +61,9 @@ export class SkillInfoBlockBuilder {
   };
 
   private _updateNameInManifest = (context: AlexaBuilderContext, locale: Locale) => {
-    let skillManifestPath = paths.getSkillManifestPath();
+    const skillManifestPath = paths.getSkillManifestPath();
 
-    let skillManifestEnvelope: SkillManifestEnvelope | undefined = undefined;
+    let skillManifestEnvelope: SkillManifestEnvelope | undefined;
 
     if (!context.resources.resourceMap[skillManifestPath]) {
       skillManifestEnvelope = resource_utils.getDefaultSkillManifest();
@@ -74,7 +74,7 @@ export class SkillInfoBlockBuilder {
     }
 
     if (skillManifestEnvelope && skillManifestEnvelope.manifest) {
-      let publishingInfo = skillManifestEnvelope.manifest.publishingInformation;
+      const publishingInfo = skillManifestEnvelope.manifest.publishingInformation;
 
       if (publishingInfo && publishingInfo.locales) {
         if (!publishingInfo.locales[locale]) {
@@ -93,9 +93,9 @@ export class SkillInfoBlockBuilder {
   };
 
   private _updateInvocationNameInIM = (context: AlexaBuilderContext, locale: Locale) => {
-    let imPath = paths.getInteractionModelPath(locale);
+    const imPath = paths.getInteractionModelPath(locale);
 
-    let im: InteractionModel | undefined = undefined;
+    let im: InteractionModel | undefined;
     if (!context.resources.resourceMap[imPath]) {
       im = resource_utils.getDefaultInteractionModel();
     } else {

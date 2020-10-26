@@ -3,7 +3,7 @@ import { logger } from "./Logger";
 
 export class GitClient {
   clone(url: string, dirName: string) {
-    let cmd = `git clone ${url} ${dirName}`;
+    const cmd = `git clone ${url} ${dirName}`;
     logger.debug(cmd);
     this._exec(cmd, {
       windowsHide: true,

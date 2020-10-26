@@ -44,7 +44,7 @@ describe("alexa", () => {
           .then(ax.say(thenTextOut))
           .otherwise(ax.say(otherwiseTextOut))
           .build();
-        b.execute(context, event);
+        await b.execute(context, event);
 
         expect(JSON.stringify(context.platformState.globalState)).equals("{}");
         expect(context.currentResponse.response.outputSpeech).is.not.undefined;
@@ -72,7 +72,7 @@ describe("alexa", () => {
           .then(ax.say(thenTextOut))
           .otherwise(ax.say(otherwiseTextOut))
           .build();
-        b.execute(context, event);
+        await b.execute(context, event);
 
         expect(JSON.stringify(context.platformState.globalState)).equals(JSON.stringify({}));
         expect(context.currentResponse.response.outputSpeech).is.not.undefined;
@@ -102,7 +102,7 @@ describe("alexa", () => {
           .then(ax.say(thenTextOut))
           .otherwise(ax.say(otherwiseTextOut))
           .build();
-        b.execute(context, event);
+        await b.execute(context, event);
 
         expect(JSON.stringify(context.platformState.globalState)).equals(
           JSON.stringify({ city: "seattle" })
@@ -132,7 +132,7 @@ describe("alexa", () => {
           .then(ax.say(thenTextOut))
           .otherwise(ax.say(otherwiseTextOut))
           .build();
-        b.execute(context, event);
+        await b.execute(context, event);
 
         expect(JSON.stringify(context.platformState.globalState)).equals(JSON.stringify({}));
         expect(context.currentResponse.response.outputSpeech).is.not.undefined;

@@ -15,7 +15,7 @@ export class ConfigInitializer {
       this.create(configDir);
     }
 
-    let cfg = fs.readFileSync(path.join(configDir, CLI_CONFIG_FILE_NAME), "utf8");
+    const cfg = fs.readFileSync(path.join(configDir, CLI_CONFIG_FILE_NAME), "utf8");
 
     // merge with default config to make sure we append new skills as we launch them
     return Object.assign(DEFAULT_CLI_CONFIG, JSON.parse(cfg));
