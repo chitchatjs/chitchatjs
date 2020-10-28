@@ -1,5 +1,4 @@
-import { ResponseFactory } from "ask-sdk-core";
-import { Response } from "ask-sdk-model";
+import { ResponseEnvelope } from "ask-sdk-model";
 
 import { Resources } from "@chitchatjs/core";
 
@@ -10,15 +9,12 @@ import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, CustomBlock } from
  */
 export class CustomBlockBuilder {
   private _resourceUpdater: (context: AlexaBuilderContext) => Resources;
-  private _requestHandler: (context: AlexaDialogContext, event: AlexaEvent) => Response;
+  private _requestHandler?: (context: AlexaDialogContext, event: AlexaEvent) => ResponseEnvelope;
 
   constructor() {
     // By default, this block will not do anything
     this._resourceUpdater = (ctx: AlexaBuilderContext) => {
       return {} as Resources;
-    };
-    this._requestHandler = (ctx: AlexaDialogContext, event: AlexaEvent): Response => {
-      return ResponseFactory.init().getResponse();
     };
   }
 
@@ -27,7 +23,7 @@ export class CustomBlockBuilder {
     return this;
   }
 
-  executor(f: (context: AlexaDialogContext, event: AlexaEvent) => Response) {
+  executor(f: (context: AlexaDialogContext, event: AlexaEvent) => ResponseEnvelope) {
     this._requestHandler = f;
     return this;
   }
@@ -41,8 +37,10 @@ export class CustomBlockBuilder {
   }
 
   private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
-    const response = this._requestHandler(context, event);
-    context.currentResponse.response = Object.assign(context.currentResponse.response, response);
+    if (this._requestHandler) {
+      const response = this._requestHandler(context, event);
+      context.currentResponse = Object.assign(context.currentResponse, response);
+    }
   };
 
   private _builder = (context: AlexaBuilderContext) => {
