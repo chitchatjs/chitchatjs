@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.13...@chitchatjs/cli@0.3.14) (2020-10-28)
+
+**Note:** Version bump only for package @chitchatjs/cli
+
+
+
+
+
 ## [0.3.13](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.12...@chitchatjs/cli@0.3.13) (2020-10-26)
 
 **Note:** Version bump only for package @chitchatjs/cli

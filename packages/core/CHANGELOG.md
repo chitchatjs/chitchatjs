@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.2...@chitchatjs/core@0.3.3) (2020-10-28)
+
+
+### Bug Fixes
+
+* ax.whenLaunch() and ax.run() blocks ([f5b2d08](https://github.com/chitchat/chitchatjs/commit/f5b2d082a3700222c7b64e900c61fd9e98b365ae)), closes [#90](https://github.com/chitchat/chitchatjs/issues/90) [#91](https://github.com/chitchat/chitchatjs/issues/91)
+
+
+
+
+
 ## [0.3.2](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.1...@chitchatjs/core@0.3.2) (2020-10-26)
 
 **Note:** Version bump only for package @chitchatjs/core
