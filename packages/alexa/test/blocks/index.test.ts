@@ -5,6 +5,7 @@ import "mocha";
 import { alexa, alexa as ax, AlexaDialogContext, AlexaEvent, SlotType } from "../../src";
 import { intentRequest as helloIntentRequestNoSlots } from "../data/intentRequest";
 import { intentRequestOneMissingSlot as weatherIntentRequestWithOneSlot } from "../data/intentRequestOneMissingSlot";
+import { launchRequest } from "../data/launchRequest";
 import { sessionEndedRequest } from "../data/sessionEndedRequest";
 
 describe("alexa", () => {
@@ -182,6 +183,34 @@ describe("alexa", () => {
     });
   });
 
+  describe(".whenOnLaunch()", () => {
+    it("should execute on launch", async () => {
+      let b = ax.whenLaunch().then(ax.say("hello")).build();
+
+      expect(b.type).to.equal("WhenBlock");
+      expect(JSON.stringify(b.then)).equals(JSON.stringify(ax.say("hello")));
+
+      let context: AlexaDialogContext = {
+        platformState: { currentStateName: "", globalState: {} },
+        currentResponse: {
+          version: "1.0",
+          response: JSON.parse("{}"),
+        },
+      };
+      let event: AlexaEvent = {
+        currentRequest: launchRequest,
+      };
+
+      await b.execute(context, event);
+
+      expect(context.currentResponse.response.outputSpeech).is.not.undefined;
+      let ssml = <ui.SsmlOutputSpeech>context.currentResponse.response.outputSpeech;
+      if (ssml) {
+        expect(ssml.ssml).equals(`<speak>hello</speak>`);
+      }
+    });
+  });
+
   describe(".whenUserSays()", () => {
     it("should return correct block", () => {
       let b = ax.whenUserSays(["hello"]).then(ax.say("bye")).build();
@@ -322,6 +351,16 @@ describe("alexa", () => {
       expect(b.type).to.equal("SkillInfoBlock");
       expect(_.isEqual(b.skillName, "foo")).to.be.true;
       expect(_.isEqual(b.invocationName, "bar")).to.be.true;
+    });
+  });
+
+  describe(".run()", () => {
+    it("should return correct block", async () => {
+      let b = ax.run().build();
+
+      expect(b.type).to.equal("DoBlock");
+      expect(b.doBuild).is.undefined;
+      expect(b.doExecute).is.undefined;
     });
   });
 

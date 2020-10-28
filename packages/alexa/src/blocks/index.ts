@@ -3,6 +3,7 @@ import { Directive, IntentRequest } from "ask-sdk-model";
 import {
   AgentBuilder,
   CompoundBlockBuilder,
+  DoBlockBuilder,
   GotoStateBlockBuilder,
   RemoveGlobalStateBlockBuilder,
   SetGlobalStateBlockBuilder,
@@ -16,6 +17,7 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
+  AlexaBlock,
   INITIAL_STATE_NAME,
   Locale,
   Skill,
@@ -36,23 +38,74 @@ import { TellSpeechBlockBuilder } from "./builders/TellSpeechBlockBuilder";
 import { WhenSlotNotFilledBlockBuilder } from "./builders/WhenSlotNotFilledBlockBuilder";
 import { WhenUserSaysBlockBuilder } from "./builders/WhenUserSaysBuilder";
 
+/**
+ * A collection of core Alexa building blocks
+ * that allows skill builders generate artifacts as well as
+ * handle runtime requests.
+ */
 export namespace alexa {
+  /**
+   * Instantiates AlexaDialogManager with RuleBasedDialogEngine.
+   *
+   * Usage:
+   *  ax.dialogManager(<skill>)
+   *  ax.dialogManager(<skill>).exports()
+   *
+   * @param s Skill
+   */
   export function dialogManager(s: Skill) {
     return new AlexaDialogManager(s, new RuleBasedDialogEngine());
   }
 
+  /**
+   * A building block to build an Alexa Skill.
+   *
+   * Usage:
+   *  ax.skill().addState(..).build()
+   */
   export function skill() {
     return new AgentBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
   }
 
+  /**
+   * The initial/root state of the skill.
+   *
+   * Usage:
+   *  ax
+   *    .start()
+   *    .block(ax.say("hello!"))
+   *  .build()
+   */
   export function start() {
     return alexa.state(INITIAL_STATE_NAME);
   }
 
+  /**
+   * Builds a new state with a specified name.
+   *
+   * Usage:
+   *  ax
+   *    .state("WelcomeUser")
+   *    .block(..)
+   *  .build()
+   *
+   * @param name State name
+   */
   export function state(name: string) {
     return new StateBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>(name);
   }
 
+  /**
+   * Localizes the associated block.
+   *
+   * Usage:
+   *  ax
+   *    .localize([Locale.en_US])
+   *    .block(..)
+   *  .build()
+   *
+   * @param locales Locale[]
+   */
   export function localize(locales: Locale[]) {
     return new LocalizedBlockBuilder(locales);
   }
@@ -63,6 +116,14 @@ export namespace alexa {
 
   export function when() {
     return new WhenBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
+  }
+
+  export function whenLaunch() {
+    return new WhenBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>().true(
+      (c: AlexaDialogContext, e: AlexaEvent) => {
+        return e.currentRequest.request.type === "LaunchRequest";
+      }
+    );
   }
 
   export function whenUserSays(sampleUtterances: string[]) {
@@ -175,8 +236,25 @@ export namespace alexa {
     return new SkillInfoBlockBuilder();
   }
 
+  /**
+   * Custom block allows your to manually generate artifacts or response.
+   */
   export function custom() {
     return new CustomBlockBuilder();
+  }
+
+  /**
+   * Run block allows you to dynamically return a block to execute or build.
+   *
+   * Usage:
+   *  ax
+   *    .run()
+   *    .builder(<builder to run>)
+   *    .executor(<executor to run>)
+   *  .build()
+   */
+  export function run() {
+    return new DoBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
   }
 
   export function slotType(typeName?: string) {
@@ -216,3 +294,8 @@ export namespace alexa {
     return new DirectiveBlockBuilder(_directive).build();
   }
 }
+
+/**
+ * A short hand of alexa
+ */
+export const ax = alexa;

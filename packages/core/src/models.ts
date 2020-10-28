@@ -162,18 +162,14 @@ export interface GotoStateBlock<B extends BuilderContext, D extends DialogContex
   name: string;
 }
 
-/**********************************************************
- *                  Resouce Only Blocks                   *
- **********************************************************/
-
-export interface RawResourceBlock<
-  B extends BuilderContext,
-  D extends DialogContext,
-  E extends Event
-> extends Block<B, D, E> {
-  type: "RawResourceBlock";
-  key: string;
-  content: string;
+/**
+ * A block that allows users to plugin a block dynamically.
+ */
+export interface DoBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
+  extends Block<B, D, E> {
+  type: "DoBlock";
+  doBuild?: (context: B) => Promise<Block<B, D, E>> | Block<B, D, E>;
+  doExecute?: (context: D, event: E) => Promise<Block<B, D, E>> | Block<B, D, E>;
 }
 
 /**
