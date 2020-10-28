@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-kit@0.1.6...@chitchatjs/plugin-ax-kit@0.1.7) (2020-10-28)
+
+**Note:** Version bump only for package @chitchatjs/plugin-ax-kit
+
+
+
+
+
 ## [0.1.6](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-kit@0.1.5...@chitchatjs/plugin-ax-kit@0.1.6) (2020-10-28)
 
 **Note:** Version bump only for package @chitchatjs/plugin-ax-kit

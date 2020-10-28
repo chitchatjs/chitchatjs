@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.6...@chitchatjs/alexa@0.3.7) (2020-10-28)
+
+
+### Bug Fixes
+
+* support for full response envelope in the ax.custom().executor() block ([c5c4660](https://github.com/chitchatjs/chitchatjs/commit/c5c46604b5e1812f80642555f59aa2858e18a23e)), closes [#95](https://github.com/chitchatjs/chitchatjs/issues/95)
+
+
+
+
+
 ## [0.3.6](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.5...@chitchatjs/alexa@0.3.6) (2020-10-28)
 
 
