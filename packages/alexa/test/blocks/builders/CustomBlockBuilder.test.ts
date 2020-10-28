@@ -43,7 +43,7 @@ describe("CustomBlockBuilderTest", () => {
     let b = new CustomBlockBuilder()
       .executor((c: AlexaDialogContext, e: AlexaEvent) => {
         c.currentResponse.response.shouldEndSession = true;
-        return c.currentResponse.response;
+        return c.currentResponse;
       })
       .build();
 
