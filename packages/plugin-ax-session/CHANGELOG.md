@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-session@0.1.0...@chitchatjs/plugin-ax-session@0.1.1) (2020-10-29)
+
+
+### Bug Fixes
+
+* adding real code now ([74f8bef](https://github.com/chitchatjs/chitchatjs/commit/74f8bef4bced82159a8c4be65d7a0b6466cc14a8)), closes [#98](https://github.com/chitchatjs/chitchatjs/issues/98)
+
+
+
+
+
 # 0.1.0 (2020-10-29)
 
 
