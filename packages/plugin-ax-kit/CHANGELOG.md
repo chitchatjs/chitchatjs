@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-kit@0.1.7...@chitchatjs/plugin-ax-kit@0.1.8) (2020-10-29)
+
+
+### Bug Fixes
+
+* build workflow fix, dependency was not resolved ([136ddde](https://github.com/chitchatjs/chitchatjs/commit/136ddde1d22d81b841e352dbe3837800ced25741)), closes [#98](https://github.com/chitchatjs/chitchatjs/issues/98)
+
+
+
+
+
 ## [0.1.7](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-kit@0.1.6...@chitchatjs/plugin-ax-kit@0.1.7) (2020-10-28)
 
 **Note:** Version bump only for package @chitchatjs/plugin-ax-kit
