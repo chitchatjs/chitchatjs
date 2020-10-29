@@ -1,0 +1,65 @@
+{
+  "name": "@chitchatjs/plugin-ax-session",
+  "version": "0.0.0",
+  "description": "Session management plugin for chitchat.js",
+  "keywords": [
+    "alexa",
+    "chitchat",
+    "plugin",
+    "alexa",
+    "skill",
+    "framework"
+  ],
+  "author": "Kevindra Singh <kevindra.singh@gmail.com>",
+  "homepage": "https://chitchat.js.org",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "directories": {
+    "dist": "dist",
+    "test": "test"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chitchatjs/chitchatjs.git"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./dist",
+    "test": "mocha --require ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "testw": "npm test -- -w",
+    "coverage": "npx nyc npm run test"
+  },
+  "bugs": {
+    "url": "https://github.com/chitchatjs/chitchatjs/issues"
+  },
+  "dependencies": {
+    "@chitchatjs/alexa": "^0.3.7",
+    "ask-sdk-core": "^2.10.1",
+    "ask-sdk-model": "^1.33.1",
+    "ask-smapi-model": "^1.12.3",
+    "lodash": "^4.17.20",
+    "mustache": "^4.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.13",
+    "@types/fs-extra": "^9.0.1",
+    "@types/lodash": "^4.14.162",
+    "@types/mocha": "^8.0.3",
+    "@types/mustache": "^4.0.1",
+    "@types/shelljs": "^0.8.8",
+    "@types/yup": "^0.29.8",
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
