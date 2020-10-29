@@ -1,5 +1,11 @@
 {
-  "packages": ["packages/alexa", "packages/core", "packages/cli", "packages/plugin-ax-kit"],
+  "packages": [
+    "packages/alexa",
+    "packages/core",
+    "packages/cli",
+    "packages/plugin-ax-kit",
+    "packages/plugin-ax-session"
+  ],
   "version": "independent",
   "command": {
     "publish": {
