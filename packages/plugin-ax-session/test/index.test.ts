@@ -1,18 +1,17 @@
-// import "mocha";
+import "mocha";
 
-// import { expect } from "chai";
+import { expect } from "chai";
 
-// import { session } from "../src";
-// import { AlexaBlock, AlexaBuilderContext, AlexaDialogContext, AlexaEvent } from "@chitchatjs/alexa";
-// import { CompoundBlock } from "../../alexa/node_modules/@chitchatjs/core/dist";
+import { session } from "../src";
 
-// describe("session", () => {
-//   describe("end", () => {
-//     it("should set session end", async () => {
-//       let b = session.end.
-//       expect(b.type).equals("CompoundBlock");
-//       expect(b.blocks).not.undefined;
-//       expect(b.blocks.length).equals(1);
-//     });
-//   });
-// });
+describe("session", () => {
+  describe("end", () => {
+    it("should set session end", async () => {
+      let b = session.end(true);
+
+      expect(b.type).equals("CompoundBlock");
+      expect(b.blocks).not.undefined;
+      expect(b.blocks.length).equals(1);
+    });
+  });
+});
