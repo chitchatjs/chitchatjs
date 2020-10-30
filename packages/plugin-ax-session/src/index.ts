@@ -1,6 +1,6 @@
 // import _end from "./blocks/end";
 import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, ax, Locale } from "@chitchatjs/alexa";
-import { CompoundBlock } from "../../alexa/node_modules/@chitchatjs/core/dist";
+import { CompoundBlock } from "@chitchatjs/core";
 
 /**
  * Session management building blocks for Alexa Skills.

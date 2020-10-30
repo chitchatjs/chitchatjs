@@ -1,0 +1,35 @@
+{
+  "type": "APL",
+  "version": "1.4",
+  "settings": {},
+  "theme": "dark",
+  "import": [
+    {
+      "name": "alexa-layouts",
+      "version": "1.2.0"
+    }
+  ],
+  "resources": [],
+  "styles": {},
+  "graphics": {},
+  "commands": {},
+  "layouts": {},
+  "mainTemplate": {
+    "parameters": ["payload"],
+    "item": [
+      {
+        "type": "AlexaHeadline",
+        "id": "CheeseHeadline",
+        "primaryText": "${payload.data.primaryText}",
+        "secondaryText": "${payload.data.secondaryText}",
+        "headerBackButton": false,
+        "headerAttributionImage": "${payload.data.logoUrl}",
+        "headerAttributionPrimacy": true,
+        "headerDivider": false,
+        "footerHintText": "${payload.data.hintText}",
+        "backgroundImageSource": "${payload.data.backgroundImageUrl}",
+        "backgroundColorOverlay": true
+      }
+    ]
+  }
+}

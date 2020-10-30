@@ -1,0 +1,48 @@
+{
+  "type": "APL",
+  "version": "1.4",
+  "settings": {},
+  "import": [
+    {
+      "name": "alexa-layouts",
+      "version": "1.2.0"
+    }
+  ],
+  "resources": [],
+  "styles": {},
+  "onMount": [],
+  "graphics": {},
+  "commands": {},
+  "mainTemplate": {
+    "parameters": ["payload"],
+    "items": [
+      {
+        "type": "AlexaDetail",
+        "id": "cheeseDetail",
+        "detailType": "recipe",
+        "detailImageAlignment": "left",
+        "headerTitle": "${payload.data.title}",
+        "headerBackButton": true,
+        "headerAttributionImage": "${payload.data.logoUrl}",
+        "imageBlurredBackground": true,
+        "imageScale": "best-fit",
+        "imageAspectRatio": "square",
+        "imageSource": "${payload.data.leftImageUrl}",
+        "imageCaption": "${payload.data.leftImageCaption}",
+        "primaryText": "${payload.data.primaryText}",
+        "secondaryText": "${payload.data.secondaryText}",
+        "ratingNumber": "${payload.data.rating}",
+        "ratingText": "${payload.data.ratingCount}",
+        "bodyText": "${payload.data.bodyText}",
+        "button1Text": "${payload.data.buttonLeftText}",
+        "button2Text": "${payload.data.buttonRightText}",
+        "button1PrimaryAction": "${payload.data.buttonLeftAction}",
+        "button2PrimaryAction": "${payload.data.buttonRightAction}",
+        "ingredientsText": "${payload.data.tableTitle}",
+        "ingredientListItems": "${payload.data.tableItems}",
+        "backgroundImageSource": "${payload.data.backgroundImageUrl}",
+        "backgroundColorOverlay": true
+      }
+    ]
+  }
+}
