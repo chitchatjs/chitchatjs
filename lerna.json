@@ -4,7 +4,8 @@
     "packages/core",
     "packages/cli",
     "packages/plugin-ax-common",
-    "packages/plugin-ax-session"
+    "packages/plugin-ax-session",
+    "packages/plugin-ax-display"
   ],
   "version": "independent",
   "command": {
