@@ -12,7 +12,7 @@
     "diff": "npx lerna diff",
     "test": "npx lerna exec npm run test --parallel",
     "coverage": "npx lerna run coverage --stream",
-    "lint": "npx tslint packages/core/src/**/*.ts packages/alexa/src/**/*.ts packages/cli/src/**/*.ts packages/plugin-ax-kit/src/**/*.ts packages/plugin-ax-session/src/**/*.ts",
+    "lint": "npx tslint packages/core/src/**/*.ts packages/alexa/src/**/*.ts packages/cli/src/**/*.ts packages/plugin-ax-common/src/**/*.ts packages/plugin-ax-session/src/**/*.ts",
     "lerna-version": "npx lerna version --conventional-commits --yes",
     "publish": "npx lerna publish"
   },

@@ -3,7 +3,7 @@
     "packages/alexa",
     "packages/core",
     "packages/cli",
-    "packages/plugin-ax-kit",
+    "packages/plugin-ax-common",
     "packages/plugin-ax-session"
   ],
   "version": "independent",
