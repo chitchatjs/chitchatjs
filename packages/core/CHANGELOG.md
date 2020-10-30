@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.4...@chitchatjs/core@0.3.5) (2020-10-30)
+
+
+### Bug Fixes
+
+* missing tslib ([cb8fe00](https://github.com/chitchat/chitchatjs/commit/cb8fe00591f4e11150677d4db3c2785c68d1bdf5))
+* typescript type inference issue. explicit type declaration is required ([914e625](https://github.com/chitchat/chitchatjs/commit/914e625c071eafcca749f27ed2882fe2fcb1b749))
+* typescript version to 3.9.7, 4.0.x seems to be causing issues for now ([4930879](https://github.com/chitchat/chitchatjs/commit/4930879acc13eae53fc21a7f582690324a1a0680))
+
+
+
+
+
 ## [0.3.4](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.3...@chitchatjs/core@0.3.4) (2020-10-30)
 
 
