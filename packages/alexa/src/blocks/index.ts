@@ -111,7 +111,11 @@ export namespace alexa {
   }
 
   export function compound() {
-    return new CompoundBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
+    return new CompoundBlockBuilder<
+      AlexaBuilderContext,
+      AlexaDialogContext,
+      AlexaEvent
+    >();
   }
 
   export function when() {
@@ -119,11 +123,13 @@ export namespace alexa {
   }
 
   export function whenLaunch() {
-    return new WhenBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>().true(
-      (c: AlexaDialogContext, e: AlexaEvent) => {
-        return e.currentRequest.request.type === "LaunchRequest";
-      }
-    );
+    return new WhenBlockBuilder<
+      AlexaBuilderContext,
+      AlexaDialogContext,
+      AlexaEvent
+    >().true((c: AlexaDialogContext, e: AlexaEvent) => {
+      return e.currentRequest.request.type === "LaunchRequest";
+    });
   }
 
   export function whenUserSays(sampleUtterances: string[]) {
@@ -171,7 +177,11 @@ export namespace alexa {
       func = <typeof func>f;
     }
 
-    return new SetGlobalStateBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>()
+    return new SetGlobalStateBlockBuilder<
+      AlexaBuilderContext,
+      AlexaDialogContext,
+      AlexaEvent
+    >()
       .set(func)
       .build();
   }
@@ -182,7 +192,10 @@ export namespace alexa {
       | string[]
       | ((ctx: AlexaDialogContext, event: AlexaEvent) => Promise<string[]> | string[])
   ) {
-    let func: (ctx: AlexaDialogContext, event: AlexaEvent) => Promise<string[]> | string[];
+    let func: (
+      ctx: AlexaDialogContext,
+      event: AlexaEvent
+    ) => Promise<string[]> | string[];
 
     if (typeof f === "string") {
       const varName = f;
@@ -199,13 +212,21 @@ export namespace alexa {
       func = <typeof func>f;
     }
 
-    return new RemoveGlobalStateBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>()
+    return new RemoveGlobalStateBlockBuilder<
+      AlexaBuilderContext,
+      AlexaDialogContext,
+      AlexaEvent
+    >()
       .remove(func)
       .build();
   }
 
   export function goto(stateName: string) {
-    return new GotoStateBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>()
+    return new GotoStateBlockBuilder<
+      AlexaBuilderContext,
+      AlexaDialogContext,
+      AlexaEvent
+    >()
       .stateName(stateName)
       .build();
   }

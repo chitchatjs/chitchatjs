@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "@chitchatjs/alexa": "^0.3.8",
-    "@chitchatjs/core": "^0.3.4",
     "ask-sdk-core": "^2.10.1",
     "ask-sdk-model": "^1.33.1",
     "ask-smapi-model": "^1.12.3",

@@ -1,6 +1,5 @@
 // import _end from "./blocks/end";
-import { AlexaBuilderContext, AlexaDialogContext, AlexaEvent, ax, Locale } from "@chitchatjs/alexa";
-import { CompoundBlock } from "@chitchatjs/core";
+import { AlexaDialogContext, AlexaEvent, ax } from "@chitchatjs/alexa";
 
 /**
  * Session management building blocks for Alexa Skills.
@@ -16,7 +15,8 @@ export namespace session {
     return ax
       .custom()
       .executor((c: AlexaDialogContext, e: AlexaEvent) => {
-        if (!c.currentResponse.sessionAttributes) c.currentResponse.sessionAttributes = {};
+        if (!c.currentResponse.sessionAttributes)
+          c.currentResponse.sessionAttributes = {};
         c.currentResponse.sessionAttributes[key] = val;
         return c.currentResponse;
       })
@@ -28,9 +28,7 @@ export namespace session {
    *
    * @param shouldEnd true|false|undefined
    */
-  export let end = (
-    shouldEnd?: boolean
-  ): CompoundBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> => {
+  export let end = (shouldEnd?: boolean) => {
     return ax
       .compound()
       .add(

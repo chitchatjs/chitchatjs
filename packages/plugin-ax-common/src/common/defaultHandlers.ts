@@ -1,18 +1,16 @@
 import {
   alexa as ax,
   AlexaBlock,
-  AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
 } from "@chitchatjs/alexa";
-import { CompoundBlock } from "@chitchatjs/core";
 import { session } from "@chitchatjs/plugin-ax-session";
 
 export default (input?: {
   stop?: AlexaBlock;
   fallback?: AlexaBlock;
   help?: AlexaBlock;
-}): CompoundBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent> => {
+}) => {
   if (!input) input = {};
 
   return ax
@@ -47,7 +45,9 @@ export default (input?: {
     .add(
       ax
         .whenIntentName("AMAZON.HelpIntent")
-        .then(input.help || ax.ask("I'm here to help, what would you like to do?").build())
+        .then(
+          input.help || ax.ask("I'm here to help, what would you like to do?").build()
+        )
         .build()
     )
     .add(ax.intent("AMAZON.FallbackIntent").build())

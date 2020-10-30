@@ -29,10 +29,7 @@ export namespace display {
         let supportedInterfaces =
           e.currentRequest.context.System.device?.supportedInterfaces;
 
-        if (
-          supportedInterfaces &&
-          "Alexa.Presentation.APL" in supportedInterfaces
-        ) {
+        if (supportedInterfaces && "Alexa.Presentation.APL" in supportedInterfaces) {
           return true;
         }
         return false;
@@ -68,13 +65,8 @@ export namespace display {
               };
             } else {
               skillManifest = JSON.parse(skillManifestStr);
-              if (skillManifest && !skillManifest.manifest)
-                skillManifest.manifest = {};
-              if (
-                skillManifest &&
-                skillManifest.manifest &&
-                !skillManifest.manifest.apis
-              )
+              if (skillManifest && !skillManifest.manifest) skillManifest.manifest = {};
+              if (skillManifest && skillManifest.manifest && !skillManifest.manifest.apis)
                 skillManifest.manifest.apis = {};
               if (
                 skillManifest &&
@@ -138,13 +130,9 @@ export namespace display {
               skillManifest.manifest.apis.custom &&
               skillManifest.manifest.apis.custom.interfaces
             )
-              skillManifest.manifest.apis.custom.interfaces.push(
-                aplInterface
-              );
+              skillManifest.manifest.apis.custom.interfaces.push(aplInterface);
 
-            c.resources.resourceMap["/skill.json"] = JSON.stringify(
-              skillManifest
-            );
+            c.resources.resourceMap["/skill.json"] = JSON.stringify(skillManifest);
             return c.resources;
           }
         )
