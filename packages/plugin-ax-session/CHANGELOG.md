@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-session@0.1.1...@chitchatjs/plugin-ax-session@0.2.0) (2020-10-30)
+
+
+### Bug Fixes
+
+* plugin-ax-kit => plugin-ax-common and cleaned it up ([a4d15aa](https://github.com/chitchatjs/chitchatjs/commit/a4d15aafbda9e8bcc419612bf15bf6d8f9de3c08))
+
+
+### BREAKING CHANGES
+
+* Please use @chitchatjs/plugin-ax-common. plugin-ax-kit will be deprecated.
+
+
+
+
+
 ## [0.1.1](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-session@0.1.0...@chitchatjs/plugin-ax-session@0.1.1) (2020-10-29)
 
 
