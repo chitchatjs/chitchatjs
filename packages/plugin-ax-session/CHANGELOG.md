@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-session@0.2.0...@chitchatjs/plugin-ax-session@0.2.1) (2020-10-30)
+
+
+### Bug Fixes
+
+* adding new plugin for APL sample displays and utilities ([ec76a4f](https://github.com/chitchatjs/chitchatjs/commit/ec76a4f00341fa7ff9a9ef301d9656ee84736a9a)), closes [#105](https://github.com/chitchatjs/chitchatjs/issues/105)
+
+
+
+
+
 # [0.2.0](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-session@0.1.1...@chitchatjs/plugin-ax-session@0.2.0) (2020-10-30)
 
 

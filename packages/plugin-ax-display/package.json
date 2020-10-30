@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/plugin-ax-display",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A plugin containing display building blocks for chitchat.js",
   "keywords": [
     "alexa",
@@ -36,8 +36,8 @@
     "url": "https://github.com/chitchatjs/chitchatjs/issues"
   },
   "dependencies": {
-    "@chitchatjs/alexa": "^0.3.7",
-    "@chitchatjs/core": "^0.3.3",
+    "@chitchatjs/alexa": "^0.3.8",
+    "@chitchatjs/core": "^0.3.4",
     "ask-sdk-core": "^2.10.1",
     "ask-sdk-model": "^1.33.1",
     "ask-smapi-model": "^1.12.3",

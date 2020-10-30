@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.7...@chitchatjs/alexa@0.3.8) (2020-10-30)
+
+
+### Bug Fixes
+
+* adding new plugin for APL sample displays and utilities ([ec76a4f](https://github.com/chitchatjs/chitchatjs/commit/ec76a4f00341fa7ff9a9ef301d9656ee84736a9a)), closes [#105](https://github.com/chitchatjs/chitchatjs/issues/105)
+
+
+
+
+
 ## [0.3.7](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.6...@chitchatjs/alexa@0.3.7) (2020-10-28)
 
 
