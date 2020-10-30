@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/plugin-ax-common",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Alexa common building blocks plugin library using @chitchatjs/alexa.",
   "keywords": [
     "voice",
