@@ -26,7 +26,7 @@
     "url": "git+https://github.com/chitchatjs/chitchatjs.git"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && npx tsc",
     "clean": "rm -rf ./dist",
     "test": "mocha --require ts-node/register --watch-extensions ts 'test/**/*.ts'",
     "testw": "npm test -- -w",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@chitchatjs/alexa": "^0.3.8",
+    "@chitchatjs/core": "^0.3.4",
     "ask-sdk-core": "^2.10.1",
     "ask-sdk-model": "^1.33.1",
     "ask-smapi-model": "^1.12.3",
@@ -60,6 +61,6 @@
     "nyc": "^15.1.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
+    "typescript": "^3.9.7"
   }
 }

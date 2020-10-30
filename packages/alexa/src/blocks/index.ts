@@ -111,6 +111,11 @@ export namespace alexa {
   }
 
   export function compound() {
+    // : CompoundBlockBuilder<
+    //   AlexaBuilderContext,
+    //   AlexaDialogContext,
+    //   AlexaEvent
+    // >
     return new CompoundBlockBuilder<
       AlexaBuilderContext,
       AlexaDialogContext,
