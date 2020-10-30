@@ -41,7 +41,8 @@
     "ask-sdk-core": "^2.10.1",
     "ask-sdk-model": "^1.33.1",
     "ask-smapi-model": "^1.12.3",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "tslib": "^2.0.3"
   },
   "publishConfig": {
     "access": "public"

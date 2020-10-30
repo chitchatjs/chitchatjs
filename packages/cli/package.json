@@ -82,6 +82,7 @@
     "randomstring": "^1.1.5",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.4",
+    "tslib": "^2.0.3",
     "tslog": "^2.9.1"
   },
   "gitHead": "5bb7a18691ca3ee780e8512f98eb24251914c2a4"

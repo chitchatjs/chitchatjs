@@ -40,6 +40,7 @@
     "lodash": "^4.17.20",
     "mustache": "^4.0.1",
     "shelljs": "^0.8.4",
+    "tslib": "^2.0.3",
     "yup": "^0.29.3"
   },
   "devDependencies": {
