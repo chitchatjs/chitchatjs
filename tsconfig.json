@@ -5,6 +5,7 @@
     "module": "commonjs",
     "allowJs": true,
     "declaration": true,
+    "importHelpers": true,
     "strict": true,
     "noImplicitAny": true,
     "removeComments": true,

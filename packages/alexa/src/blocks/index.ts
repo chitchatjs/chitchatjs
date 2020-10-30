@@ -2,12 +2,16 @@ import { Directive, IntentRequest } from "ask-sdk-model";
 
 import {
   AgentBuilder,
+  CompoundBlock,
   CompoundBlockBuilder,
+  DoBlock,
   DoBlockBuilder,
+  GotoStateBlock,
   GotoStateBlockBuilder,
   RemoveGlobalStateBlockBuilder,
   SetGlobalStateBlockBuilder,
   StateBuilder,
+  WhenBlock,
   WhenBlockBuilder,
 } from "@chitchatjs/core";
 
@@ -111,11 +115,6 @@ export namespace alexa {
   }
 
   export function compound() {
-    // : CompoundBlockBuilder<
-    //   AlexaBuilderContext,
-    //   AlexaDialogContext,
-    //   AlexaEvent
-    // >
     return new CompoundBlockBuilder<
       AlexaBuilderContext,
       AlexaDialogContext,
@@ -325,3 +324,26 @@ export namespace alexa {
  * A short hand of alexa
  */
 export const ax = alexa;
+
+/**
+ * Helper type aliases
+ */
+export type AlexaCompoundBlock = CompoundBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
+
+export type AlexaWhenBlock = WhenBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
+
+export type AlexaGotoStateBlock = GotoStateBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
+
+export type AlexaDoBlock = DoBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;

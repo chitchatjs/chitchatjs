@@ -1,5 +1,10 @@
 // import _end from "./blocks/end";
-import { AlexaDialogContext, AlexaEvent, ax } from "@chitchatjs/alexa";
+import {
+  AlexaCompoundBlock,
+  AlexaDialogContext,
+  AlexaEvent,
+  ax,
+} from "@chitchatjs/alexa";
 
 /**
  * Session management building blocks for Alexa Skills.
@@ -28,7 +33,7 @@ export namespace session {
    *
    * @param shouldEnd true|false|undefined
    */
-  export let end = (shouldEnd?: boolean) => {
+  export let end = (shouldEnd?: boolean): AlexaCompoundBlock => {
     return ax
       .compound()
       .add(

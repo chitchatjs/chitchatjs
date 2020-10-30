@@ -63,7 +63,7 @@
     "sinon": "^9.2.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
     "@chitchatjs/alexa": "^0.3.8",

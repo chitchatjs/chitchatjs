@@ -1,6 +1,7 @@
 import {
   alexa as ax,
   AlexaBlock,
+  AlexaCompoundBlock,
   AlexaDialogContext,
   AlexaEvent,
 } from "@chitchatjs/alexa";
@@ -10,7 +11,7 @@ export default (input?: {
   stop?: AlexaBlock;
   fallback?: AlexaBlock;
   help?: AlexaBlock;
-}) => {
+}): AlexaCompoundBlock => {
   if (!input) input = {};
 
   return ax
