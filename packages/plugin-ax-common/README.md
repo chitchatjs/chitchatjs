@@ -1,10 +1,10 @@
-# `@chitchatjs/plugin-ax-kit`
+# `@chitchatjs/plugin-ax-common`
 
-Chitchat.js platform developed plugin package. It contains several coversational building blocks which can be easily added to the Alexa Skills using @chitchatjs/alexa.
+Chitchat.js platform developed plugin package for common builing blocks to build alexa skills.
 
 ![](./images/logo/logo-128x128.png)
 
-<strong>🤖 JavaScript framework for building voice user interfaces for Alexa Skills. </strong> | <a href="https://chitchat.js.org">📄 Read the documentation </a>
+<strong>🤖 Chitchat.js is a JavaScript framework for building voice user interfaces for Alexa Skills. </strong> | <a href="https://chitchat.js.org">📄 Read the documentation </a>
 
 | Package                                                              | NPM                                                                                                                  | Build                                                                                                                                            |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -21,19 +21,22 @@ Chitchat.js platform developed plugin package. It contains several coversational
 ## Usage
 
 ```ts
-import { axkit } from "@chitchatjs/ax-kit";
+import { ax } from "@chitchatjs/alexa";
+import { common } from "@chitchatjs/plugin-ax-common";
 
-// to render a standard about message
-axkit.greet.about();
+ax.compound()
+  .add(ax.whenLaunch().then(ax.say("Hello world!")).build())
+  .add(common.defaultHandlers()) // automatically add help, stop, fallback handlers
+  .build();
+```
 
-// to render a customized about message
-axkit.greet.about("I'm a movie bot");
+or customize
 
-// other building blocks
-axkit.greet.hello();
-axkit.greet.bye();
-axkit.builtin.help();
-axkit.builtin.stop();
-axkit.builtin.fallback();
-axkit.builtin.all();
+```ts
+common.defaultHandlers({
+  help: ax
+    .ask("You can ask me a number, I will say that number back.")
+    .reprompt("What is your number?")
+    .build(),
+});
 ```
