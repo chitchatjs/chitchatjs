@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/alexa",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "A Javascript framework to build Alexa Skills expriences easily.",
   "keywords": [
     "voice",

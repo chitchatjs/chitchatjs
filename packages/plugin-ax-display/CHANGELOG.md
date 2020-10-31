@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-display@0.0.4...@chitchatjs/plugin-ax-display@0.0.5) (2020-10-31)
+
+
+### Bug Fixes
+
+* adding publishing related stuff to the ax.info(..) building block ([b6d7102](https://github.com/chitchatjs/chitchatjs/commit/b6d7102d13d8a663924276d17edacf33232d550b))
+
+
+
+
+
 ## [0.0.4](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/plugin-ax-display@0.0.3...@chitchatjs/plugin-ax-display@0.0.4) (2020-10-30)
 
 **Note:** Version bump only for package @chitchatjs/plugin-ax-display

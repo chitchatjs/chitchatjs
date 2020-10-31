@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/cli",
-  "version": "0.3.17",
+  "version": "0.3.18",
   "description": "chitchat.js CLI. A Javascript framework to build Alexa Skills expriences easily.",
   "keywords": [
     "voice",
@@ -66,7 +66,7 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@chitchatjs/alexa": "^0.3.9",
+    "@chitchatjs/alexa": "^0.3.10",
     "@chitchatjs/core": "^0.3.5",
     "ask-sdk-model": "^1.33.0",
     "ask-smapi-model": "^1.12.3",
