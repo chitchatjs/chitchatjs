@@ -1,3 +1,4 @@
+import { update } from "lodash";
 import {
   AlexaBuilderContext,
   AlexaDialogContext,
@@ -15,6 +16,13 @@ import { resource_utils, paths } from "../../util/ResourceUtil";
 export class SkillInfoBlockBuilder {
   private _name: string;
   private _invocationName: string;
+  private _smallIconUri?: string;
+  private _largeIconUri?: string;
+  private _summary?: string;
+  private _description?: string;
+  private _updatesDescription?: string;
+  private _examplePhrases?: string[];
+  private _keywords?: string[];
 
   constructor() {
     this._name = "";
@@ -31,11 +39,49 @@ export class SkillInfoBlockBuilder {
     return this;
   }
 
+  icons(smallIconUri: string, largeIconUri: string) {
+    this._smallIconUri = smallIconUri;
+    this._largeIconUri = largeIconUri;
+    return this;
+  }
+
+  summary(summary: string) {
+    this._summary = summary;
+    return this;
+  }
+
+  description(description: string) {
+    this._description = description;
+    return this;
+  }
+
+  updatesDescription(updatesDesc: string) {
+    this._updatesDescription = updatesDesc;
+    return this;
+  }
+
+  examplePhrases(exPhrases: string[]) {
+    this._examplePhrases = exPhrases;
+    return this;
+  }
+
+  keywords(keywords: string[]) {
+    this._keywords = keywords;
+    return this;
+  }
+
   build(): SkillInfoBlock {
     return {
       type: "SkillInfoBlock",
       skillName: this._name,
       invocationName: this._invocationName,
+      smallIconUri: this._smallIconUri,
+      largeIconUri: this._largeIconUri,
+      summary: this._summary,
+      description: this._description,
+      updatesDescription: this._updatesDescription,
+      examplePhrases: this._examplePhrases,
+      keywords: this._keywords,
       execute: (context: AlexaDialogContext, event: AlexaEvent) => {},
       build: this._builder,
     };
@@ -80,9 +126,23 @@ export class SkillInfoBlockBuilder {
         if (!publishingInfo.locales[locale]) {
           publishingInfo.locales[locale] = {
             name: this._name,
+            smallIconUri: this._smallIconUri,
+            largeIconUri: this._largeIconUri,
+            summary: this._summary,
+            description: this._description,
+            updatesDescription: this._updatesDescription,
+            examplePhrases: this._examplePhrases,
+            keywords: this._keywords,
           };
         } else {
           publishingInfo.locales[locale].name = this._name;
+          publishingInfo.locales[locale].smallIconUri = this._smallIconUri;
+          publishingInfo.locales[locale].largeIconUri = this._largeIconUri;
+          publishingInfo.locales[locale].summary = this._summary;
+          publishingInfo.locales[locale].description = this._description;
+          publishingInfo.locales[locale].updatesDescription = this._updatesDescription;
+          publishingInfo.locales[locale].examplePhrases = this._examplePhrases;
+          publishingInfo.locales[locale].keywords = this._keywords;
         }
 
         context.resources.resourceMap[paths.getSkillManifestPath()] = JSON.stringify(
@@ -99,13 +159,17 @@ export class SkillInfoBlockBuilder {
     if (!context.resources.resourceMap[imPath]) {
       im = resource_utils.getDefaultInteractionModel();
     } else {
-      im = JSON.parse(context.resources.resourceMap[paths.getInteractionModelPath(locale)]);
+      im = JSON.parse(
+        context.resources.resourceMap[paths.getInteractionModelPath(locale)]
+      );
     }
 
     if (im && im.interactionModel && im.interactionModel.languageModel) {
       im.interactionModel.languageModel.invocationName = this._invocationName;
     }
 
-    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
+    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(
+      im
+    );
   };
 }

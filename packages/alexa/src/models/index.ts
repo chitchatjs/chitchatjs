@@ -1,4 +1,11 @@
-import { BuilderContext, Agent, DialogContext, Event, DialogEngine, Block } from "@chitchatjs/core";
+import {
+  BuilderContext,
+  Agent,
+  DialogContext,
+  Event,
+  DialogEngine,
+  Block,
+} from "@chitchatjs/core";
 import { Directive, RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
 
 import { v1 } from "ask-smapi-model";
@@ -14,7 +21,11 @@ export type SlotType = v1.skill.interactionModel.SlotType;
 export type SlotTypeValue = v1.skill.interactionModel.TypeValue;
 export type LocalizedSkillInfo = v1.skill.Manifest.SkillManifestLocalizedPublishingInformation;
 export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
-export type AlexaDialogEngine = DialogEngine<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
+export type AlexaDialogEngine = DialogEngine<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
 export type Skill = Agent<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 
 /**
@@ -210,6 +221,13 @@ export interface SkillInfoBlock extends AlexaBlock {
   type: "SkillInfoBlock";
   skillName: string;
   invocationName: string;
+  smallIconUri?: string;
+  largeIconUri?: string;
+  summary?: string;
+  description?: string;
+  updatesDescription?: string;
+  examplePhrases?: string[];
+  keywords?: string[];
 }
 
 export interface EmptyBlock extends AlexaBlock {

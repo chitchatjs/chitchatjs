@@ -26,7 +26,7 @@ export namespace display {
      */
     export let whenScreenDisplay = () => {
       return ax.when().true((c: AlexaDialogContext, e: AlexaEvent) => {
-        let supportedInterfaces =
+        const supportedInterfaces =
           e.currentRequest.context.System.device?.supportedInterfaces;
 
         if (supportedInterfaces && "Alexa.Presentation.APL" in supportedInterfaces) {
@@ -49,8 +49,8 @@ export namespace display {
         .custom()
         .builder(
           (c: AlexaBuilderContext): Resources => {
-            let resources = c.resources;
-            let skillManifestStr = resources.resourceMap["/skill.json"];
+            const resources = c.resources;
+            const skillManifestStr = resources.resourceMap["/skill.json"];
 
             let skillManifest: SkillManifestEnvelope | undefined;
             if (!skillManifestStr) {
@@ -85,7 +85,7 @@ export namespace display {
                 skillManifest.manifest.apis.custom.interfaces = [];
             }
 
-            let aplInterface: v1.skill.Manifest.Interface = {
+            const aplInterface: v1.skill.Manifest.Interface = {
               type: "ALEXA_PRESENTATION_APL",
               supportedViewports: [
                 {
