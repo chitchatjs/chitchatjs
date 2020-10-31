@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/plugin-ax-session",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Session management plugin for chitchat.js",
   "keywords": [
     "alexa",
