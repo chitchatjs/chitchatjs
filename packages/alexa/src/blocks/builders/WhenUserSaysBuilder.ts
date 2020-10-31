@@ -1,7 +1,11 @@
 import { IntentRequest } from "ask-sdk-model";
 import { WhenUserSaysBlock } from "@chitchatjs/core";
 import { v1 } from "ask-smapi-model";
-import { extractVariables, getSlotTypeFromSlotName, listEquals } from "../../util/StringUtils";
+import {
+  extractVariables,
+  getSlotTypeFromSlotName,
+  listEquals,
+} from "../../util/StringUtils";
 import {
   AlexaBlock,
   AlexaBuilderContext,
@@ -88,14 +92,15 @@ export class WhenUserSaysBlockBuilder {
     }
   };
 
-  private _executor = (context: AlexaDialogContext, event: AlexaEvent) => {
+  private _executor = async (context: AlexaDialogContext, event: AlexaEvent) => {
     const intentName = this._generateIntentName(this._sampleUtterances);
 
     if (this._isIntentMatching(event, intentName) === true) {
       this._addSlotsToGlobalState(context, event);
-      this._thenBlock?.execute && this._thenBlock?.execute(context, event);
+      this._thenBlock?.execute && (await this._thenBlock?.execute(context, event));
     } else {
-      this._otherwiseBlock?.execute && this._otherwiseBlock?.execute(context, event);
+      this._otherwiseBlock?.execute &&
+        (await this._otherwiseBlock?.execute(context, event));
     }
   };
 
@@ -143,7 +148,11 @@ export class WhenUserSaysBlockBuilder {
     }
   };
 
-  private _utterancesAlreadyExist(context: AlexaBuilderContext, intent: Intent, locale: Locale) {
+  private _utterancesAlreadyExist(
+    context: AlexaBuilderContext,
+    intent: Intent,
+    locale: Locale
+  ) {
     const intentSamples = intent.samples || [];
 
     const im = context_util.getIM(context, locale);
@@ -174,7 +183,9 @@ export class WhenUserSaysBlockBuilder {
     if (!context.resources.resourceMap[imPath]) {
       im = resource_utils.getDefaultInteractionModel();
     } else {
-      im = JSON.parse(context.resources.resourceMap[paths.getInteractionModelPath(locale)]);
+      im = JSON.parse(
+        context.resources.resourceMap[paths.getInteractionModelPath(locale)]
+      );
     }
 
     if (!im) return;
@@ -190,7 +201,9 @@ export class WhenUserSaysBlockBuilder {
     });
     existingSlotTypeNames = existingSlotTypeNames || [];
 
-    const allSlotTypeNames = [...new Set([...proposedSlotTypeNames, ...existingSlotTypeNames])];
+    const allSlotTypeNames = [
+      ...new Set([...proposedSlotTypeNames, ...existingSlotTypeNames]),
+    ];
 
     allSlotTypeNames.forEach((t) => {
       if (!existingSlotTypeNames?.includes(t) && t?.startsWith("AMAZON.") === false) {
@@ -200,11 +213,15 @@ export class WhenUserSaysBlockBuilder {
         });
       }
     });
-    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
+    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(
+      im
+    );
   };
 
   private _buildSlot(slotName: string): v1.skill.interactionModel.SlotDefinition {
-    const slot: { name: string; type: string } | undefined = getSlotTypeFromSlotName(slotName);
+    const slot: { name: string; type: string } | undefined = getSlotTypeFromSlotName(
+      slotName
+    );
 
     if (slot) {
       return {
@@ -220,7 +237,9 @@ export class WhenUserSaysBlockBuilder {
         type: this._typeMapping[slotName],
       };
     } else {
-      throw new Error(`Type mapping is missing for slot "${slotName}", try using .withTypes()`);
+      throw new Error(
+        `Type mapping is missing for slot "${slotName}", try using .withTypes()`
+      );
     }
   }
 }

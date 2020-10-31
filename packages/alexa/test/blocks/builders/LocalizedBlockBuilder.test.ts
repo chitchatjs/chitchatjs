@@ -24,7 +24,9 @@ describe("LocalizedBlockBuilder", () => {
     } catch (e) {
       err = e;
     }
-    expect(err.message).to.be.equal("LocalizedBlock must not have an undefined block in it.");
+    expect(err.message).to.be.equal(
+      "LocalizedBlock must not have an undefined block in it."
+    );
   });
 
   it("should successfully build localized block with one block", async () => {
@@ -51,9 +53,9 @@ describe("LocalizedBlockBuilder", () => {
       };
 
       let lb = new LocalizedBlockBuilder([Locale.en_US]);
-      let l = await lb.block(block).build();
+      let l = lb.block(block).build();
 
-      l.build(builderContext);
+      await l.build(builderContext);
 
       expect(builderContext).to.not.be.undefined;
       expect(builderContext.currentLocales).to.not.be.undefined;
@@ -95,9 +97,9 @@ describe("LocalizedBlockBuilder", () => {
       };
 
       let lb = new LocalizedBlockBuilder([Locale.en_US]);
-      let l = await lb.block(block).build();
+      let l = lb.block(block).build();
 
-      l.execute(dialogContext, event);
+      await l.execute(dialogContext, event);
 
       expect(dialogContext).to.not.be.undefined;
       expect(dialogContext.currentLocales).to.not.be.undefined;

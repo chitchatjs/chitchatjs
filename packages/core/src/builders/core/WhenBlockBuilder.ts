@@ -1,6 +1,10 @@
 import { Block, Event, DialogContext, WhenBlock, BuilderContext } from "../../models";
 
-export class WhenBlockBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export class WhenBlockBuilder<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> {
   private _condition: (context: D, event: E) => Promise<boolean> | boolean;
   private _thenBlock?: Block<B, D, E>;
   private _otherwiseBlock?: Block<B, D, E>;
@@ -48,9 +52,10 @@ export class WhenBlockBuilder<B extends BuilderContext, D extends DialogContext,
 
   private _executor = async (context: D, event: E) => {
     if ((await this._condition(context, event)) === true) {
-      this._thenBlock?.execute && this._thenBlock?.execute(context, event);
+      this._thenBlock?.execute && (await this._thenBlock?.execute(context, event));
     } else {
-      this._otherwiseBlock?.execute && (await this._otherwiseBlock?.execute(context, event));
+      this._otherwiseBlock?.execute &&
+        (await this._otherwiseBlock?.execute(context, event));
     }
   };
 }

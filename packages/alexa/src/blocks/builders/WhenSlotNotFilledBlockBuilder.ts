@@ -45,14 +45,14 @@ export class WhenSlotNotFilledBlockBuilder {
     };
   }
 
-  private _executor = (context: AlexaDialogContext, event: AlexaEvent) => {
+  private _executor = async (context: AlexaDialogContext, event: AlexaEvent) => {
     if (event.currentRequest.request.type !== "IntentRequest") return;
 
     const request: IntentRequest = event.currentRequest.request;
     if (!context.platformState.globalState[this._slotName]) {
-      this._thenBlock?.execute(context, event);
+      await this._thenBlock?.execute(context, event);
     } else {
-      this._otherwiseBlock?.execute(context, event);
+      await this._otherwiseBlock?.execute(context, event);
     }
   };
 

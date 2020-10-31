@@ -37,15 +37,15 @@ export class LocalizedBlockBuilder {
     };
   }
 
-  private _executor = (context: AlexaDialogContext, event: AlexaEvent): void => {
+  private _executor = async (context: AlexaDialogContext, event: AlexaEvent) => {
     context.currentLocales = this._locales;
-    this._block?.execute(context, event);
+    await this._block?.execute(context, event);
     context.currentLocales = [];
   };
 
-  private _builder = (context: AlexaBuilderContext) => {
+  private _builder = async (context: AlexaBuilderContext) => {
     context.currentLocales = this._locales;
-    this._block?.build(context);
+    await this._block?.build(context);
     context.currentLocales = [];
   };
 }

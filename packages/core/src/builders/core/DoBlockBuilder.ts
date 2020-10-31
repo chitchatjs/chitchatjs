@@ -1,6 +1,10 @@
 import { Block, BuilderContext, DialogContext, DoBlock, Event } from "../../models";
 
-export class DoBlockBuilder<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export class DoBlockBuilder<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> {
   private _doBuild?: (context: B) => Promise<Block<B, D, E>> | Block<B, D, E>;
   private _doExecute?: (context: D, event: E) => Promise<Block<B, D, E>> | Block<B, D, E>;
 
@@ -27,14 +31,14 @@ export class DoBlockBuilder<B extends BuilderContext, D extends DialogContext, E
   private _executor = async (context: D, event: E) => {
     if (this._doExecute) {
       let b = await this._doExecute(context, event);
-      b.execute(context, event);
+      await b.execute(context, event);
     }
   };
 
   private _builder = async (context: B) => {
     if (this._doBuild) {
       let b = await this._doBuild(context);
-      b.build(context);
+      await b.build(context);
     }
   };
 }
