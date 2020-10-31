@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.5...@chitchatjs/core@0.3.6) (2020-10-31)
+
+
+### Bug Fixes
+
+* async-await bug.. missing await at some places ([308b83d](https://github.com/chitchat/chitchatjs/commit/308b83de6cdc835101ae4f902bc67e1b72f74955))
+
+
+
+
+
 ## [0.3.5](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.4...@chitchatjs/core@0.3.5) (2020-10-30)
 
 

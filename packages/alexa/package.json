@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/alexa",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "A Javascript framework to build Alexa Skills expriences easily.",
   "keywords": [
     "voice",
@@ -34,7 +34,7 @@
     "url": "https://github.com/chitchatjs/chitchatjs/issues"
   },
   "dependencies": {
-    "@chitchatjs/core": "^0.3.5",
+    "@chitchatjs/core": "^0.3.6",
     "ask-sdk-core": "^2.9.0",
     "ask-sdk-model": "^1.33.0",
     "ask-smapi-model": "^1.12.3",

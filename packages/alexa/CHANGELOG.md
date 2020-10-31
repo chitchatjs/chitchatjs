@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.11](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.10...@chitchatjs/alexa@0.3.11) (2020-10-31)
+
+
+### Bug Fixes
+
+* async-await bug.. missing await at some places ([308b83d](https://github.com/chitchatjs/chitchatjs/commit/308b83de6cdc835101ae4f902bc67e1b72f74955))
+
+
+
+
+
 ## [0.3.10](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.9...@chitchatjs/alexa@0.3.10) (2020-10-31)
 
 
