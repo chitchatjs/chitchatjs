@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.6...@chitchatjs/core@0.3.7) (2020-11-01)
+
+
+### Bug Fixes
+
+* build fix. refactoring and cleanup ([fe3a81b](https://github.com/chitchat/chitchatjs/commit/fe3a81b72d9d1654d90738fa9f02de48bd5eee32))
+
+
+
+
+
 ## [0.3.6](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.5...@chitchatjs/core@0.3.6) (2020-10-31)
 
 

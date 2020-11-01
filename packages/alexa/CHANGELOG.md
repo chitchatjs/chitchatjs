@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.12](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.11...@chitchatjs/alexa@0.3.12) (2020-11-01)
+
+
+### Bug Fixes
+
+* build fix. refactoring and cleanup ([fe3a81b](https://github.com/chitchatjs/chitchatjs/commit/fe3a81b72d9d1654d90738fa9f02de48bd5eee32))
+* removing run() block, updating custom() block. adding synonym support for .slotType() ([3e18199](https://github.com/chitchatjs/chitchatjs/commit/3e181996168e1117fca209de092825afb6fa38d8))
+
+
+
+
+
 ## [0.3.11](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.10...@chitchatjs/alexa@0.3.11) (2020-10-31)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/plugin-ax-common",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Alexa common building blocks plugin library using @chitchatjs/alexa.",
   "keywords": [
     "voice",
@@ -36,9 +36,9 @@
     "url": "https://github.com/chitchatjs/chitchatjs/issues"
   },
   "dependencies": {
-    "@chitchatjs/alexa": "^0.3.11",
-    "@chitchatjs/core": "^0.3.6",
-    "@chitchatjs/plugin-ax-session": "^0.2.5",
+    "@chitchatjs/alexa": "^0.3.12",
+    "@chitchatjs/core": "^0.3.7",
+    "@chitchatjs/plugin-ax-session": "^0.2.6",
     "ask-sdk-core": "^2.10.1",
     "ask-sdk-model": "^1.33.1",
     "ask-smapi-model": "^1.12.3",

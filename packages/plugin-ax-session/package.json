@@ -1,6 +1,6 @@
 {
   "name": "@chitchatjs/plugin-ax-session",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Session management plugin for chitchat.js",
   "keywords": [
     "alexa",
@@ -36,8 +36,8 @@
     "url": "https://github.com/chitchatjs/chitchatjs/issues"
   },
   "dependencies": {
-    "@chitchatjs/alexa": "^0.3.11",
-    "@chitchatjs/core": "^0.3.6",
+    "@chitchatjs/alexa": "^0.3.12",
+    "@chitchatjs/core": "^0.3.7",
     "ask-sdk-core": "^2.10.1",
     "ask-sdk-model": "^1.33.1",
     "ask-smapi-model": "^1.12.3",
