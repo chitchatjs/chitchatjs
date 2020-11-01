@@ -16,7 +16,10 @@ export const CLI_CONFIG_FILE_NAME: string = "config.json";
  * Project Configuration
  */
 export const PROJECT_CONFIG_FILE_NAME: string = "cjs.json";
-export const PROJECT_CONFIG_FILE_PATH = path.join(DEV_WORKING_DIRECTORY, PROJECT_CONFIG_FILE_NAME);
+export const PROJECT_CONFIG_FILE_PATH = path.join(
+  DEV_WORKING_DIRECTORY,
+  PROJECT_CONFIG_FILE_NAME
+);
 
 export const DEFAULT_CLI_CONFIG: CliConfig = {
   version: "1.0",
@@ -47,6 +50,13 @@ export const DEFAULT_CLI_CONFIG: CliConfig = {
       url: {
         type: "GIT",
         value: "https://github.com/chitchatjs/coffee-shop.git",
+      },
+    },
+    {
+      name: "Workout Buddy",
+      url: {
+        type: "GIT",
+        value: "https://github.com/chitchatjs/workout-buddy.git",
       },
     },
   ],
