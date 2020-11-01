@@ -47,95 +47,92 @@ export namespace display {
     export const enableAPLInterface = () => {
       return ax
         .custom()
-        .builder(
-          (c: AlexaBuilderContext): Resources => {
-            const resources = c.resources;
-            const skillManifestStr = resources.resourceMap["/skill.json"];
+        .builder((c: AlexaBuilderContext) => {
+          const resources = c.resources;
+          const skillManifestStr = resources.resourceMap["/skill.json"];
 
-            let skillManifest: SkillManifestEnvelope | undefined;
-            if (!skillManifestStr) {
-              skillManifest = {
-                manifest: {
-                  apis: {
-                    custom: {
-                      interfaces: [],
-                    },
+          let skillManifest: SkillManifestEnvelope | undefined;
+          if (!skillManifestStr) {
+            skillManifest = {
+              manifest: {
+                apis: {
+                  custom: {
+                    interfaces: [],
                   },
                 },
-              };
-            } else {
-              skillManifest = JSON.parse(skillManifestStr);
-              if (skillManifest && !skillManifest.manifest) skillManifest.manifest = {};
-              if (skillManifest && skillManifest.manifest && !skillManifest.manifest.apis)
-                skillManifest.manifest.apis = {};
-              if (
-                skillManifest &&
-                skillManifest.manifest &&
-                skillManifest.manifest.apis &&
-                !skillManifest.manifest.apis.custom
-              )
-                skillManifest.manifest.apis.custom = {};
-              if (
-                skillManifest &&
-                skillManifest.manifest &&
-                skillManifest.manifest.apis &&
-                skillManifest.manifest.apis.custom &&
-                !skillManifest.manifest.apis.custom.interfaces
-              )
-                skillManifest.manifest.apis.custom.interfaces = [];
-            }
-
-            const aplInterface: v1.skill.Manifest.Interface = {
-              type: "ALEXA_PRESENTATION_APL",
-              supportedViewports: [
-                {
-                  mode: "HUB",
-                  shape: "ROUND",
-                  minWidth: 480,
-                  maxWidth: 480,
-                  minHeight: 480,
-                  maxHeight: 480,
-                },
-                {
-                  mode: "HUB",
-                  shape: "RECTANGLE",
-                  minWidth: 1024,
-                  maxWidth: 1024,
-                  minHeight: 600,
-                  maxHeight: 600,
-                },
-                {
-                  mode: "HUB",
-                  shape: "RECTANGLE",
-                  minWidth: 1280,
-                  maxWidth: 1280,
-                  minHeight: 800,
-                  maxHeight: 800,
-                },
-                {
-                  mode: "TV",
-                  shape: "RECTANGLE",
-                  minWidth: 960,
-                  maxWidth: 960,
-                  minHeight: 540,
-                  maxHeight: 540,
-                },
-              ],
+              },
             };
-
+          } else {
+            skillManifest = JSON.parse(skillManifestStr);
+            if (skillManifest && !skillManifest.manifest) skillManifest.manifest = {};
+            if (skillManifest && skillManifest.manifest && !skillManifest.manifest.apis)
+              skillManifest.manifest.apis = {};
+            if (
+              skillManifest &&
+              skillManifest.manifest &&
+              skillManifest.manifest.apis &&
+              !skillManifest.manifest.apis.custom
+            )
+              skillManifest.manifest.apis.custom = {};
             if (
               skillManifest &&
               skillManifest.manifest &&
               skillManifest.manifest.apis &&
               skillManifest.manifest.apis.custom &&
-              skillManifest.manifest.apis.custom.interfaces
+              !skillManifest.manifest.apis.custom.interfaces
             )
-              skillManifest.manifest.apis.custom.interfaces.push(aplInterface);
-
-            c.resources.resourceMap["/skill.json"] = JSON.stringify(skillManifest);
-            return c.resources;
+              skillManifest.manifest.apis.custom.interfaces = [];
           }
-        )
+
+          const aplInterface: v1.skill.Manifest.Interface = {
+            type: "ALEXA_PRESENTATION_APL",
+            supportedViewports: [
+              {
+                mode: "HUB",
+                shape: "ROUND",
+                minWidth: 480,
+                maxWidth: 480,
+                minHeight: 480,
+                maxHeight: 480,
+              },
+              {
+                mode: "HUB",
+                shape: "RECTANGLE",
+                minWidth: 1024,
+                maxWidth: 1024,
+                minHeight: 600,
+                maxHeight: 600,
+              },
+              {
+                mode: "HUB",
+                shape: "RECTANGLE",
+                minWidth: 1280,
+                maxWidth: 1280,
+                minHeight: 800,
+                maxHeight: 800,
+              },
+              {
+                mode: "TV",
+                shape: "RECTANGLE",
+                minWidth: 960,
+                maxWidth: 960,
+                minHeight: 540,
+                maxHeight: 540,
+              },
+            ],
+          };
+
+          if (
+            skillManifest &&
+            skillManifest.manifest &&
+            skillManifest.manifest.apis &&
+            skillManifest.manifest.apis.custom &&
+            skillManifest.manifest.apis.custom.interfaces
+          )
+            skillManifest.manifest.apis.custom.interfaces.push(aplInterface);
+
+          c.resources.resourceMap["/skill.json"] = JSON.stringify(skillManifest);
+        })
         .build();
     };
   }

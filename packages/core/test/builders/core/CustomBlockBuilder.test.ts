@@ -1,6 +1,7 @@
 import { expect } from "chai";
+import { ax } from "../../../../alexa/src";
 
-import { DoBlockBuilder } from "../../../src/builders/core/DoBlockBuilder";
+import { CustomBlockBuilder } from "../../../src/builders/core/CustomBlockBuilder";
 import { Block, BuilderContext, DialogContext, Event } from "../../../src/models";
 
 const dialogContext: DialogContext = {
@@ -16,9 +17,9 @@ const builderContext: BuilderContext = {
   resources: { resourceMap: {} },
 };
 
-describe("DoBlockBuilder", () => {
+describe("CustomBlockBuilder", () => {
   it("should return empty block", async () => {
-    const db = new DoBlockBuilder().build();
+    const db = new CustomBlockBuilder().build();
     db.execute(dialogContext, event);
     db.build(builderContext);
 
@@ -39,7 +40,7 @@ describe("DoBlockBuilder", () => {
       },
     };
 
-    const db = new DoBlockBuilder()
+    const db = new CustomBlockBuilder()
       .executor((c: DialogContext, e: Event) => {
         return mockBlock;
       })
@@ -56,5 +57,19 @@ describe("DoBlockBuilder", () => {
     expect(db.doExecute).is.not.undefined;
     expect(buildCount).equals(1);
     expect(executeCount).equals(1);
+  });
+
+  it("should execute both executor and builder block (sync) and return block", async () => {
+    const db = new CustomBlockBuilder()
+      .executor((c: DialogContext, e: Event) => {})
+      .builder((c: BuilderContext) => {})
+      .build();
+
+    await db.execute(dialogContext, event);
+    await db.build(builderContext);
+
+    expect(db).is.not.undefined;
+    expect(db.doBuild).is.not.undefined;
+    expect(db.doExecute).is.not.undefined;
   });
 });

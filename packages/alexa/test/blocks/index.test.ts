@@ -364,7 +364,7 @@ describe("alexa", () => {
     it("should return correct block", async () => {
       let b = ax.custom().build();
 
-      expect(b.type).to.equal("DoBlock");
+      expect(b.type).to.equal("CustomBlock");
       expect(b.doBuild).is.undefined;
       expect(b.doExecute).is.undefined;
     });

@@ -8,7 +8,11 @@ import { ResponseEnvelope } from "ask-sdk-model";
  * A Agent is a collections of State objects and how they interact with each other.
  * It also defines how a dialog manager will generate resource artifacts during build process.
  */
-export interface Agent<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export interface Agent<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> {
   type: "Agent";
   states: { [name: string]: State<B, D, E> };
 }
@@ -17,7 +21,11 @@ export interface Agent<B extends BuilderContext, D extends DialogContext, E exte
  * State is a representation of the application at a specific point in time
  * and which blocks it uses to handle user requests.
  */
-export interface State<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export interface State<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> {
   type: "State";
   name: string;
   block: Block<B, D, E>;
@@ -63,7 +71,11 @@ export interface Event {}
 /**
  * Blocks - a pluggable interface that defines a specific piece of functionality to build voice interface.
  */
-export interface Block<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export interface Block<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> {
   /**
    * Using this interface a block can define what to build.
    */
@@ -78,8 +90,11 @@ export interface Block<B extends BuilderContext, D extends DialogContext, E exte
 /**
  * CompoundBlock is simply a list of Block.
  */
-export interface CompoundBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
-  extends Block<B, D, E> {
+export interface CompoundBlock<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> extends Block<B, D, E> {
   type: "CompoundBlock";
   blocks: Block<B, D, E>[];
 }
@@ -87,8 +102,11 @@ export interface CompoundBlock<B extends BuilderContext, D extends DialogContext
 /**
  * WhenBlock is a if-then-else implementation with a hook for condition execution.
  */
-export interface WhenBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
-  extends Block<B, D, E> {
+export interface WhenBlock<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> extends Block<B, D, E> {
   type: "WhenBlock";
   condition: (context: D, event: E) => Promise<boolean> | boolean;
   then: Block<B, D, E>;
@@ -113,8 +131,11 @@ export interface WhenUserSaysBlock<
 /**
  * AskSpeechBlock is a block to ask users a question and to keep microphone open.
  */
-export interface AskSpeechBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
-  extends Block<B, D, E> {
+export interface AskSpeechBlock<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> extends Block<B, D, E> {
   type: "AskSpeechBlock";
   say: string;
   reprompt: string;
@@ -123,8 +144,11 @@ export interface AskSpeechBlock<B extends BuilderContext, D extends DialogContex
 /**
  * TellSpeechBlock is a block to tell users something and then close the microphone.
  */
-export interface TellSpeechBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
-  extends Block<B, D, E> {
+export interface TellSpeechBlock<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> extends Block<B, D, E> {
   type: "TellSpeechBlock";
   say: string;
 }
@@ -138,7 +162,10 @@ export interface SetGlobalStateBlock<
   E extends Event
 > extends Block<B, D, E> {
   type: "SetGlobalStateBlock";
-  evaluate: (context: D, event: E) => Promise<{ [name: string]: any }> | { [name: string]: any };
+  evaluate: (
+    context: D,
+    event: E
+  ) => Promise<{ [name: string]: any }> | { [name: string]: any };
 }
 
 /**
@@ -150,14 +177,20 @@ export interface RemoveGlobalStateBlock<
   E extends Event
 > extends Block<B, D, E> {
   type: "RemoveGlobalStateBlock";
-  evaluate: (context: D, event: E) => Promise<{ [name: string]: any }> | { [name: string]: any };
+  evaluate: (
+    context: D,
+    event: E
+  ) => Promise<{ [name: string]: any }> | { [name: string]: any };
 }
 
 /**
  * GotoStateBlock transitions to the specified state name.
  */
-export interface GotoStateBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
-  extends Block<B, D, E> {
+export interface GotoStateBlock<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> extends Block<B, D, E> {
   type: "GotoStateBlock";
   name: string;
 }
@@ -165,16 +198,28 @@ export interface GotoStateBlock<B extends BuilderContext, D extends DialogContex
 /**
  * A block that allows users to plugin a block dynamically.
  */
-export interface DoBlock<B extends BuilderContext, D extends DialogContext, E extends Event>
-  extends Block<B, D, E> {
-  type: "DoBlock";
-  doBuild?: (context: B) => Promise<Block<B, D, E>> | Block<B, D, E>;
-  doExecute?: (context: D, event: E) => Promise<Block<B, D, E>> | Block<B, D, E>;
+export interface CustomBlock<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> extends Block<B, D, E> {
+  type: "CustomBlock";
+  doBuild?: (
+    context: B
+  ) => Promise<Block<B, D, E>> | Block<B, D, E> | Promise<void> | void;
+  doExecute?: (
+    context: D,
+    event: E
+  ) => Promise<Block<B, D, E>> | Block<B, D, E> | Promise<void> | void;
 }
 
 /**
  * Dialog Engine interface
  */
-export interface DialogEngine<B extends BuilderContext, D extends DialogContext, E extends Event> {
+export interface DialogEngine<
+  B extends BuilderContext,
+  D extends DialogContext,
+  E extends Event
+> {
   execute(agent: Agent<B, D, E>, event: E): Promise<ResponseEnvelope> | ResponseEnvelope;
 }

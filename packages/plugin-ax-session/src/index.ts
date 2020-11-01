@@ -1,8 +1,8 @@
-// import _end from "./blocks/end";
 import {
   AlexaCompoundBlock,
   AlexaDialogContext,
   AlexaEvent,
+  AlexaCustomBlock,
   ax,
 } from "@chitchatjs/alexa";
 
@@ -16,14 +16,13 @@ export namespace session {
    * @param key Session Attribute key name
    * @param val Session Attribute value
    */
-  export const set = (key: string, val: any) => {
+  export const set = (key: string, val: any): AlexaCustomBlock => {
     return ax
       .custom()
       .executor((c: AlexaDialogContext, e: AlexaEvent) => {
         if (!c.currentResponse.sessionAttributes)
           c.currentResponse.sessionAttributes = {};
         c.currentResponse.sessionAttributes[key] = val;
-        return c.currentResponse;
       })
       .build();
   };
@@ -41,7 +40,6 @@ export namespace session {
           .custom()
           .executor((c: AlexaDialogContext, e: AlexaEvent) => {
             c.currentResponse.response.shouldEndSession = shouldEnd;
-            return c.currentResponse;
           })
           .build()
       )

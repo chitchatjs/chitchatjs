@@ -2,16 +2,12 @@ import { Directive, IntentRequest } from "ask-sdk-model";
 
 import {
   AgentBuilder,
-  CompoundBlock,
   CompoundBlockBuilder,
-  DoBlock,
-  DoBlockBuilder,
-  GotoStateBlock,
+  CustomBlockBuilder,
   GotoStateBlockBuilder,
   RemoveGlobalStateBlockBuilder,
   SetGlobalStateBlockBuilder,
   StateBuilder,
-  WhenBlock,
   WhenBlockBuilder,
 } from "@chitchatjs/core";
 
@@ -21,7 +17,6 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
-  AlexaBlock,
   INITIAL_STATE_NAME,
   Locale,
   Skill,
@@ -30,7 +25,6 @@ import {
 } from "../models";
 import { intent_utils } from "../util/IntentUtils";
 import { AskSpeechBlockBuilder } from "./builders/AskSpeechBlockBuilder";
-import { CustomBlockBuilder } from "./builders/CustomBlockBuilder";
 import { DirectiveBlockBuilder } from "./builders/DirectiveBlockBuilder";
 import { EmptyBlockBuilder } from "./builders/EndBlockBuilder";
 import { IntentBlockBuilder } from "./builders/IntentBlockBuilder";
@@ -270,7 +264,7 @@ export namespace alexa {
    * .build()
    */
   export function custom() {
-    return new DoBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
+    return new CustomBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
   }
 
   /**
@@ -327,26 +321,3 @@ export namespace alexa {
  * A short hand of alexa
  */
 export const ax = alexa;
-
-/**
- * Helper type aliases
- */
-export type AlexaCompoundBlock = CompoundBlock<
-  AlexaBuilderContext,
-  AlexaDialogContext,
-  AlexaEvent
->;
-
-export type AlexaWhenBlock = WhenBlock<
-  AlexaBuilderContext,
-  AlexaDialogContext,
-  AlexaEvent
->;
-
-export type AlexaGotoStateBlock = GotoStateBlock<
-  AlexaBuilderContext,
-  AlexaDialogContext,
-  AlexaEvent
->;
-
-export type AlexaDoBlock = DoBlock<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;

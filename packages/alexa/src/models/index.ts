@@ -5,6 +5,10 @@ import {
   Event,
   DialogEngine,
   Block,
+  CompoundBlock,
+  WhenBlock,
+  GotoStateBlock,
+  CustomBlock,
 } from "@chitchatjs/core";
 import { Directive, RequestEnvelope, ResponseEnvelope } from "ask-sdk-model";
 
@@ -239,10 +243,6 @@ export interface EmptyBlock extends AlexaBlock {
   type: "EmptyBlock";
 }
 
-export interface CustomBlock extends AlexaBlock {
-  type: "CustomBlock";
-}
-
 export interface LocalizedBlock extends AlexaBlock {
   type: "LocalizedBlock";
   locales: Locale[];
@@ -277,3 +277,30 @@ export interface DirectiveBlock extends AlexaBlock {
   type: "DirectiveBlock";
   directive: Directive;
 }
+
+/**
+ * Helper type aliases
+ */
+export type AlexaCompoundBlock = CompoundBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
+
+export type AlexaWhenBlock = WhenBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
+
+export type AlexaGotoStateBlock = GotoStateBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
+
+export type AlexaCustomBlock = CustomBlock<
+  AlexaBuilderContext,
+  AlexaDialogContext,
+  AlexaEvent
+>;
