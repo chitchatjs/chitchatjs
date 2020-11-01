@@ -263,29 +263,32 @@ export namespace alexa {
 
   /**
    * Custom block allows your to manually generate artifacts or response.
+   *
+   * ax.custom()
+   *  .executor((..) => { return ax.say("Hello") })
+   *  .builder((..) => { .. })
+   * .build()
    */
   export function custom() {
-    return new CustomBlockBuilder();
-  }
-
-  /**
-   * Run block allows you to dynamically return a block to execute or build.
-   *
-   * Usage:
-   *  ax
-   *    .run()
-   *    .builder(<builder to run>)
-   *    .executor(<executor to run>)
-   *  .build()
-   */
-  export function run() {
     return new DoBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
   }
 
+  /**
+   * Adds a slot type to the interaction model
+   *
+   * @param typeName Slot type name
+   */
   export function slotType(typeName?: string) {
     return new SlotTypeBlockBuilder(typeName);
   }
 
+  /**
+   * Adds an intent to the interaction model.
+   *
+   * @param name intent name
+   * @param samples samples
+   * @param slots slot type
+   */
   export function intent(name: string, samples?: string[], slots?: Slot[]) {
     return new IntentBlockBuilder(name, samples, slots);
   }

@@ -75,7 +75,9 @@ describe("alexa", () => {
           .build();
         await b.execute(context, event);
 
-        expect(JSON.stringify(context.platformState.globalState)).equals(JSON.stringify({}));
+        expect(JSON.stringify(context.platformState.globalState)).equals(
+          JSON.stringify({})
+        );
         expect(context.currentResponse.response.outputSpeech).is.not.undefined;
         let ssml = <ui.SsmlOutputSpeech>context.currentResponse.response.outputSpeech;
         if (ssml) {
@@ -135,7 +137,9 @@ describe("alexa", () => {
           .build();
         await b.execute(context, event);
 
-        expect(JSON.stringify(context.platformState.globalState)).equals(JSON.stringify({}));
+        expect(JSON.stringify(context.platformState.globalState)).equals(
+          JSON.stringify({})
+        );
         expect(context.currentResponse.response.outputSpeech).is.not.undefined;
         let ssml = <ui.SsmlOutputSpeech>context.currentResponse.response.outputSpeech;
         if (ssml) {
@@ -321,9 +325,11 @@ describe("alexa", () => {
     });
 
     it("should remove using supplied method", () => {
-      let b = ax.removeStateVar((ctx: AlexaDialogContext, event: AlexaEvent): string[] => {
-        return ["foo", "foo2"];
-      });
+      let b = ax.removeStateVar(
+        (ctx: AlexaDialogContext, event: AlexaEvent): string[] => {
+          return ["foo", "foo2"];
+        }
+      );
       let context: AlexaDialogContext = {
         platformState: {
           currentStateName: "",
@@ -354,9 +360,9 @@ describe("alexa", () => {
     });
   });
 
-  describe(".run()", () => {
+  describe(".custom()", () => {
     it("should return correct block", async () => {
-      let b = ax.run().build();
+      let b = ax.custom().build();
 
       expect(b.type).to.equal("DoBlock");
       expect(b.doBuild).is.undefined;

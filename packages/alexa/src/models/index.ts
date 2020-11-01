@@ -19,6 +19,11 @@ export type Intent = v1.skill.interactionModel.Intent;
 export type Slot = v1.skill.interactionModel.SlotDefinition;
 export type SlotType = v1.skill.interactionModel.SlotType;
 export type SlotTypeValue = v1.skill.interactionModel.TypeValue;
+export interface SlotValue {
+  id?: string;
+  value: string;
+  synonyms: string[];
+}
 export type LocalizedSkillInfo = v1.skill.Manifest.SkillManifestLocalizedPublishingInformation;
 export type AlexaBlock = Block<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>;
 export type AlexaDialogEngine = DialogEngine<

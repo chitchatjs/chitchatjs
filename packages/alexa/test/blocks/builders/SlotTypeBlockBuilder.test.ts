@@ -10,8 +10,10 @@ import {
   AlexaEvent,
   Locale,
   SlotType,
+  SlotValue,
 } from "../../../src/models";
 import { paths, resource_utils } from "../../../src/util/ResourceUtil";
+import { values } from "lodash";
 
 let mockBlock: AlexaBlock = {
   build: () => {},
@@ -131,6 +133,32 @@ describe("SlotTypeBlockBuilder", () => {
 
       assertSlotNameAndValues(ctx, Locale.en_US, slotName, values);
       assertSlotNameAndValues(ctx, Locale.en_CA, slotName, values);
+    });
+  });
+
+  describe("name, values and synonyms present tests", () => {
+    it("should build slottype correctly if name, values and synonyms are present.", async () => {
+      let slotName = "SlotName";
+      let values: SlotValue[] = [
+        {
+          id: "id1",
+          value: "value1",
+          synonyms: ["syn1", "syn2"],
+        },
+        {
+          id: "id2",
+          value: "value2",
+          synonyms: ["syn3", "syn4"],
+        },
+      ];
+      let b = new SlotTypeBlockBuilder(slotName).valuesWithSynonym(values).build();
+
+      expect(b).is.not.be.undefined;
+
+      let ctx: AlexaBuilderContext = { resources: { resourceMap: {} } };
+      b.build(ctx);
+
+      assertSlotNameAndValuesWithSynonyms(ctx, Locale.en_US, slotName, values);
     });
   });
 
@@ -364,6 +392,35 @@ function assertSlotNameAndValues(
       JSON.stringify([
         { name: { value: expectedValues[0] } },
         { name: { value: expectedValues[1] } },
+      ])
+    );
+  }
+}
+
+function assertSlotNameAndValuesWithSynonyms(
+  ctx: AlexaBuilderContext,
+  locale: Locale,
+  expectedSlotName: string,
+  expectedValues: SlotValue[]
+) {
+  let im = context_util.getIM(ctx, locale);
+  expect(im).to.not.be.undefined;
+  let types = im?.interactionModel?.languageModel?.types;
+  expect(types).is.not.undefined;
+  expect(types?.length).equals(1);
+  if (types) {
+    expect(types[0].name).equals(expectedSlotName);
+    expect(types[0].values).is.not.undefined;
+    expect(JSON.stringify(types[0].values)).equals(
+      JSON.stringify([
+        {
+          id: expectedValues[0].id,
+          name: { value: expectedValues[0].value, synonyms: expectedValues[0].synonyms },
+        },
+        {
+          id: expectedValues[1].id,
+          name: { value: expectedValues[1].value, synonyms: expectedValues[1].synonyms },
+        },
       ])
     );
   }

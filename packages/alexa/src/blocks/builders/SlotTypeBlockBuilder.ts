@@ -9,7 +9,7 @@ import {
   SlotTypeValue,
 } from "../../models";
 import { paths, resource_utils } from "../../util/ResourceUtil";
-
+import { SlotValue } from "../../models";
 /**
  * Adds a slot type
  */
@@ -35,6 +35,20 @@ export class SlotTypeBlockBuilder {
     return this;
   }
 
+  valuesWithSynonym(values: SlotValue[]) {
+    this._values = [];
+    values.forEach((v) => {
+      this._values?.push({
+        id: v.id,
+        name: {
+          value: v.value,
+          synonyms: v.synonyms,
+        },
+      });
+    });
+    return this;
+  }
+
   import(slotType: SlotType) {
     this._slotType = slotType;
     return this;
@@ -53,7 +67,9 @@ export class SlotTypeBlockBuilder {
         values: this._values,
       };
     } else if (!this._slotType) {
-      throw new Error("Either (name,values) or slotType is required in the SlotTypeBlock.");
+      throw new Error(
+        "Either (name,values) or slotType is required in the SlotTypeBlock."
+      );
     }
 
     return {
@@ -70,12 +86,18 @@ export class SlotTypeBlockBuilder {
     resource_utils.invokePerLocale(context, this._updateInteractionModel);
   };
 
-  private _updateInteractionModel = (context: AlexaBuilderContext, locale: Locale): void => {
+  private _updateInteractionModel = (
+    context: AlexaBuilderContext,
+    locale: Locale
+  ): void => {
     if (!this._slotType) {
       return;
     }
 
-    const im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
+    const im: InteractionModel = resource_utils.getInteractionModelOrDefault(
+      context,
+      locale
+    );
     const slotTypes = im.interactionModel?.languageModel?.types;
     const slotTypeToAdd = this._slotType;
 
@@ -94,6 +116,8 @@ export class SlotTypeBlockBuilder {
       // otherwise add it to the list
       im.interactionModel?.languageModel?.types?.push(this._slotType);
     }
-    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
+    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(
+      im
+    );
   };
 }
