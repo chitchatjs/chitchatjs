@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.20](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.19...@chitchatjs/cli@0.3.20) (2020-11-01)
+
+
+### Bug Fixes
+
+* adding workout buddy to the sample list in CLI ([44ccb7c](https://github.com/chitchatjs/chitchatjs/commit/44ccb7c1c2cc0d1ab49403e82a8411235f2c87d7))
+
+
+
+
+
 ## [0.3.19](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/cli@0.3.18...@chitchatjs/cli@0.3.19) (2020-10-31)
 
 **Note:** Version bump only for package @chitchatjs/cli
