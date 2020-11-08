@@ -210,6 +210,130 @@ export namespace ssml {
   }
 }
 
+/**
+ * Support builtins
+ */
+export namespace builtins {
+  /**
+   * Type safe builtin slot types
+   */
+  export enum SlotType {
+    /**
+     * Resolver/formatter slot types
+     */
+    Date = "AMAZON.DATE",
+    Duration = "AMAZON.DURATION",
+    FourDigitNumber = "AMAZON.FOUR_DIGIT_NUMBER",
+    Number = "AMAZON.NUMBER",
+    Ordinal = "AMAZON.Ordinal",
+    PhoneNumber = "AMAZON.PhoneNumber",
+    Time = "AMAZON.TIME",
+
+    /**
+     * Phrases
+     */
+    SearchQuery = "AMAZON.SearchQuery",
+
+    /**
+     * List based types
+     */
+    Actor = "AMAZON.Actor",
+    AdministrativeArea = "AMAZON.AdministrativeArea",
+    AggregateRating = "AMAZON.AggregateRating",
+    Airline = "AMAZON.Airline",
+    Airport = "AMAZON.Airport",
+    Anaphor = "AMAZON.Anaphor",
+    Animal = "AMAZON.Animal",
+    Artist = "AMAZON.Artist",
+    AT_CITY = "AMAZON.AT_CITY",
+    AT_REGION = "AMAZON.AT_REGION",
+    Athlete = "AMAZON.Athlete",
+    Author = "AMAZON.Author",
+    Book = "AMAZON.Book",
+    BookSeries = "AMAZON.BookSeries",
+    BroadcastChannel = "AMAZON.BroadcastChannel",
+    City = "AMAZON.City",
+    CivicStructure = "AMAZON.CivicStructure",
+    Color = "AMAZON.Color",
+    Comic = "AMAZON.Comic",
+    Corporation = "AMAZON.Corporation",
+    Country = "AMAZON.Country",
+    CreativeWorkType = "AMAZON.CreativeWorkType",
+    DayOfWeek = "AMAZON.DayOfWeek",
+    DE_CITY = "AMAZON.DE_CITY",
+    DE_FIRST_NAME = "AMAZON.DE_FIRST_NAME",
+    DE_REGION = "AMAZON.DE_REGION",
+    Dessert = "AMAZON.Dessert",
+    DeviceType = "AMAZON.DeviceType",
+    Director = "AMAZON.Director",
+    Drink = "AMAZON.Drink",
+    EducationalOrganization = "AMAZON.EducationalOrganization",
+    EUROPE_CITY = "AMAZON.EUROPE_CITY",
+    EventType = "AMAZON.EventType",
+    Festival = "AMAZON.Festival",
+    FictionalCharacter = "AMAZON.FictionalCharacter",
+    FinancialService = "AMAZON.FinancialService",
+    FirstName = "AMAZON.FirstName",
+    Food = "AMAZON.Food",
+    FoodEstablishment = "AMAZON.FoodEstablishment",
+    Game = "AMAZON.Game",
+    GB_CITY = "AMAZON.GB_CITY",
+    GB_FIRST_NAME = "AMAZON.GB_FIRST_NAME",
+    GB_REGION = "AMAZON.GB_REGION",
+    Genre = "AMAZON.Genre",
+    Landform = "AMAZON.Landform",
+    LandmarksOrHistoricalBuildings = "AMAZON.LandmarksOrHistoricalBuildings",
+    Language = "AMAZON.Language",
+    LocalBusiness = "AMAZON.LocalBusiness",
+    LocalBusinessType = "AMAZON.LocalBusinessType",
+    MedicalOrganization = "AMAZON.MedicalOrganization",
+    Month = "AMAZON.Month",
+    Movie = "AMAZON.Movie",
+    MovieSeries = "AMAZON.MovieSeries",
+    MovieTheater = "AMAZON.MovieTheater",
+    MusicAlbum = "AMAZON.MusicAlbum",
+    MusicCreativeWorkType = "AMAZON.MusicCreativeWorkType",
+    MusicEvent = "AMAZON.MusicEvent",
+    MusicGroup = "AMAZON.MusicGroup",
+    Musician = "AMAZON.Musician",
+    MusicPlaylist = "AMAZON.MusicPlaylist",
+    MusicRecording = "AMAZON.MusicRecording",
+    MusicVenue = "AMAZON.MusicVenue",
+    MusicVideo = "AMAZON.MusicVideo",
+    Organization = "AMAZON.Organization",
+    Person = "AMAZON.Person",
+    PostalAddress = "AMAZON.PostalAddress",
+    Professional = "AMAZON.Professional",
+    ProfessionalType = "AMAZON.ProfessionalType",
+    RadioChannel = "AMAZON.RadioChannel",
+    Region = "AMAZON.Region",
+    RelativePosition = "AMAZON.RelativePosition",
+    Residence = "AMAZON.Residence",
+    Room = "AMAZON.Room",
+    ScreeningEvent = "AMAZON.ScreeningEvent",
+    Service = "AMAZON.Service",
+    SocialMediaPlatform = "AMAZON.SocialMediaPlatform",
+    SoftwareApplication = "AMAZON.SoftwareApplication",
+    SoftwareGame = "AMAZON.SoftwareGame",
+    Sport = "AMAZON.Sport",
+    SportsEvent = "AMAZON.SportsEvent",
+    SportsTeam = "AMAZON.SportsTeam",
+    StreetAddress = "AMAZON.StreetAddress",
+    StreetName = "AMAZON.StreetName",
+    TelevisionChannel = "AMAZON.TelevisionChannel",
+    TVEpisode = "AMAZON.TVEpisode",
+    TVSeason = "AMAZON.TVSeason",
+    TVSeries = "AMAZON.TVSeries",
+    US_CITY = "AMAZON.US_CITY",
+    US_FIRST_NAME = "AMAZON.US_FIRST_NAME",
+    US_STATE = "AMAZON.US_STATE",
+    VideoGame = "AMAZON.VideoGame",
+    VisualModeTrigger = "AMAZON.VisualModeTrigger",
+    WeatherCondition = "AMAZON.WeatherCondition",
+    WrittenCreativeWorkType = "AMAZON.WrittenCreativeWorkType",
+  }
+}
+
 export interface AlexaDialogContext extends DialogContext {
   currentResponse: ResponseEnvelope;
   currentLocales?: Locale[];

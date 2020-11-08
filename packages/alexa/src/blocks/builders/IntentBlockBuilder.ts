@@ -2,6 +2,7 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
+  builtins,
   Intent,
   IntentBlock,
   InteractionModel,
@@ -34,7 +35,7 @@ export class IntentBlockBuilder {
     return this;
   }
 
-  slot(name: string, typeName: string) {
+  slot(name: string, typeName: builtins.SlotType | string) {
     this._slots?.push({ name, type: typeName });
     return this;
   }
@@ -61,8 +62,14 @@ export class IntentBlockBuilder {
     resource_utils.invokePerLocale(context, this._updateInteractionModel);
   };
 
-  private _updateInteractionModel = (context: AlexaBuilderContext, locale: Locale): void => {
-    const im: InteractionModel = resource_utils.getInteractionModelOrDefault(context, locale);
+  private _updateInteractionModel = (
+    context: AlexaBuilderContext,
+    locale: Locale
+  ): void => {
+    const im: InteractionModel = resource_utils.getInteractionModelOrDefault(
+      context,
+      locale
+    );
     const intents = im.interactionModel?.languageModel?.intents;
     const intentToAdd: Intent = {
       name: this._name,
@@ -85,6 +92,8 @@ export class IntentBlockBuilder {
       // otherwise add it to the list
       im.interactionModel?.languageModel?.intents?.push(intentToAdd);
     }
-    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(im);
+    context.resources.resourceMap[paths.getInteractionModelPath(locale)] = JSON.stringify(
+      im
+    );
   };
 }

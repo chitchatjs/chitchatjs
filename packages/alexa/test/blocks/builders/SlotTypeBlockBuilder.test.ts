@@ -8,6 +8,7 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
+  builtins,
   Locale,
   SlotType,
   SlotValue,
@@ -58,6 +59,19 @@ describe("SlotTypeBlockBuilder", () => {
   describe("name and values present tests", () => {
     it("should build slottype correctly if name and values are present. no locales, no interaction model set", async () => {
       let slotName = "SlotName";
+      let values = ["value1", "value2"];
+      let b = new SlotTypeBlockBuilder(slotName).values(values).build();
+
+      expect(b).is.not.be.undefined;
+
+      let ctx: AlexaBuilderContext = { resources: { resourceMap: {} } };
+      b.build(ctx);
+
+      assertSlotNameAndValues(ctx, Locale.en_US, slotName, values);
+    });
+
+    it("should build slottype correctly if type-safe name and values are present. no locales, no interaction model set", async () => {
+      let slotName = builtins.SlotType.Actor;
       let values = ["value1", "value2"];
       let b = new SlotTypeBlockBuilder(slotName).values(values).build();
 

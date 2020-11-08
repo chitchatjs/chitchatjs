@@ -11,6 +11,7 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
+  builtins,
   DEFAULT_LOCALE,
   Intent,
   InteractionModel,
@@ -42,7 +43,7 @@ export class WhenUserSaysBlockBuilder {
     return this;
   }
 
-  withSlotType(slotName: string, slotType: string) {
+  withSlotType(slotName: string, slotType: builtins.SlotType | string) {
     if (this._typeMapping) {
       this._typeMapping[slotName] = slotType;
     }

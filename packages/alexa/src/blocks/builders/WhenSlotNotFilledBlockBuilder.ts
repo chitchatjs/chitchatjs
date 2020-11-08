@@ -4,6 +4,7 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
+  builtins,
   WhenSlotNotFilledBlock,
 } from "../../models";
 
@@ -12,7 +13,7 @@ export class WhenSlotNotFilledBlockBuilder {
   private _thenBlock?: AlexaBlock;
   private _otherwiseBlock?: AlexaBlock;
 
-  constructor(name: string) {
+  constructor(name: builtins.SlotType | string) {
     this._slotName = name;
   }
 

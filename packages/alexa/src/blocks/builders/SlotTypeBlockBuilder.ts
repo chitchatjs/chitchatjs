@@ -2,6 +2,7 @@ import {
   AlexaBuilderContext,
   AlexaDialogContext,
   AlexaEvent,
+  builtins,
   InteractionModel,
   Locale,
   SlotType,
@@ -19,7 +20,7 @@ export class SlotTypeBlockBuilder {
 
   private _slotType?: SlotType;
 
-  constructor(name?: string) {
+  constructor(name?: builtins.SlotType | string) {
     this._name = name;
   }
 
