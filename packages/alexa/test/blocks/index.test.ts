@@ -25,6 +25,33 @@ describe("alexa", () => {
     });
   });
 
+  describe(".when()", () => {
+    it("should build when building block when condition provided as a when() method param", () => {
+      const b = ax
+        .when((c: AlexaDialogContext, e: AlexaEvent) => {
+          return false;
+        })
+        .then(ax.say("hello"))
+        .build();
+
+      expect(b).to.not.be.undefined;
+      expect(b.condition).to.not.be.undefined;
+    });
+
+    it("should build when building block when condition provided as a true() method param", () => {
+      const b = ax
+        .when()
+        .true((c: AlexaDialogContext, e: AlexaEvent) => {
+          return false;
+        })
+        .then(ax.say("hello"))
+        .build();
+
+      expect(b).to.not.be.undefined;
+      expect(b.condition).to.not.be.undefined;
+    });
+  });
+
   describe(".whenIntentName()", () => {
     describe("with no slots", () => {
       it("should render then block and should not update state when intent name matches", async () => {

@@ -116,8 +116,18 @@ export namespace alexa {
     >();
   }
 
-  export function when() {
-    return new WhenBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
+  export function when(
+    conditionProvider?: (context: AlexaDialogContext, event: AlexaEvent) => boolean
+  ) {
+    if (conditionProvider) {
+      return new WhenBlockBuilder<
+        AlexaBuilderContext,
+        AlexaDialogContext,
+        AlexaEvent
+      >().true(conditionProvider);
+    } else {
+      return new WhenBlockBuilder<AlexaBuilderContext, AlexaDialogContext, AlexaEvent>();
+    }
   }
 
   export function whenLaunch() {
