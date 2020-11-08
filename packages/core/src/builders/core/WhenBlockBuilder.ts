@@ -46,7 +46,7 @@ export class WhenBlockBuilder<
       then: this._thenBlock,
       otherwise: this._otherwiseBlock,
       execute: this._executor,
-      build: async (context: B) => {},
+      build: this._builder,
     };
   }
 
@@ -57,5 +57,10 @@ export class WhenBlockBuilder<
       this._otherwiseBlock?.execute &&
         (await this._otherwiseBlock?.execute(context, event));
     }
+  };
+
+  private _builder = async (context: B) => {
+    this._thenBlock?.build && (await this._thenBlock?.build(context));
+    this._otherwiseBlock?.build && (await this._otherwiseBlock?.build(context));
   };
 }
