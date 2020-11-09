@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/core@0.3.7...@chitchatjs/core@0.3.8) (2020-11-09)
+
+
+### Bug Fixes
+
+* fixing a bug where when() building block doesn't build both then and otherwise bbs ([4b6932c](https://github.com/chitchatjs/chitchatjs/commit/4b6932cf03e17cc9009e3ccd3f015db34068b73b)), closes [#113](https://github.com/chitchatjs/chitchatjs/issues/113)
+
+
+
+
+
 ## [0.3.7](https://github.com/chitchat/chitchatjs/compare/@chitchatjs/core@0.3.6...@chitchatjs/core@0.3.7) (2020-11-01)
 
 

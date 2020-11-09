@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.13](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.12...@chitchatjs/alexa@0.3.13) (2020-11-09)
+
+
+### Bug Fixes
+
+* type safe builtin slot types ([2c9e280](https://github.com/chitchatjs/chitchatjs/commit/2c9e280665cc52c75add0a0e20bf8116a56686af)), closes [#21](https://github.com/chitchatjs/chitchatjs/issues/21)
+
+
+
+
+
 ## [0.3.12](https://github.com/chitchatjs/chitchatjs/compare/@chitchatjs/alexa@0.3.11...@chitchatjs/alexa@0.3.12) (2020-11-01)
 
 
